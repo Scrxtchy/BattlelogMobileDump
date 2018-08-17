@@ -1,0 +1,18 @@
+<script type="text/html" data-template-name="LeaderboardsCategoryView" data-css="LeaderboardsCategoryView"></script>
+
+<script type="text/html" data-template-name="LeaderboardsCategoryView-scrollviewcontent" data-css="LeaderboardsCategoryView">
+    <div id="category-container">
+    </div>
+</script>
+
+<script type="text/html" data-template-name="leaderboard_category_row">
+    <div class="sectionbutton category" data-leaderboardkey="<%= leaderboard_key %>" data-sort="<%= sort %>">
+        <img class="icon" src="<%= icon_url %>"/>
+        <div class="info">
+            <div class="name"><%= name %></div>
+            <div class="stats"><%= formatted_value %></div>
+        </div>
+        <img class="division" src="<%= division_url %>"/>
+        <div class="clear"></div>
+    </div>
+</script>

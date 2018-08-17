@@ -1,0 +1,77 @@
+<script type="text/html" data-template-name="DogtagsView" data-css="DogtagsView">
+    <% if (loading) { %>
+        <div class="section">
+            <div class="sectionloading"></div>
+        </div>
+    <% } else { %>
+        <% var template = require("template"); %>
+        <div class="section current">
+            <div class="sectioninfo">
+                <div class="dog-tag-chains">
+                    <div class="item-image <%print(basic.imageConfig.category + ' ' + basic.imageConfig.slug.toLowerCase());%>"></div>
+                    <div class="item-image <%print(advanced.imageConfig.category + ' ' + advanced.imageConfig.slug.toLowerCase());%>"></div>
+                    <div class="dog-tag-name<% if (basic.backgroundInverted){ %> inverted<% } %>">
+                        <% if (persona && persona.clanTag){ %>
+                            <p>[<%= persona.clanTag %>]</p>
+                        <% } %>
+                        <% if (persona && persona.personaName){ %>
+                            <p><%= persona.personaName %></p>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="segmentedcontrol">
+            <a class="<%if(filter == 'left'){%>selected<%}%>" data-filter="left"><%= @('ID_MOBILE_DOGTAGS_LEFT') %></a>
+            <a class="<%if(filter == 'right'){%>selected<%}%>" data-filter="right"><%= @('ID_MOBILE_DOGTAGS_RIGHT') %></a>
+        </div>
+    </div>
+
+    <section class="accordion">
+    <%
+    var first = true;
+    for(var key in categories){
+        var category = categories[key];
+        var dogtags = category.dogtags;
+    %>
+        <div class="sectionaccordionhead <%= first ? '' : 'collapsed'%>" data-toggle="collapse" data-parent=".accordion" data-target=".dogtag-category[data-id=<%=key%>]">
+            <%=@(category.sid)%>
+            <span class="pull-right"><%= category.count.unlocked || 0 %> / <%= (category.count.unlocked || 0) + (category.count.locked || 0) %></span>
+        </div>
+        <div data-id="<%=key%>" class="sectiontable sectionaccordion dogtag-category items-grid <%= first ? 'in' : 'collapse'%>">
+            <%
+            var i = 0;
+            var len = dogtags.length;
+            while(i < len){
+                var item = dogtags[i];
+
+                if(i % 3 === 0) print('<div class="row">');
+                if(item.empty){
+                    print('<div class="col item empty"></div>');
+                } else {
+                    if (item.imageConfig) {
+                        var classes = (item.locked)? 'locked' : '';
+                        classes += (item.equipped)? ' active' : '';
+                        classes += ' ' + item.type;
+            %>
+            <div class="col item <%=classes%>" data-index="<%=item.index%>" data-type="<%=item.type%>">
+                <div class="item-image <%print(item.imageConfig.category + ' ' + item.imageConfig.slug.toLowerCase());%>"></div>
+            </div>
+                <%
+                        }
+                    }
+                    if (i % 3 === 2) print('</div>');
+                    i++;
+                }
+                %>
+            </div>
+        </div>
+    </div>
+    <% first = false %>
+    <%}
+    }%>
+    </section>
+</script>

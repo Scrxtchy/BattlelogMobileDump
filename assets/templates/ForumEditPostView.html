@@ -1,0 +1,29 @@
+<script type="text/html" data-template-name="ForumEditPostView" data-css="ForumEditPostView">
+    <div class="section editpost">
+        <div class="sectionhead"><%=@('ID_WEB_FORUM_EDIT_POST_IN')%> <span class="thread-title"></span></div>
+
+        <div class="form-container"></div>
+    </div>
+
+</script>
+
+<script type="text/html" data-template-name="ForumEditPostView-form" data-css="ForumEditPostView">
+    <div class="sectioninfo postbody">
+        <div class="textinput">
+            <textarea placeholder="Message"><%- body %></textarea>
+        </div>
+        <div class="forum-bb-buttons">
+            <a class="button bb-bold" data-before="[b]" data-after="[/b]">&nbsp;</a>
+            <a class="button bb-italic" data-before="[i]" data-after="[/i]">&nbsp;</a>
+            <a class="button bb-underline" data-before="[u]" data-after="[/u]">&nbsp;</a>
+            <a class="button bb-strikethrough" data-before="[strike]" data-after="[/strike]">&nbsp;</a>
+            <a class="button bb-spoiler" data-before="[spoiler]" data-after="[/spoiler]">&nbsp;</a>
+            <a class="button bb-link"  data-before="[link]" data-after="[/link]">&nbsp;</a>
+            <a class="button bb-quote" data-before="[quote]" data-after="[/quote]">&nbsp;</a>
+            <a class="button bb-center" data-before="[center]" data-after="[/center]">&nbsp;</a>
+            <a class="button bb-headline" data-before="[h1]" data-after="[/h1]">&nbsp;</a>
+        </div>
+    </div>
+
+    <a class="button primary post"><%=@('ID_MOBILE_FORUM_POST')%></a>
+</script>

@@ -1,0 +1,33 @@
+<script type="text/html" data-template-name="ProgressionView" data-css="ProgressionView">
+    <div class="section">
+        <% if (loading){ %>
+            <div class="sectionloading"></div>
+        <% } else { %>
+            <div class="progression">
+
+                <div class="section">
+                    <div class="centered">
+                        <% var dom = require("dom"); %>
+                        <% var enums = require("enums"); %>
+                        <%= dom.statItem_image(enums.Game.OMAHA, item, {size: "medium"})[0].outerHTML %>
+                    </div>
+
+                    <% var template = require("template"); %>
+                    <%= template.render("ui_progressbar", {
+                        border: false,
+                        percent: item.valueNeeded ? (item.actualValue / item.valueNeeded) * 100 : 100,
+                        size: "thicker",
+                        type: "warning"
+                    })%>
+
+                    <div class="sectioninfo">
+                        <p class="title"><%= @(item.nameSID) %></p>
+                    </div>
+                    <div class="sectioninfo">
+                        <p><%= @(item.descriptionSID) %></p>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</script>

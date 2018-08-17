@@ -1,0 +1,41 @@
+<script type="text/html" data-template-name="ChallengesView" data-css="ChallengesView"></script>
+
+<script type="text/html" data-template-name="ChallengesView-scrollviewcontent" data-css="ChallengesView">
+    <div class="button primary createchallenge hidden"><%=@('ID_MOBILE_CHALLENGES_CREATE_MISSION')%></div>
+    <div class="section invites hidden">
+        <div class="sectionhead"><%=@('ID_MOBILE_CHALLENGES_MISSON_INVITES')%></div>
+        <div class="challenges"></div>
+    </div>
+    <div class="section ongoing hidden">
+        <div class="sectionhead"><%=@('ID_MOBILE_CHALLENGES_ACTIVE_MISSONS')%></div>
+        <div class="challenges"></div>
+    </div>
+    <div class="section completed hidden">
+        <div class="sectionhead"><%=@('ID_MOBILE_CHALLENGES_FINISHED_MISSONS')%></div>
+        <div class="challenges"></div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="challenge_row">
+    <div class="challengerow">
+        <div class="badge-image small <%= badge %>"></div>
+        <div class="timeleft"><%= time_left %></div>
+        <div class="clear"></div>
+        <div class="info">
+            <div class="name"><%= name %></div>
+            <div class="map"><%= map_name %></div>
+            <div class="members"></div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="challenge_invite_overview_row">
+    <div id="challengerow-invites" class="challengerow <%= was_aborted %>">
+        <div class="badge-image small <%= badge %>"></div>
+        <div class="info">
+            <div class="name"><%= name %></div>
+            <div class="timeleft"><%= time_left %></div>
+            <div class="members"></div>
+        </div>
+    </div>
+</script>

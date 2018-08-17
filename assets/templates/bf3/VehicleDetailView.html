@@ -1,0 +1,30 @@
+<script type="text/html" data-template-name="VehicleDetailView" data-css="ItemDetailView">
+    <div class="item-info">
+        <div class="image"></div>
+        <div class="name"></div>
+    </div>
+    <div class="section characteristics">
+        <div class="sectioninfo description"></div>
+    </div>
+    <div class="section statistics">
+        <div class="sectionhead"><%=@('ID_WEB_PROFILE_STATS_STATISTICS')%></div>
+        <div class="items">
+            <div class="statrow kills">
+                <div class="label"><%=@('ID_WEB_COMMON_KILLS')%></div>
+                <div class="value"></div>
+            </div>
+            <div class="statrow timeIn">
+                <div class="label"><%=@('ID_WEB_COMMON_STATS_TIME_IN')%></div>
+                <div class="value"></div>
+            </div>
+            <div class="statrow destroyXinY">
+                <div class="label"><%=@('ID_WEB_COMMON_STATS_VEHICLES_DESTROYED')%></div>
+                <div class="value"></div>
+            </div>
+        </div>
+    </div>
+    <div class="section unlocks hidden">
+        <div class="sectionhead"><%=@('ID_WEB_COMMON_PROGRESS_UNLOCKS')%></div>
+        <div class="items"></div>
+    </div>
+</script>

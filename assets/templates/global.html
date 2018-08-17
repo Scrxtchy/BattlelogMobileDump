@@ -1,0 +1,303 @@
+<script type="text/html" data-template-name="user_row">
+    <div id="<%= divId %>" class="user">
+        <div class="avatar"><img src="<%= gravatar %>" alt="" /></div>
+        <div class="info">
+            <div class="name"><%= username %></div>
+            <div class="status"><%= statusdesc %></div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="persona_row">
+    <div class="persona">
+        <div class="avatar"></div>
+        <div class="info">
+            <div class="name"><%= name %></div>
+            <div class="status"><%= status %></div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="Receipt">
+    <div class="receipt <%=type%>">
+        <%=message%>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="ChatMessageReceipt">
+    <% var dom = require("dom"); %>
+    <div class="wrapper">
+        <div class="avatar-container"><%= dom.user_avatar(user)[0].outerHTML %></div>
+        <div class="content">
+            <h4><%= message.username %></h4>
+            <p><%= message.message %></p>
+        </div>
+    </div>
+</script>
+
+
+
+<script type="text/html" data-template-name="EulaView" data-css="DialogView">
+    <div class="DialogOverlay">
+        <div class="DialogView">
+            <content>
+                <h1>EULA</h1>
+                <h4><%=@('ID_LEGAL_I_HAVE_READ')%></h4>
+
+                <div class="eula-link" data-type="tos"><%=@('ID_WEB_COMMON_TERMS_OF_SERVICE')%></div>
+                <div class="eula-link" data-type="eula"><%=@('ID_WEB_COMMON_END_USER_LICENSE_AGREEMENT')%></div>
+                <div class="eula-link" data-type="privacy"><%=@('ID_WEB_COMMON_PRIVACY_AND_COOKIE_POLICY')%></div>
+
+            </content>
+            <footer>
+                <div class="button-container">
+                    <a data-action="agree" class="button primary"><%=@('ID_WEB_COMMON_BUTTON_I_AGREE')%></a>
+                    <a data-action="cancel" class="button"><%=@('ID_WEB_COMMON_BUTTON_CANCEL')%></a>
+                </div>
+            </footer>
+        </div>
+    </div>
+</script>
+
+
+
+<script type="text/html" data-template-name="DialogConfirm" data-css="DialogView">
+    <div class="DialogOverlay">
+        <div class="DialogView">
+            <% if(typeof(title) != "undefined" && title != "") { %>
+            <header><h1><%= title %></h1></header>
+            <%  } %>
+            <content>
+                <p><%= body %></p>
+            </content>
+            <footer>
+                <% if(typeof(okText) != "undefined" && okText != "") { %>
+                <a data-choice="ok" class="button primary ok"><%= okText %></a>
+                <%  } %>
+                <% if(typeof(dismissText) != "undefined" && dismissText != "") { %>
+                <a data-choice="close" class="button close"><%= dismissText %></a>
+                <%  } %>
+            </footer>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="DialogFullBody" data-css="DialogView">
+    <div class="DialogOverlay">
+        <div class="DialogView">
+            <%= fullDialogContent %>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="DialogPushFriendsContent" data-css="DialogView">
+    <div class="pushbg"></div>
+    <div class="pushcontent">
+        <h1 class="title"><%=@('ID_MOBILE_PUSH_FRIENDS_DESC')%></h1>
+        <p class="textbody">
+            <%=@('ID_MOBILE_PUSH_FRIENDS_DESC_2')%>
+        </p>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="DialogPushTurnOnHelpContent" data-css="DialogView">
+    <div class="helpdialog">
+        <p>
+            <%=@('ID_MOBILE_PUSH_HELP_DESC')%>
+        </p>
+        <div class="helpbullet">
+            1 <img src="images/push/step1.png"> <%=@('ID_MOBILE_PUSH_HELP_SETTINGS')%>
+        </div>
+        <div class="helpbullet">
+            2 <img src="images/push/step2.png"> <%=@('ID_MOBILE_PUSH_HELP_CENTER')%>
+        </div>
+        <div class="helpbullet">
+            3 <img src="images/push/step3.png"> <%=@('ID_MOBILE_PUSH_HELP_BATTLELOG')%>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="end_of_round" data-css="BattleReportView">
+
+    <%
+
+    var enums = require('enums');
+    var isCarrierAssault = (gameMode == enums.GameMode.CARRIERASSAULT || gameMode == enums.GameMode.CARRIERASSAULTSMALL || gameMode == enums.GameMode.CARRIERASSAULTLARGE);
+    var teamsOrder = [];
+    var isAnyAttacker = false;
+    var winningTeam, winningTeamName;
+
+    if (player && teams[player.team]) {
+    teamsOrder.push(+teams[player.team].id);
+    }
+
+    $.each(teams, function (i,  t) {
+    if (teamsOrder.indexOf(t.id) == -1) { teamsOrder.push(t.id); }
+    if (t.isWinner) {
+    winningTeam = t.id;
+    winningTeamName = teams[winningTeam].name;
+    }
+    if (t.isAttacker) { isAnyAttacker = true; }
+    });
+
+    %>
+
+    <% if (typeof size == "undefined") var size = ""; %>
+    <section class="battlereport-eor gamemode-<%= gameMode %> mobile <%= winningTeamName %> <%= size %>" style="background-image: url(<%= mapImage %>)">
+        <div class="gradient <%= winningTeamName %>"></div>
+        <div class="winning-team">
+            <h2>
+                <% var winningTeamLocale, winningTeamStr; %>
+                <% if (!winningTeam) { %>
+                <%= @('ID_WEB_BATTLEREPORT_DRAW') %>
+                <% } else if (isActivePlayer && player) { %>
+                <% if (player.team == winningTeam) { %>
+                <%= @('ID_WEB_BATTLEREPORT_YOUR_TEAM_WON') %>
+                <% } else { %>
+                <%= @('ID_WEB_BATTLEREPORT_YOUR_TEAM_LOST') %>
+                <%}%>
+                <% } else if (player && player.persona && player.persona.personaName) {
+                if (player.team == winningTeam) {
+                winningTeamStr = locale.t('ID_WEB_BATTLEREPORT_NAME_TEAM_WON');
+                } else {
+                winningTeamStr = locale.t('ID_WEB_BATTLEREPORT_NAME_TEAM_LOST');
+                } %>
+                <%= winningTeamStr.replace("[username]", player.persona.personaName) %>
+                <% } else { %>
+                <%
+                var pattern = "[team]";
+                if(!winningTeam) {
+                winningTeamLocale = winningTeamName;
+                }
+                winningTeamStr = locale.t('ID_WEB_BATTLEREPORT_SQUAD_X_WON');
+
+                if (gameMode == 8) {
+                pattern = "[squad]";
+                winningTeamLocale = locale.t(squadLocale[winningTeam]);
+                winningTeamStr = locale.t('ID_WEB_BATTLEREPORT_SQUAD_X_WON');
+                }
+                %>
+                <%= winningTeamStr.replace(pattern, winningTeamLocale) %>
+                <% } %>
+            </h2>
+        </div>
+
+        <div class="info">
+            <p>
+                <%= @(map) %> - <%= locale.t(mapModeSid) %> <br />
+                <%= @('ID_WEB_BATTLEREPORT_ROUND_TIME') %>: <%= duration %>
+            </p>
+        </div>
+
+        <div class="vs"><%= @('ID_WEB_BATTLEREPORT_VERSUS_SHORT') %></div>
+
+        <div class="score-type">
+            <% if (scoreTypeLocales.length == 1) { %>
+            <%= @(scoreTypeLocales[0]) %>
+            <% } else if (isCarrierAssault) { %>
+            <%= @(scoreTypeLocales[0]) %><br>
+            <%= @(scoreTypeLocales[1]) %>
+            <% } %>
+        </div>
+
+        <div class="teams">
+            <% var teamLocaleName, sli; %>
+            <% teamsOrder.forEach(function (teamId, i) { %>
+            <% team = teams[teamId] %>
+            <div class="team clearfix">
+                <%
+                var classes = "name"
+                if (!$.isNumeric(team.name)) {
+                classes += " flag-" + team.name;
+                }
+                teamLocaleName = locale.t('ID_WEB_BATTLEREPORT_TEAM_' + team.name);
+                %>
+                <div class="<%=classes%>"><%= teamLocaleName %></div>
+
+                <% if (!isCarrierAssault && scoreTypeLocales.length > 1) { sli = team.id - 1; %>
+                <% if (isAnyAttacker) { %>
+                <p class="score-label">
+                    <strong>
+                        <% if (team.isAttacker) { %>
+                        <%= @('ID_WEB_COMMON_ATTACKERS') %>
+                        <% } else { %>
+                        <%= @('ID_WEB_COMMON_DEFENDERS') %>
+                        <% } %>
+                    </strong>
+                </p>
+                <%
+                sli = team.isAttacker ? 0 : 1;
+                } %>
+                <p class="score-label">
+                    <% if (scoreTypeLocales[sli]) { %>
+                    <%= @(scoreTypeLocales[sli]) %>
+                    <% } %>
+                </p>
+                <% } %>
+                <p class="score">
+                    <% if (isCarrierAssault) { %>
+                    <%= team.titanHealth %>%<br>
+                    <%= team.achievedObjectives %>/0
+                    <% } else if(gameMode == enums.GameMode.HEIST) { %>
+                        <% if (team.name == "SWAT") { %>
+                        <%= team.score %><br>
+                        <% } else { %>
+                        <%= team.bags %>/<%= team.bagsNeeded %>
+                        <% } %>
+                    <% } else if(gameMode == enums.GameMode.HOSTAGE) { %>
+                        <% if (team.name == "SWAT") { %>
+                            <%= team.score %><br>
+                        <% } %>
+                    <% } else if(gameMode == enums.GameMode.BLOODMONEY) { %>
+                        $<%= team.cash %> / 10M<br>
+                    <% } else { %>
+                    <%= team.score %>
+                    <% } %>
+                </p>
+            </div>
+            <% if (i % 2) { %><div style="clear: both"></div><% } %>
+            <% }); %>
+        </div>
+    </section>
+</script>
+
+
+<script type="text/html" data-template-name="battlepack_opened" data-css="warsaw/BattlepacksView">
+        <%
+         var util = require('util');
+         var img = openImageConfig || imageConfig;
+         var isFeed = isFeed || false;
+        %>
+        <% if(!isFeed) { %>
+            <div class="opened sectioninfo">
+                <div class="packimage">
+                    <div class="<%= img.category %> <%= img.slug.toLowerCase() %>"></div>
+                </div>
+                <div class="packinfo">
+                    <div class="packdetails">
+                        <div class="packtext"><%= locale.t(nameSID) %></div>
+                        <% if(openedAt) { %>
+                            <div class="openedAt"><%= @("ID_WEB_BATTLEPACKS_OPENED") %> <%= util.friendlyTimestamp(openedAt) %></div>
+                        <% } %>
+                    </div>
+        <% } %>
+                    <div class="inventory">
+                        <% for (var i in items) {
+                            var item = items[i];
+                            var img = item.unlockImageConfig || item.imageConfig || item.itemImage;
+                        %>
+
+                        <div class="item">
+                            <div class="clearfix item-image small <%=img.category%> <%=img.slug.toLowerCase()%>"></div>
+                            <div class="item-text"><%= @(items[i].nameSID) %>
+                            <% if (items[i].parentNameSID) { %>
+                                <span class="parent-name"><%= @(items[i].parentNameSID) %></span>
+                            <% } %>
+                            </div>
+                        </div>
+                        <% } %>
+                    </div>
+        <% if(!isFeed) { %>
+                </div>
+            </div>
+        <% } %>
+</script>

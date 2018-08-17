@@ -1,0 +1,52 @@
+<script type="text/html" data-template-name="ProfileView" data-css="ProfileView">
+    <div class="sectionloading loader"></div>
+
+    <% var enums = require('enums'); %>
+    <% var session = require('session'); %>
+    <div class="section presentation hidden">
+        <div class="sectionhead"><%=@('ID_MOBILE_PROFILE_PRESENTATION')%></div>
+        <div class="sectioninfo presentationtext"></div>
+    </div>
+
+    <div class="section presence hidden">
+        <div class="sectionbutton">View</div>
+    </div>
+
+    <div class="section soldierstats">
+    </div>
+    <div class="section all-soldiers hidden">
+        <div class="sectionbutton allsoldiers">
+            <% if (session.getActiveGame() == enums.Game.OMAHA){ %>
+                <%=@('ID_MOBILE_PROFILE_VIEW_ALL_AGENTS')%>
+            <% } else { %>
+                <%=@('ID_MOBILE_PROFILE_VIEW_ALL')%>
+            <% } %>
+        </div>
+        <div class="sectionbutton friends hidden"><%=@('ID_MOBILE_PROFILE_FRIENDS')%> <span class="friendcount"></span></div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="feed_item_row">
+    <div class="feeditem">
+        <div class="title"><%= event %></div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="profile_user_row">
+    <div class="section userinfo">
+        <div class="col-report"></div>
+        <div class="avatar"></div>
+        <div class="moreinfo">
+            <div class="username header"><%= username %></div>
+            <div class="location hidden"><img src=""/><span></span></div>
+        </div>
+        <div class="button primary btn-chat hidden"><%=@('ID_WEB_COMMON_CHAT')%></div>
+        <div class="button primary add-friend hidden"><%=@('ID_MOBILE_PROFILE_FRIEND_REQUEST_BUTTON')%></div>
+        <div id="friend-response-buttons" class="hidden">
+            <div><%= username %> <%=@('ID_MOBILE_PROFILE_FRIEND_REQUEST_PENDING')%></div>
+            <div class="button primary friend-response" data-response="accept"><%=@('ID_MOBILE_PROFILE_FRIEND_REQUEST_ACCEPT')%></div>
+            <div class="button secondary friend-response right" data-response="deny"><%=@('ID_MOBILE_PROFILE_FRIEND_REQUEST_DECLINE')%></div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</script>

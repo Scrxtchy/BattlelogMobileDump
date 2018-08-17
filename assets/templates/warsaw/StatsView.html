@@ -1,0 +1,128 @@
+<script type="text/html" data-template-name="StatsView" data-css="StatsView"></script>
+
+<script type="text/html" data-template-name="StatsViewContent" data-css="StatsView">
+    <div class="section error"></div>
+
+    <% if (typeof overviewStats === 'undefined') { %>
+    <div class="section">
+        <div class="sectionloading"></div>
+    </div>
+    <% } else { %>
+    <div class="wrapper">
+        <% if(mysoldier && !myactivesoldier){ %>
+            <div class="section">
+                <div class="set-as-active button primary"><%=@('ID_WEB_SET_AS_ACTIVE_SOLDIER')%></div>
+            </div>
+        <% } %>
+        <% if(!mysoldier && isChallengeFriend){ %>
+            <div class="section">
+                <div class="challenge-button button primary"><%=@('ID_MOBILE_CHALLENGES_CREATE_MISSION')%></div>
+            </div>
+        <% } %>
+        <div class="section stats-overview-persona">
+            <div class="overview-head"></div>
+            <div class="emblem-wrapper">
+                <img src=""/>
+            </div>
+            <div class="dogtag-wrapper"></div>
+            <div class="rank-image-wrapper"></div>
+            <div class="rank-wrapper">
+
+                <p class="rankName"></p>
+                <div class="rankProgress"></div>
+                <p class="rankPoints"></p>
+            </div>
+            <div class="soldier-image"></div>
+        </div>
+        <div class="stats-overview-skill section">
+            <div class="sectionhead"><%=@('ID_WEB_COMMON_STATS_SKILL')%></div>
+            <div class="sectioninfo">
+                <p class="skill-number"></p>
+                <div class="skill-bar">
+                    <div class="skill-bar-inner"></div>
+                </div>
+            </div>
+            <div class="sectiontable">
+                <div class="row stat-row-1"></div>
+                <div class="row stat-row-2"></div>
+            </div>
+        </div>
+        <div class="stats-overview-best section">
+            <div class="sectionhead"><%=@('ID_MOBILE_STATS_TOP')%></div>
+            <div class="sectiontable">
+                <div class="row"></div>
+            </div>
+        </div>
+        <div class="stats-overview-service-stars section">
+            <div class="sectionhead"><%=@('ID_MOBILE_STATS_SERVICE_STARS')%></div>
+            <div class="sectioncontent"></div>
+        </div>
+        <div class="stats-overview-completion section">
+            <div class="sectionhead"><%=@('ID_WEB_PROFILE_OVERVIEWSTATS_COMPLETION_LEVEL')%></div>
+            <div class="sectioncontent"></div>
+        </div>
+        <div class="stats-overview-nav section">
+            <div class="sectionbutton detailed-stats"><%=@('ID_MOBILE_STATS_DETAILED')%></div>
+            <div class="sectionbutton loadout"><%=@('ID_WEB_COMMON_STATS_LOADOUT')%></div>
+            <div class="sectionbutton battlereports"><%=@('ID_WEB_PROFILE_STATS_BATTLEREPORTS')%></div>
+            <div class="sectionbutton profile"><%=@('ID_MOBILE_NAV_PROFILE')%></div>
+        </div>
+    </div>
+
+    <% } %>
+</script>
+
+<script type="text/html" data-template-name="StatsViewHead" data-css="StatsView">
+    <div class="name"><span><%= name %></span></div>
+    <div class="platform">
+        <span class="game-icon <%= game %>"></span><span class="platform-icon <%= platform %>"></span>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="StatsViewInfoListItem" data-css="StatsView">
+    <div class="col">
+        <div>
+            <p class="label"><%= label %></p>
+            <p class="value"><%= value %></p>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="StatsViewBestItem" data-css="StatsView">
+    <div class="col"<% if (typeof type !== 'undefined'){ %> data-type="<%= type %>"<% } %><% if (typeof guid !== 'undefined'){ %> data-guid="<%= guid %>"<% } %>>
+        <div class="<%= imageClasses %>"></div>
+        <p><%= label %></p>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="StatsViewServiceStar" data-css="StatsView">
+    <div class="sectiontable">
+        <div class="row">
+            <div class="col"><div class="kit-icon small <%= kit %>"></div></div>
+            <div class="col">
+                <%= progressBar %>
+                <% if (starCount){ %>
+                <div class="star-count">
+                    <span><%= starCount %></span>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="StatsViewCompletionRow" data-css="StatsView">
+    <div class="sectiontable">
+        <div class="row sectionbutton <%=slug%>">
+            <div class="col">
+                <div class="completion-top">
+                    <h3><%= @(title) %></h3>
+                    <span><%= current %> / <%= max %></span>
+                </div>
+                <div class="completion-bottom">
+                    <%= progressBar %>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

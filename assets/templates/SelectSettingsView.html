@@ -1,0 +1,58 @@
+<script type="text/html" data-template-name="SelectSettingsView" data-css="SelectSettingsView">
+    <div class="section">
+        <div class="sectionloading"></div>
+    </div>
+    <div class="section settings">
+    </div>
+</script>
+
+
+
+<script type="text/html" data-template-name="SelectSettingsOptions" data-css="SelectSettingsView">
+    <div class="settingrow setprivacy<%= selected ? ' selected' : '' %>" data-name="<%= key %>" data-value="<%= value %>">
+        <div class="value"><%= name %></div>
+    </div>
+</script>
+
+
+<script type="text/html" data-template-name="SelectSettingsRow" data-css="SelectSettingsView">
+    <div class="sectionbutton privacy" data-name="<%= key %>" data-value="<%= value %>">
+        <%= label %>
+        <p class="value"><%= name %></p>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="SelectSettingsTag" data-css="SelectSettingsView">
+    <div class="section">
+        <div class="sectioninfo">
+            <p><%= @('ID_MOBILE_TAG_DESC') %></p>
+        </div>
+        <div class="sectionhead">Clan tag</div>
+        <div class="sectioninfo">
+            <div class="sectionloading hidden"></div>
+            <div class="textinput">
+                <input maxlength="4" id="tag-input-field" type="text" placeholder="<%= @('ID_MOBILE_TAG_MAX') %>" value="<%= clanTag %>">
+            </div>
+            <a class="button primary post"><%= @('ID_WEB_COMMON_BUTTON_SAVE') %></a>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="SelectSettingsPresentation" data-css="SelectSettingsView">
+    <div class="section">
+        <div class="sectioninfo">
+            <p><%= @('ID_MOBILE_PRESENTATION_DESC') %></p>
+        </div>
+        <div class="sectionhead"><%= @('ID_WEB_PROFILE_PRESENTATION') %></div>
+        <div class="sectioninfo presentation">
+            <div class="sectionloading hidden"></div>
+            <div class="textinput">
+                <textarea maxlength="1000" class="" id="profile-presentation" type="text" ><%= presentation %></textarea>
+            </div>
+            <div class="buttons">
+                <a class="button primary post"><%= @('ID_WEB_COMMON_BUTTON_SAVE') %></a>
+            </div>
+        </div>
+    </div>
+</script>
+

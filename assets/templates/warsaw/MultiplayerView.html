@@ -1,0 +1,81 @@
+<script type="text/html" data-template-name="MultiplayerView" data-css="MultiplayerView" data-template-lang="dust"></script>
+
+<script type="text/html" data-template-name="MultiplayerContentView" data-css="MultiplayerView" data-template-lang="dust">
+    {> MultiplayerTabsView/}
+    <div class="section recommended">
+        <div class="sectionhead">{@localize key="ID_MOBILE_MULTIPLAYER_RECOMMENDED_SERVERS"/}</div>
+        <div class="recommended-container">
+            <div class="sectionloading"></div>
+        </div>
+    </div>
+    <div class="section">
+        <div class="sectionbutton filter">
+            {@localize key="ID_MOBILE_MULTIPLAYER_FILTER"/} <div class="pull-right filter-count">{filterCount}</div>
+        </div>
+        <div class="serverfilter-search-container">
+            <div class="textinput search">
+                <input id="serverfilters-name" type="text" placeholder="{@localize key="ID_WEB_SERVERGUIDE_BF3FILTERS_FILTER_BY_SERVER_NAME"/}" value="{search}">
+                <a class="clear-button button cancelTouchOnMove {?search}visible{/search}"><span class="icon"></span></a>
+            </div>
+        </div>
+    </div>
+    <div class="section general servers-list">
+        <div class="sectionloading"></div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="MultiplayerTabsView" data-css="MultiplayerView" data-template-lang="dust">
+    {?pc}
+    <div class="section">
+        <div class="segmentedcontrol">
+            <a class='{@eq key=type value="allservers"}selected{/eq}' data-type="allservers">{@localize key="ID_MOBILE_MULTIPLAYER_SERVERS"/}</a>
+            <a class='{@eq key=type value="favorites"}selected{/eq}' data-type="favorites">{@localize key="ID_MOBILE_MULTIPLAYER_FAVORITES"/}</a>
+            <a class='{@eq key=type value="history"}selected{/eq}' data-type="history">{@localize key="ID_MOBILE_MULTIPLAYER_HISTORY"/}</a>
+        </div>
+    </div>
+    {/pc}
+</script>
+
+<script type="text/html" data-template-name="FavoriteServersView" data-css="MultiplayerView" data-template-lang="dust">
+    {> MultiplayerTabsView/}
+    <div class="section favorites servers-list">
+        <div class="sectionloading"></div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="ServerHistoryView" data-css="MultiplayerView" data-template-lang="dust">
+    {> MultiplayerTabsView/}
+    <div class="section history servers-list">
+        <div class="sectionloading"></div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="ServerRows" data-css="MultiplayerView" data-template-lang="dust">
+    {#.}
+    <div class="server-row" data-server-guid="{guid}">
+        <div class="image">
+            <span class="map-image small {mapClass}"></span>
+        </div>
+        <div class="info">
+            <div class="name-players">
+                <div class="name">{name}</div>
+                <div class="players">{currentPlayers}/{maxPlayers}  {?currentCommanders} ({currentCommanders}/{maxCommanders}) {/currentCommanders}</div>
+            </div>
+            {?xpack}
+                <i class='icon xpack-icon xpack-{xpack}'></i>
+            {/xpack}
+            <div class="status">{status}</div>
+        </div>
+        <div class="ping">
+            <div class="ping-bar" data-ping="{?pingClassCache}{pingClassCache}{:else}worst{/pingClassCache}"></div>
+            <span>
+                {?pingCache}
+                    {pingCache}
+                {:else}
+                    -
+                {/pingCache}
+            </span>
+        </div>
+    </div>
+    {/.}
+</script>

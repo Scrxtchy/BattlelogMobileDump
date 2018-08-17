@@ -1,0 +1,51 @@
+<script type="text/html" data-template-name="CampaignMissionView" data-css="CampaignMissionView">
+    <div id="mission-header"></div>
+
+    <div class="hidden sectiontable">
+        <div id="progression-container" class="row"></div>
+    </div>
+
+    <div id="mission-statistics-bn" class="sectionbutton summary"><%=@('ID_WEB_PROFILE_STATS_STATISTICS')%></div>
+    <div id="mission-leaderboard-bn" class="sectionbutton summary"><%=@('ID_WEB_COMMON_TOP_FRIENDS')%></div>
+
+    <div id="weapons-found" class="section"></div>
+
+    <div id="dogtags-found" class="section"></div>
+</script>
+
+<script type="text/html" data-template-name="CampaignMissionHeader" data-css="CampaignMissionView">
+    <div class="campaign-level-image <%= img %>"></div>
+    <div class="bottom clearfix">
+        <p class="pull-left"><%= @(completion) %></p>
+        <p class="pull-right"><%= score %>p</p>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="CampaignMissionProgress" data-css="CampaignMissionView">
+    <div class="col" data-index="<%= index %>" data-code="<%= code %>">
+        <p><%= completionValue %>p</p>
+        <div class="item-image award_mission <%= slug.toLowerCase() %>"></div>
+        <%= progressBar %>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="CampaignMissionItem" data-css="CampaignMissionView">
+    <div class="sectionhead">
+        <%= title %>
+        <span><%= found %>/<%= total %></span>
+    </div>
+    <div class="sectiontable">
+        <div class="row">
+            <% items.forEach(function(item, i){ %>
+                <% if (i && i % 2 == 0){ %>
+                    </div>
+                    <div class="row">
+                <% } %>
+                <div class="col<% if (!item.found){ %> not-found<% } %>"
+                     data-index="<%= item.index %>">
+                    <div class="item-image dogtags <%= item.slug.toLowerCase() %>"></div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</script>

@@ -1,0 +1,205 @@
+<script type="text/html" data-template-name="PlatoonsView" data-css="PlatoonsView">
+    <div class="sectionloading loader"></div>
+</script>
+
+<script type="text/html" data-template-name="PlatoonsEmptyView" data-css="PlatoonsView">
+    <% var template = require('template'); %>
+    <div class="sectioninfo centered">
+         <%= template.render('PlatoonsEmblem',{ size: 320 ,club: {} }) %>
+        <h2><%= @('ID_MOBILE_CLUBS_NO_CLUB_TITLE') %></h2>
+        <p><%= @('ID_MOBILE_CLUBS_NO_CLUB_DESCRIPTION') %></p>
+    </div>
+</script>
+
+
+<script type="text/html" data-template-name="PlatoonsEmblem">
+    <%
+    var assets = require('assets'),
+        link = (typeof(link) !== "undefined") ? link : false,
+        size = (typeof(size) !== "undefined") ? size : 60,
+        url = club.emblemPath || "",
+        format = (url.indexOf("emblems") > -1) ? "jpeg" : "png",
+        dimension = (size == 320) ? 290 : size;
+
+    url = url.replace("[FORMAT]", format).replace("[SIZE]", size);
+    if (url && url.substr(0, 7) != "http://"){
+        url = assets.CDNResourceURL("/emblems/"+ size +"/" + club.emblemPath);
+    }
+    if (!url){
+        url = assets.CDNResourceURL("/public/platoon/default-emblem-"+ size +".png");
+    }
+    %>
+
+    <% if (link){ %>
+        <a href="<%= link %>">
+    <% } %>
+
+    <img class="club-emblem"
+     src="<%= url %>"
+     width="<%= dimension %>" height="<%= dimension %>"/>
+
+    <% if (link){ %>
+        </a>
+    <% } %>
+</script>
+
+<script type="text/html" data-template-name="PlatoonsViewContent" data-css="PlatoonsView">
+    <% var template = require('template'); %>
+    <div class="wrapper platoon-dropdown-container">
+        <div class="overlay"></div>
+        <div class="platoons-header section">
+            <p><%= activeClub.club.name %></p>
+            <a class="platoon-dropdown-toggle">
+                <span><i></i></span>
+            </a>
+        </div>
+
+        <div class="platoon-dropdown">
+            <ul>
+            <%
+            var activeClubId = (activeClub && activeClub.club) ? activeClub.club.id : 0;
+            _.each(platoons, function(platoon){ %>
+                <li data-platoon-id="<%= platoon.id %>" <% if (platoon.id == activeClubId) print(' class="active"'); %>>
+                    <%= template.render('PlatoonsEmblem',{ club: platoon }) %>
+                    <p class="name"><%= platoon.name %></p>
+                    <p class="count"><%= platoon.memberCount %> <%= @('ID_WEB_COMMON_MEMBERS').toLowerCase() %></p>
+                </li>
+            <% }); %>
+            </ul>
+        </div>
+
+        <div class="club-container">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="PlatoonsViewClubContent">
+    <% var template = require('template'); %>
+    <% var dom = require('dom'); %>
+    <% var util = require('util'); %>
+    <% var locale = require('locale'); %>
+    <div class="wrapper">
+        <div class="section top centered">
+            <%= template.render('PlatoonsEmblem',{ club: club, size:320 }) %>
+            <div data-clubid="<%= club.id %>" class="col-report"></div>
+
+        </div>
+        <% if (!isActive){ %>
+            <div class="section">
+                <a class="button primary set-active-button" data-club-id="<%= club.id %>"><%= @('ID_WEB_CLUBS_SET_ACTIVE') %></a>
+            </div>
+        <% } %>
+
+        <% if (playingServers && playingServers.length){ %>
+            <div class="section">
+                <div class="sectionhead"><%= @('ID_MOBILE_USERPRESENCE_PLAYING') %></div>
+                <% _.each(playingServers, function(server){ %>
+                    <div class="platoon-server" data-guid="<%= server.gameServer.guid %>">
+                        <div class="platoon-server-header">
+                            <div class="info">
+                                <div class="name">
+                                    <%= server.gameServer.name %>
+                                </div>
+                                <div class="status-row">
+                                    <div class="status">
+                                        <%= dom.server_status(server.gameServer) %>
+                                    </div>
+                                    <div class="players">
+                                        <%= server.gameServer.slots[2].current %> / <%= server.gameServer.slots[2].max %> players
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="image">
+                                <%= dom.get_map_image(server.gameServer.game, server.gameServer.map, "large")[0].outerHTML %>
+                            </div>
+                        </div>
+                        <% _.each(server.players, function(player){ %>
+                            <div class="sectionbutton player" data-userid="<%= player.userId %>">
+                                <%= dom.user_avatar(player)[0].outerHTML %>
+                                <div class="username"><%= player.username %></div>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% }); %>
+            </div>
+        <% } %>
+
+        <% if (isMember){ %>
+            <a data-club-id="<%= club.id %>" class="button join-chat"><%= @('ID_WEB_CLUBS_JOIN_CHAT') %></a>
+        <% } %>
+
+        <div class="platoon-stats section">
+            <div class="sectionhead"><%= @('ID_WEB_COMMON_STATS_STATS') %></div>
+            <div class="sectioninfo">
+                <div class="rank">
+                    <p class="label"><%= @('ID_WEB_COMMON_RANK') %></p>
+                    <p class="value"><%= util.formatStatValue(club.stats.rank || 0) %></p>
+                </div>
+            </div>
+            <div class="sectiontable">
+                <div class="row stat-row-1">
+                    <div class="col">
+                        <div>
+                            <p class="label"><%= @('ID_WEB_COMMON_SCORE') %></p>
+                            <p class="value bold"><%= util.formatStatValue(club.stats.scoreWeighted || 0) %></p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div>
+                            <p class="label"><%= @('ID_WEB_COMMON_STATS_SKILL') %></p>
+                            <p class="value bold"><%= util.formatStatValue(club.stats.skillTotal || 0) %></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row stat-row-2">
+                    <div class="col">
+                        <div>
+                            <p class="label"><%= @('ID_WEB_COMMON_STATS_ABBR_KILL_DEATH_RATIO') %></p>
+                            <p class="value bold"><%= util.formatStatValue(club.stats.kdrAvg || 0, "float") %></p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div>
+                            <p class="label"><%= @('ID_WEB_COMMON_TIME') %></p>
+                            <p class="value bold"><%= util.friendlyDuration(club.stats.timeWeighted || 0) %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="section platoon-members">
+            <div class="sectionhead"><%= @('ID_WEB_COMMON_MEMBERS') %> (<%= club.memberCount %>)</div>
+
+            <%
+
+            var lookUpLevel = {10: locale.t('ID_WEB_CLUBS_FOUNDER'), 20: locale.t('ID_WEB_CLUBS_LEADER')};
+
+            %>
+
+            <% _.each(club.members, function(member){ %>
+                <%  var memberLevelStr = "";
+                    if(member.level < 30) {
+                        memberLevelStr = "<br>"+lookUpLevel[member.level];
+                    }
+            %>
+                <div class="sectionbutton member <%= (memberLevelStr!=""?"showlevel":"") %>" data-userid="<%= member.userId %>">
+                    <%= dom.user_avatar(member.user)[0].outerHTML %>
+                    <div class="username">
+                        <%= member.user.username %>
+                    </div>
+
+                    <% if (memberLevelStr!="") { %>
+                        <div class="level">
+                            <%= memberLevelStr %>
+                        </div>
+                    <% } %>
+
+                </div>
+            <% }); %>
+
+            <a class="button view-all-members"><%= @('ID_WEB_CLUBS_VIEW_ALL_MEMBERS') %></a>
+        </div>
+    </div>
+</script>

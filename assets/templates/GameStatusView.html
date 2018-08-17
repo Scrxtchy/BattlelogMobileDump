@@ -1,0 +1,58 @@
+<script type="text/html" data-template-name="GameStatusView" data-css="GameStatusView" data-template-lang="dust">
+    <section class="unified-game-manager ugm-{state} {?isBfh}nv-omaha{:else}nv-warsaw{/isBfh}">
+        <div class="ugm-state">
+            <div class="ugm-meta-data">
+                <div class="ugm-playing-title {?singleTitle}single-title{/singleTitle}">
+                    {message}
+                </div>
+                {^isSelf}
+                    <div class="ugm-server-info">
+                        <div class="ugm-server-name">
+                            {?isBfh}
+                                {@localize key="ID_MOBILE_NAV_AGENT"/}
+                            {:else}
+                                {@localize key="ID_MOBILE_UGM_ACTIVE_SOLDIER"/}
+                            {/isBfh}:
+                            <span class="no-caps">{personaName}</span></div>
+                    </div>
+                {:else}
+                    {?isPlaying}
+                        <div class="ugm-server-info">
+                            <div class="ugm-server-name">{serverName}</div>
+                        </div>
+                    {/isPlaying}
+                {/isSelf}
+            </div>
+            {?isSelf}
+                <div class="ugm-btn-group">
+                    <table>
+                        <tr>
+                            {?loadoutAvailable}
+                                <td><div class="btn btn-clean btn-loadout"><i class="icon"></i></div></td>
+                            {/loadoutAvailable}
+
+                            {?serverbrowserAvailable}
+                            <td><div class="btn btn-clean btn-server-browser"><i class="icon"></i></div></td>
+                            {/serverbrowserAvailable}
+
+                            {?battlescreenAvailable}
+                                <td><div class="btn btn-clean btn-battlescreen"><i class="icon"></i></div></td>
+                            {/battlescreenAvailable}
+                        </tr>
+                    </table>
+                </div>
+            {/isSelf}
+            {^isSelf}
+                <div class="ugm-switch-soldier">
+                    <div class="button btn-switch-soldier" data-game="{game}" data-persona-id="{personaId}" data-platform="{platform}">
+                        {?isBfh}
+                            {@localize key="ID_WEB_SET_AS_ACTIVE_AGENT"/}
+                        {:else}
+                            {@localize key="ID_WEB_SET_AS_ACTIVE_SOLDIER"/}
+                        {/isBfh}
+                    </div>
+                </div>
+            {/isSelf}
+        </div>
+    </section>
+</script>

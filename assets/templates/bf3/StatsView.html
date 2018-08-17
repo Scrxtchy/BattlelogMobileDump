@@ -1,0 +1,281 @@
+<script type="text/html" data-template-name="StatsView" data-css="StatsView">
+    <div class="toolbar tall"></div>
+    <!-- ScrollView -->
+</script>
+
+<script type="text/html" data-template-name="StatsView-scrollviewcontent" data-css="StatsView">
+    <div class="section errors"></div>
+
+    <div class="section rank">
+        <div class="rankrow">
+            <div class="image"></div>
+            <div class="info">
+                <div class="name"></div>
+                <div class="progressbar"><div></div></div>
+                <div class="progress">
+                    <div class="scoreprogress">
+                        <strong data-stat="rankProgressScore">#</strong> / <span data-stat="nextRankProgressScore">#</span>
+                    </div>
+                    <div class="scoretogo">
+                        <%=@('ID_MOBILE_STATS_UNTILRANKUP', { score: '<span data-stat="scoreUntilRankup">#</span>' })%>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section overall">
+        <div class="sectionhead">
+            <%=@('ID_MOBILE_STATS_OVERALL')%>
+        </div>
+
+        <div class="statpodrow tall">
+            <div class="statpod">
+                <div class="name"><%=@('ID_MOBILE_STATS_SPM')%></div>
+                <div class="ratio-gauge">
+                    <div class="indicator" data-stat-gauge="spm"></div>
+                </div>
+                <div class="value" data-stat="scorePerMinute">#</div>
+                <div class="subvalue"><span data-stat="timePlayed">#h #m</span></div>
+            </div>
+
+            <div class="statpod">
+                <div class="name"><%=@('ID_MOBILE_STATS_ACCURACY')%></div>
+                <div class="accuracy-gauge">
+                    <div class="indicator" data-stat-gauge="accuracy"></div>
+                </div>
+                <div class="value" data-stat="accuracy">#%</div>
+                <div class="subvalue"><span data-stat="shotsHit">#</span> <%=@('ID_WEB_COMMON_STATS_SHOTS_HIT').toLowerCase()%></div>
+            </div>
+
+            <div class="statpod">
+                <div class="name"><%=@('ID_MOBILE_STATS_WINLOSS_RATIO')%></div>
+                <div class="ratio-gauge">
+                    <div class="indicator" data-stat-gauge="wlr"></div>
+                </div>
+                <div class="value" data-stat="wlr">#</div>
+                <div class="subvalue"><span data-stat="wins">#</span> <%=@('ID_WEB_PROFILE_OVERVIEW_WINS').toLowerCase()%></div>
+            </div>
+        </div>
+
+        <div class="statpodrow">
+            <div class="statpod">
+                <div class="name"><%=@('ID_MOBILE_STATS_KILLS')%></div>
+                <div class="value" data-stat="kills">#</div>
+            </div>
+
+            <div class="statpod">
+                <div class="name"><%=@('ID_MOBILE_STATS_DEATHS')%></div>
+                <div class="value" data-stat="deaths">#</div>
+            </div>
+
+            <div class="statpod">
+                <div class="name"><%=@('ID_MOBILE_STATS_KILLDEATH_RATIO')%></div>
+                <div class="value" data-stat="kdr">#</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section kits">
+        <div class="sectionhead"><%=@('ID_MOBILE_STATS_KITS')%></div>
+
+        <div class="statpodrow tall">
+            <div class="statpod timeperkit">
+                <div class="name"><%=@('ID_MOBILE_STATS_TIME_PER_KIT')%></div>
+                <div class="piechart timeperkit">
+                    <div class="left">
+                        <div class="assault"></div>
+                        <div class="engineer"></div>
+                        <div class="support"></div>
+                        <div class="recon"></div>
+                    </div>
+                    <div class="right">
+                        <div class="assault"></div>
+                        <div class="engineer"></div>
+                        <div class="support"></div>
+                        <div class="recon"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="statpod kitstars">
+                <div class="name"><%=@('ID_MOBILE_STATS_SERVICE_STARS')%></div>
+                <div class="servicestarrow assault">
+                    <div class="kit-icon"></div>
+                    <div class="progressbar"><div></div></div>
+                    <div class="numstars"><span>#</span></div>
+                </div>
+                <div class="servicestarrow engineer">
+                    <div class="kit-icon"></div>
+                    <div class="progressbar"><div></div></div>
+                    <div class="numstars"><span>#</span></div>
+                </div>
+                <div class="servicestarrow support">
+                    <div class="kit-icon"></div>
+                    <div class="progressbar"><div></div></div>
+                    <div class="numstars"><span>#</span></div>
+                </div>
+                <div class="servicestarrow recon">
+                    <div class="kit-icon"></div>
+                    <div class="progressbar"><div></div></div>
+                    <div class="numstars"><span>#</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section topweapons">
+        <div class="sectionhead"><%=@('ID_MOBILE_STATS_TOPWEAPONS')%></div>
+        <div class="items"></div>
+    </div>
+
+    <div class="section topvehicles">
+        <div class="sectionhead"><%=@('ID_MOBILE_STATS_TOPVEHICLES')%></div>
+        <div class="items"></div>
+    </div>
+
+    <div class="section latestawards">
+        <div class="sectionhead"><%=@('ID_MOBILE_STATS_LATESTAWARDS')%></div>
+        <div class="items"></div>
+    </div>
+
+    <div class="section progression">
+        <div class="sectionhead"><%=@('ID_MOBILE_STATS_DETAILED')%></div>
+        <div class="sectionbutton small weapons">
+            <span class="sectionbutton-icon weapons"></span><%=@('ID_MOBILE_STATS_WEAPONS')%>
+        </div>
+        <div class="sectionbutton small equipment">
+            <span class="sectionbutton-icon equipment"></span><%=@('ID_MOBILE_STATS_EQUIPMENT')%>
+        </div>
+        <div class="sectionbutton small vehicles">
+            <span class="sectionbutton-icon vehicles"></span><%=@('ID_MOBILE_STATS_VEHICLES')%>
+        </div>
+        <div class="sectionbutton small awards">
+            <span class="sectionbutton-icon awards"></span><%=@('ID_MOBILE_VIEW_TITLE_AWARDS')%>
+        </div>
+        <div class="sectionbutton small assignments">
+            <span class="sectionbutton-icon assignments"></span><%=@('ID_MOBILE_VIEW_TITLE_ASSIGNMENTS')%>
+        </div>
+        <div class="sectionbutton small dogtags">
+            <span class="sectionbutton-icon dogtags"></span><%=@('ID_MOBILE_VIEW_TITLE_DOGTAGS')%>
+        </div>
+        <div class="sectionbutton small unlocks">
+            <span class="sectionbutton-icon unlocks"></span><%=@('ID_MOBILE_VIEW_TITLE_UNLOCKS')%>
+        </div>
+    </div>
+
+    <div class="section mpscore">
+        <div class="sectionhead"><%=@('ID_MOBILE_STATS_MULTIPLAYERSCORE')%></div>
+        <div class="statrow">
+            <div class="label"><span class="kit-icon assault"></span> <%=@('ID_WEB_COMMON_CLASS_ASSAULT')%></div>
+            <div class="value" data-stat="sc_assault">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><span class="kit-icon engineer"></span> <%=@('ID_WEB_COMMON_CLASS_ENGINEER')%></div>
+            <div class="value" data-stat="sc_engineer">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><span class="kit-icon support"></span> <%=@('ID_WEB_COMMON_CLASS_SUPPORT')%></div>
+            <div class="value" data-stat="sc_support">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><span class="kit-icon recon"></span> <%=@('ID_WEB_COMMON_CLASS_RECON')%></div>
+            <div class="value" data-stat="sc_recon">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><%=@('ID_WEB_COMMON_CLASS_VEHICLE')%></div>
+            <div class="value" data-stat="sc_vehicle">#</div>
+        </div>
+        <div class="statrow bold">
+            <div class="label"><%=@('ID_WEB_COMMON_COMBAT')%></div>
+            <div class="value" data-stat="combatScore">#</div>
+        </div>
+        <div class="statrow bold">
+            <div class="label"><%=@('ID_WEB_COMMON_AWARD')%></div>
+            <div class="value" data-stat="sc_award">#</div>
+        </div>
+        <div class="statrow bold">
+            <div class="label"><%=@('ID_WEB_COMMON_UNLOCKS')%></div>
+            <div class="value" data-stat="sc_unlock">#</div>
+        </div>
+        <div class="statrow bold large">
+            <div class="label"><%=@('ID_WEB_COMMON_STATS_TOTAL')%></div>
+            <div class="value" data-stat="totalScore">#</div>
+        </div>
+    </div>
+
+    <div class="section alltime">
+        <div class="sectionhead"><%=@('ID_WEB_COMMON_STATS_GENERAL')%></div>
+        <div class="statrow">
+            <div class="label"><%=@('ID_MOBILE_STATS_KILLS')%></div>
+            <div class="value" data-stat="kills">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><%=@('ID_MOBILE_STATS_DEATHS')%></div>
+            <div class="value" data-stat="deaths">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><%=@('ID_MOBILE_STATS_KILLDEATH_RATIO')%></div>
+            <div class="value" data-stat="kdRatio">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><%=@('ID_WEB_COMMON_KILL_ASSISTS')%></div>
+            <div class="value" data-stat="killAssists">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><%=@('ID_WEB_COMMON_STATS_SCORE_PER_ABBR_MINUTE')%></div>
+            <div class="value" data-stat="scorePerMinute">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><%=@('ID_MOBILE_STATS_TIME_PLAYED')%></div>
+            <div class="value" data-stat="timePlayed">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><%=@('ID_WEB_COMMON_STATS_QUIT')%></div>
+            <div class="value" data-stat="quitPercentage">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><%=@('ID_WEB_COMMON_STATS_VEHICLES_DESTROYED')%></div>
+            <div class="value" data-stat="vehiclesDestroyed">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><%=@('ID_WEB_COMMON_STATS_VEHICLE_DESTROYED_ASSISTS')%></div>
+            <div class="value" data-stat="vehiclesDestroyedAssists">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><%=@('ID_WEB_COMMON_STATS_ACCURACY')%></div>
+            <div class="value" data-stat="accuracy">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><%=@('ID_MOBILE_STATS_LONGEST_HEADSHOT')%></div>
+            <div class="value" data-stat="longestHeadshot">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><%=@('ID_WEB_COMMON_STATS_KILL_STREAK_BONUS')%></div>
+            <div class="value" data-stat="killStreakBonus">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><%=@('ID_WEB_COMMON_STATS_SKILL')%></div>
+            <div class="value" data-stat="elo">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><%=@('ID_WEB_COMMON_STATS_SQUAD_SCORE_BONUS')%></div>
+            <div class="value" data-stat="sc_squad">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><%=@('ID_WEB_COMMON_STATS_REPAIRS')%></div>
+            <div class="value" data-stat="repairs">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><%=@('ID_WEB_COMMON_STATS_REVIVES')%></div>
+            <div class="value" data-stat="revives">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><%=@('ID_MOBILE_STATS_HEALS')%></div>
+            <div class="value" data-stat="heals">#</div>
+        </div>
+        <div class="statrow">
+            <div class="label"><%=@('ID_WEB_COMMON_STATS_RESUPPLIES')%></div>
+            <div class="value" data-stat="resupplies">#</div>
+        </div>
+    </div>
+</script>

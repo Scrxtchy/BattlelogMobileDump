@@ -1,0 +1,67 @@
+<script type="text/html" data-template-name="LoginView" data-css="LoginView">
+    <div class="battlelog-logo"></div>
+
+    <div class="greetings hidden">
+        <p>...</p>
+    </div>
+
+    <div class="login-form">
+        <form method="post">
+            <div class="textinput">
+                <input tabindex="1" type="email" autocorrect="off" autocapitalize="off" name="email" placeholder="<%=@('ID_MOBILE_INPUT_EMAIL_PLACEHOLDER')%>" value="" />
+            </div>
+            <div class="textinput">
+                <input tabindex="2" type="password" autocorrect="off" autocapitalize="off" name="password" placeholder="<%=@('ID_MOBILE_INPUT_PASSWORD_PLACEHOLDER')%>" value="" />
+            </div>
+            <div class="login-button-container">
+                <a class="primary button login"><%=@('ID_WEB_COMMON_SIGN_IN')%></a>
+            </div>
+            <div class="qr-login-container hidden">
+                <div class="or">- <%=@('ID_MOBILE_COMMON_OR')%> -</div>
+                <a class="button qr-login"><%=@('ID_MOBILE_COMMON_LOGIN_QR')%></a>
+                <div class="instructions"><%=@('ID_MOBILE_LOGIN_QR_INSTRUCTIONS')%></div>
+            </div>
+        </form>
+    </div>
+    <div class="qr-form hidden">
+        <div class="info"><%=@('ID_MOBILE_LOGIN_QR_ENTER_2FACTOR')%></div>
+        <div class="code"></div>
+        <div class="buttons">
+            <a class="primary button continue"><%=@('ID_WEB_COMMON_BUTTON_CONTINUE')%></a>
+            <a class="button cancel"><%=@('ID_WEB_COMMON_BUTTON_CANCEL')%></a>
+        </div>
+    </div>
+    <div class="login-loading hidden">
+        <span class="loader small"></span>
+    </div>
+    <div class="logos"></div>
+    <div class="logo-ea"></div>
+</script>
+
+<script type="text/html" data-template-name="LoginView-environment" data-css="LoginView">
+    <% var config = require('config'); %>
+    <div class="env">
+        Battlelog environment:<br />
+        <%=config.battlelogURL%><br/>
+        <%=config.beaconpushServers%><br/>
+        <%=config.beaconpushOperator%><br />
+        v. <%=appVersion%>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="LoginView-forgotpwd" data-css="LoginView">
+    <% var config = require('config'); %>
+    <div class="forgot-pwd">
+        <a class="hidden" href="<%=config.battlelogURL%>/switch/?from=mobile"><%=@('ID_MOBILE_VISIT_FULL_SITE')%></a>
+        <a data-href="https://www.origin.com/<%= userlocale %>/account/reset-password"><%=@('ID_WEB_COMMON_FORGOT_PASSWORD')%></a>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="LoginView-smartAppBanner" data-css="SmartAppBannerView">
+    <div class="base-header-headinfo">
+        <a class="smart-banner" href="<%=url%>">
+            <p><span class="app-name"><%=@('ID_WEB_COMMON_BATTLELOG')%></span> <span class="app-company"><%=@('ID_WEB_COMMON_ELECTRONIC_ARTS')%></span></p>
+        </a>
+        <div class="base-header-headinfo-closebutton"><%=@('ID_WEB_COMMON_DISMISS')%></div>
+    </div>
+</script>

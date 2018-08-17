@@ -1,0 +1,35 @@
+<script type="text/html" data-template-name="ServerFiltersView" data-css="ServerFiltersView" data-template-lang="dust">
+    <div class="section">
+        {#.}
+        <div class="sectionbutton" data-type="{type}" data-sid="{label}">
+            {@localize key=label/}
+            <p>{values}</p>
+        </div>
+        {/.}
+    </div>
+    {>ServerFiltersResetButtonView/}
+</script>
+
+<script type="text/html" data-template-name="ServerFiltersSelectionView" data-css="ServerFiltersView" data-template-lang="dust">
+    <div class="section">
+        {#.}
+        <div class="sectionmessage {?active}active{/active} {?map}vertical-align{/map}" data-type="{type}" data-value="{value}">
+            {?map}<div class="map-image small {map}"></div>{/map}<div class="label">{label}</div>
+        </div>
+        {/.}
+    </div>
+</script>
+
+<script type="text/html" data-template-name="ServerFiltersSaveButtonView" data-css="ServerFiltersView" data-template-lang="dust">
+    {?isChanged}
+    <div class="section">
+        <div class="button primary save">{@localize key="ID_MOBILE_FILTER_SAVE"/}</div>
+    </div>
+    {/isChanged}
+</script>
+
+<script type="text/html" data-template-name="ServerFiltersResetButtonView" data-css="ServerFiltersView" data-template-lang="dust">
+    <div class="section">
+        <div class="button clear">{@localize key="ID_MOBILE_FILTER_RESET"/}</div>
+    </div>
+</script>

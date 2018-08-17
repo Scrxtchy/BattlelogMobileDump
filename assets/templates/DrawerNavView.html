@@ -1,0 +1,54 @@
+<script type="text/html" data-template-name="DrawerNavView" data-css="DrawerNavView">
+    <div class="navbar">
+        <div class="left"></div>
+        <div class="title"></div>
+        <div class="right"></div>
+    </div>
+    <div class="middle"></div>
+</script>
+
+<script type="text/html" data-template-name="DrawerNavView-ScrollView" data-css="DrawerNavView">
+
+</script>
+
+<script type="text/html" data-template-name="DrawerNavView-tabItem" data-css="DrawerNavView">
+    <div class="tab-wrapper
+        <%= tabItem.minor ? 'minor' : '' %>
+        <%= tabItem.class %>
+        <%= tabItem.showRank ? 'show-rank' : '' %>
+        <%= tabItem.platformName ? 'show-platform' : '' %>
+        <%= tabItem.collapseHead ? 'tab-collapsible-head' : '' %>
+        <%= tabItem.collapsed ? 'collapsed' : '' %>"
+         data-bind-collapsible="<%= tabItem.collapseHead ? 'yes' : 'no' %>"
+         data-collapsible="<%= tabItem.collapsible ? 'yes' : 'no' %>">
+        <div class="tab">
+            <%if (tabItem.showRank) { %>
+            <div class="rank-icon-wrapper"><span class="item-image rank tiny"></span></div>
+            <% } %>
+
+            <div class="title">
+                <%if (tabItem.icon) { %>
+                <i class="icon-white icon-<%= tabItem.icon %>"></i>
+                <i class="icon-black icon-<%= tabItem.icon %>"></i>
+                <% } %>
+                <span><%= tabItem.titleSID ? @(tabItem.titleSID) : tabItem.title %></span>
+            </div>
+
+            <%if (tabItem.platformName) { %>
+            <div class="clear"></div>
+            <div class="platform-icon-wrapper">
+                <span class="platform-icon <%= tabItem.platformName %>"></span>
+            </div>
+            <% } %>
+
+            <%if (tabItem.cash) { %>
+                <div class="cash"></div>
+            <% } %>
+        </div>
+
+        <%= tabItem.collapseHead ? '<div class="collapse-toggle"></div>' : '' %>
+    </div>
+
+    <%= tabItem.collapseBreak ? '<div></div>' : '' %>
+    <%= tabItem.sep ? '<div class="sep"></div>' : '' %>
+</script>

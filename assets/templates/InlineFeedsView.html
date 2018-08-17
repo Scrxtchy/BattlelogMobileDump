@@ -1,0 +1,27 @@
+<script type="text/html" data-template-name="InlineFeedsView" data-css="InlineFeedsView">
+    <div class="section">
+        <div class="segmentedcontrol feed-selection">
+            <a class="selected" data-selection="battlefeed"><%= @('ID_MOBILE_VIEW_TITLE_BATTLEFEED') %></a>
+
+            <a data-selection="activitystream"><%=@('ID_WEB_HEADER_ACTIVITY')%></a>
+        </div>
+        <div class="feeds">
+            <div class="feedsection battlefeed"></div>
+            <div class="feedsection activitystream hidden"></div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="InlineFeedsUpdateStatusView" data-css="InlineFeedsView">
+    <div class="sectioninfo item writepost">
+        <form>
+            <div class="textinput">
+                <textarea></textarea>
+                <div class="loader small"></div>
+            </div>
+            <div class="buttons">
+                <a class="button primary inline post"><%= @('ID_WEB_PROFILE_POST') %></a>
+            </div>
+        </form>
+    </div>
+</script>

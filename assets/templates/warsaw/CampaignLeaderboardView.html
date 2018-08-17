@@ -1,0 +1,36 @@
+<script type="text/html" data-template-name="CampaignLeaderboardView" data-css="CampaignLeaderboardView">
+    <div id="leaderboard-list" class="section"></div>
+</script>
+
+<script type="text/html" data-template-name="CampaignLeaderboardList" data-css="CampaignLeaderboardView">
+    <div class="sectiontable">
+        <div class="row">
+            <table class="table table-leaderboard" id="campaign-leaderboard-list"><tbody>
+                <% var showMore = true; %>
+                <% entries.forEach(function(entry){ %>
+                    <% var user = entry.persona.user %>
+
+                    <% if (entry.hide && showMore) { %>
+                        <% showMore = false %>
+                        <tr class="show-more">
+                            <td class="center" colspan="3"></td>
+                        </tr>
+                    <% } %>
+                    <% var username = user.username; %>
+                    <tr class="<%= entry.classes %>" data-username="<%= username %>">
+                        <td class="position no-separator">
+                            <%= entry.posText %>
+                        </td>
+                        <td class="user no-separator">
+                            <%= entry.avatar %>
+                            <span class="username"><%= entry.persona.personaName %></span>
+                        </td>
+                        <td class="score">
+                            <%= entry.score %>p
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody></table>
+        </div>
+    </div>
+</script>

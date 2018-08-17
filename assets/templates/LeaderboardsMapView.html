@@ -1,0 +1,24 @@
+<script type="text/html" data-template-name="LeaderboardsMapView" data-css="LeaderboardsMapView,mapbox"></script>
+
+<script type="text/html" data-template-name="LeaderboardsMapView-scrollviewcontent" data-css="LeaderboardsMapView,mapbox">
+    <div id="map-background"></div>
+    <div id="mapcontainer"></div>
+
+    <div id="leaderboards-container">
+        <h1 id="leaderboard-title"></h1>
+        <h2><%=@('ID_MOBILE_LEADERBOARDS_MAP_SUBHEADER')%></h2>
+        <div class="button primary setlocation"><%=@('ID_MOBILE_LEADERBOARDS_MAP_SELECT_LOCATION')%></div>
+    </div>
+
+    <div id="bottomcontrols">
+        <h2></h2>
+        <h3></h3>
+        <div class="buttonwrapper">
+            <div class="button primary continue"><%=@('ID_MOBILE_LEADERBOARDS_MAP_CONTINUE')%></div>
+        </div>
+    </div>
+
+    <div id="topinfo">
+        <h3><%=@('ID_MOBILE_LEADERBOARDS_MAP_CONTROLS')%></h3>
+    </div>
+</script>

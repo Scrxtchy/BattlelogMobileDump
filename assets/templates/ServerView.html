@@ -1,0 +1,106 @@
+<script type="text/html" data-template-name="ServerView" data-css="ServerView" data-template-lang="dust"></script>
+
+<script type="text/html" data-template-name="ServerInfoView" data-css="ServerView" data-template-lang="dust">
+    {#ServerNotFound}
+        <div class="section sectionerror">
+            {@localize key="ID_WEB_SERVERGUIDE_SERVER_NOT_FOUND"/}
+        </div>
+    {:else}
+        <div class="section tile">
+            <div class="server-tile">
+                <div class="map-image fill {mapClass}"></div>
+                <div class="top">
+                    <div class="name">{name}</div>
+                </div>
+                <div class="bottom">
+                    <div class="players">{currentPlayers} / {maxPlayers} {@localize key="ID_MOBILE_SERVER_PLAYERS"/}</div>
+                    {?currentCommanders}<div class="commanders">{currentCommanders}/{maxCommanders}
+                    {#isBfh}
+                        &nbsp;{@localize key="ID_WEB_SERVERGUIDE_HACKERS"/}
+                    {:else}
+                        &nbsp;{@localize key="ID_MOBILE_SERVER_COMMANDERS"/}
+                    {/isBfh}
+
+                    </div>{/currentCommanders}
+                    <div class="info">{status}</div>
+                </div>
+            </div>
+        </div>
+        <div class="section join">
+            {#isBfh}
+
+            {:else}
+                {#joining}
+                    <a class="button remote primary disabled">{@localize key="ID_MOBILE_SERVERINFO_JOINING"/}</a>
+
+                    {#isTablet}
+                        <a class="button tabcom disabled">{@localize key="ID_MOBILE_SERVERINFO_JOIN_TABCOM"/}</a>
+                    {/isTablet}
+                {:else}
+                    {#joiningTabCom}
+                        <a class="button remote primary disabled">
+                            {@localize key="ID_MOBILE_SERVERINFO_JOIN_ON"/} {gameName}
+                        </a>
+                        <a class="button tabcom disabled">{@localize key="ID_MOBILE_SERVERINFO_JOINING_TABCOM"/}</a>
+                    {:else}
+                        {#onServer}
+                            <a class="button remote primary join disabled">{@localize key="ID_MOBILE_SERVERINFO_JOINED"/}</a>
+                            {#isTablet}
+                                <a class="button tabcom disabled">{@localize key="ID_MOBILE_SERVERINFO_JOIN_TABCOM"/}</a>
+                            {/isTablet}
+                        {:else}
+                            <a class="button remote primary join {joinClass}">
+                                {@localize key="ID_MOBILE_SERVERINFO_JOIN_ON"/} {gameName}
+                            </a>
+                            {#isTablet}
+                                {#isRushGameMode}
+                                    <a class="button tabcom disabled">{@localize key="ID_MOBILE_SERVERINFO_JOIN_TABCOM"/}</a>
+                                {:else}
+                                    <a class="button tabcom {joinTabComClass}">{@localize key="ID_MOBILE_SERVERINFO_JOIN_TABCOM"/}</a>
+                                {/isRushGameMode}
+                            {/isTablet}
+                        {/onServer}
+                    {/joiningTabCom}
+                {/joining}
+            {/isBfh}
+        </div>
+        {#loading}
+        <div class="section">
+            <div class="sectionloading"></div>
+        </div>
+        {:else}
+            {?extendedInfo.desc}
+            <div class="section description">
+                <div class="sectionhead">{@localize key="ID_MOBILE_SERVER_DESCRIPTION"/}</div>
+                <div class="sectionmessage">{extendedInfo.desc}</div>
+            </div>
+            {/extendedInfo.desc}
+
+            {?parsedBasicSettings}
+            <div class="section basicsettings">
+                <div class="sectionhead">{@localize key="ID_MOBILE_SERVER_INFO"/}</div>
+                {#parsedBasicSettings}
+                <div class="statrow">
+                    <div class="label">{@localize key=label/}</div>
+                    <div class="value">{@localize key=value/}</div>
+                </div>
+                {/parsedBasicSettings}
+            </div>
+            {/parsedBasicSettings}
+
+            {?parsedSettings}
+            <div class="section settings">
+                <div class="sectionhead">{@localize key="ID_MOBILE_SERVER_DETAILED_SETTINGS"/}</div>
+                <div class="sectiontable items">
+                    {#parsedSettings}
+                    <div class="row">
+                        <div class="col label">{label}</div>
+                        <div class="col value">{value}</div>
+                    </div>
+                    {/parsedSettings}
+                </div>
+            </div>
+            {/parsedSettings}
+        {/loading}
+    {/ServerNotFound}
+</script>

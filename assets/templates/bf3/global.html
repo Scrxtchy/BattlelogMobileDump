@@ -1,0 +1,136 @@
+<script type="text/html" data-template-name="newsitem_row">
+    <div class="item blogpost">
+        <div class="col-icon">
+            <div class="icon"></div>
+        </div>
+        <div class="col-body">
+            <div class="byline">
+                <span class="title"><%= title %></span>
+            </div>
+            <div class="text"><%= summary %></div>
+            <div class="info">
+                <span class="date"><%= date %></span>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/html" data-template-name="end_of_round" data-css="BattleFeed">
+    <% var locale = require('locale'); %>
+    <% var enums = require('enums'); %>
+    <% var squadNames = require('gamedata/warsaw/gameserver').squadNames; %>
+
+    <%
+
+    var teamsOrder = [],
+        isAnyAttacker = false,
+        winningTeam, winningTeamName;
+
+    if(player && teams[player.team]) {
+        teamsOrder.push(+teams[player.team].id);
+    }
+
+    $.each(teams, function (i,  t) {
+        if (teamsOrder.indexOf(t.id) == -1) { teamsOrder.push(t.id); }
+        if (t.isWinner) { winningTeam = t.id; }
+        if (t.isAttacker) { isAnyAttacker = true; }
+    });
+
+    winningTeamName = teams[winningTeam].name;
+    %>
+
+    <% if (typeof size == "undefined") var size = ""; %>
+<div class="eor-bg mobile <%= size %>" style="background-image: url(<%= mapImage %>)"></div>
+<section class="battlereport-eor gamemode-<%= gameMode %> mobile <%= size %>">
+    <div class="winning-team">
+        <h2>
+            <% var winningTeamLocale, winningTeamStr; %>
+
+            <% if (!winningTeam) { %>
+                <%= @('ID_WEB_BATTLEREPORT_DRAW') %>
+            <% } else if (isActivePlayer && player) { %>
+                <% if (player.team == winningTeam) { %>
+                    <%= @('ID_WEB_BATTLEREPORT_YOUR_TEAM_WON') %>
+                <% } else { %>
+                    <%= @('ID_WEB_BATTLEREPORT_YOUR_TEAM_LOST') %>
+                <%}%>
+            <% } else if (player && player.persona && player.persona.personaName) {
+                if (player.team == winningTeam) {
+                    winningTeamStr = locale.t('ID_WEB_BATTLEREPORT_NAME_TEAM_WON');
+                } else {
+                    winningTeamStr = locale.t('ID_WEB_BATTLEREPORT_NAME_TEAM_LOST');
+                } %>
+                <%= winningTeamStr.replace("[username]", player.persona.personaName) %>
+            <% } else { %>
+                <%
+                    var pattern = "[team]";
+                    winningTeamLocale = locale.t(winningTeamName);
+                    winningTeamStr = locale.t('ID_WEB_BATTLEREPORT_SQUAD_X_WON');
+
+                    if (gameMode == 8) {
+                        pattern = "[squad]";
+                        winningTeamLocale = locale.t(squadLocale[winningTeam]);
+                        winningTeamStr = locale.t('ID_WEB_BATTLEREPORT_SQUAD_X_WON');
+                    }
+                %>
+                <%= winningTeamStr.replace(pattern, winningTeamLocale) %>
+            <% } %>
+        </h2>
+    </div>
+
+    <div class="info">
+        <p>
+            <%= @(map) %> - <%= locale.t("ID_WEB_COMMON_GAMEMODE_" + gameMode) %> <br />
+            <%= @('ID_WEB_BATTLEREPORT_ROUND_TIME') %>: <%= duration %>
+        </p>
+    </div>
+
+    <div class="vs"><%= @('ID_WEB_BATTLEREPORT_VERSUS_SHORT') %></div>
+
+    <div class="score-type">
+        <% if(scoreTypeLocales.length == 1) { %>
+            <%= @(scoreTypeLocales[0]) %>
+        <% } %>
+    </div>
+
+    <div class="teams">
+        <% var teamLocaleName, sli; %>
+        <% teamsOrder.forEach(function (teamId, i) { %>
+            <% team = teams[teamId] %>
+            <div class="team clearfix">
+                <%
+                  var classes = "name"
+                  if (!$.isNumeric(team.name)) {
+                     classes += " flag-" + team.name;
+                  }
+                  teamLocaleName = locale.t('ID_WEB_BATTLEREPORT_TEAM_' + team.name);
+                %>
+                <div class="<%=classes%>"><%= teamLocaleName %></div>
+
+                <% if (scoreTypeLocales.length > 1) { sli = team.id - 1; %>
+                    <% if (isAnyAttacker) { %>
+                        <p class="score-label">
+                            <strong>
+                                <% if (team.isAttacker) { %>
+                                    <%= @('ID_WEB_COMMON_ATTACKERS') %>
+                                <% } else { %>
+                                    <%= @('ID_WEB_COMMON_DEFENDERS') %>
+                                <% } %>
+                            </strong>
+                        </p>
+                     <%
+                        sli = team.isAttacker ? 0 : 1;
+                      } %>
+                    <p class="score-label">
+                        <% if (scoreTypeLocales[sli]) { %>
+                            <%= @(scoreTypeLocales[sli]) %>
+                        <% } %></p>
+                <% } %>
+                <p class="score"><%= team.score %></p>
+            </div>
+            <% if (i % 2) { %><div style="clear: both"></div><% } %>
+        <% }); %>
+    </div>
+</section>
+</script>

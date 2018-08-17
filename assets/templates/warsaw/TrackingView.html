@@ -1,0 +1,67 @@
+<script type="text/html" data-template-name="TrackingView" data-css="TrackingView">
+    <%if (loading){%>
+    <div class="section">
+        <div class="sectionloading"></div>
+    </div>
+    <%} else {%>
+    <% var template = require("template"); %>
+    <div class="section completion">
+        <div class="sectiontable">
+            <div class="row">
+                <div class="col">
+                    <%=template.render("ui_progressbar", {
+                        percent: completion,
+                        size: "thickest",
+                        type: "warning"
+                    })%>
+                </div>
+                <div class="col">
+                    <p><%= current %> / <%= max %></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%
+    for(var name in categories){
+        var category = categories[name];
+    %>
+    <div class="section items-grid">
+        <div class="sectionhead">
+            <%=@(category.sid)%>
+        </div>
+        <div class="sectiontable">
+            <%
+            var i = 0;
+            var len = category.assignments.length;
+            while(i < len){
+                var item = category.assignments[i];
+
+                if(i % 3 === 0) print('<div class="row">');
+                if(item.empty){
+                    print('<div class="col item empty"></div>');
+                } else {
+                    if (item.imageConfig) {
+            %>
+            <div class="col item <%(item.locked)? print('locked') : '';%>" data-code="<%=item.code%>">
+                <div class="item-image <%print(item.imageConfig.category + ' ' + item.imageConfig.slug.toLowerCase());%>"></div>
+                <%if(item.completion < 100){
+                print(template.render("ui_progressbar", {
+                    border: false,
+                    percent: item.completion,
+                    size: "medium",
+                    type: "warning"
+                }));
+                }%>
+            </div>
+            <%
+                    }
+                }
+                if (i % 3 === 2) print('</div>');
+                i++;
+            }
+            %>
+        </div>
+    </div>
+    <%}
+    }%>
+</script>

@@ -1,0 +1,247 @@
+<script type="text/html" data-template-name="ItemsView" data-css="ItemsView">
+    <div class="section">
+        <div class="segmentedcontrol">
+            <a class="<%if(type == 'weapons'){%>selected<%}%>" data-type="weapons"><%=@('ID_WEB_COMMON_WEAPONS')%></a>
+            <a class="<%if(type == 'vehicles'){%>selected<%}%>" data-type="vehicles"><%=@('ID_WEB_COMMON_VEHICLES')%></a>
+            <%if(display == 'list'){%>
+            <a class="<%if(type == 'general'){%>selected<%}%>" data-type="general"><%=@('ID_WEB_PROFILE_DETAILS')%></a>
+            <%} else {%>
+            <!--<a class="<%if(type == 'kititems'){%>selected<%}%>" data-type="kititems"><%=@('ID_WEB_COMMON_KITS')%></a>-->
+            <%}%>
+        </div>
+    </div>
+    <%if (loading){%>
+    <div class="section">
+        <div class="sectionloading"></div>
+    </div>
+    <%}%>
+</script>
+
+<script type="text/html" data-template-name="ItemsListView" data-css="ItemsView">
+    <% var template = require("template"); %>
+    <div class="section items-list">
+        <div class="sectiontablehead sectionhead">
+            <div class="col">#</div>
+            <div class="col"><%=friendlyname%></div>
+            <div class="col"><%=@('ID_MOBILE_WEAPONS_STARS')%></div>
+             <% if(typeof showExtraStats !== 'undefined' && showExtraStats) { %>
+                <div class="col"><%=@('ID_WEB_COMMON_STATS_K_PER_MIN')%></div>
+                <div class="col"><%=@('ID_MOBILE_STATS_ACCURACY')%></div>
+            <% } %>
+            <div class="col"><%=@('ID_MOBILE_STATS_KILLS')%></div>
+        </div>
+        <div class="sectiontable">
+            <%
+            var i = 0;
+            var len = items.length;
+            while(i < len){
+                var item = items[i];
+            %>
+            <div class="row item <%(item.locked)? print('locked') : '';%>" data-type="<%= (item.imageConfig) ? item.imageConfig.category : item.type || '' %>" data-guid="<%=item.guid%>">
+                <div class="col"><p><%=i+1%></p></div>
+                <div class="col">
+                    <div class="tracked <% if(item.isTrackedManually) { %> vis <% } %>"><img src="images/ui/track-icon-bright.png" alt=""  /></div>
+                    <div class="item-image-wpr">
+                        <% if (item.imageConfig){ %>
+                            <div class="item-image inverted <%print(item.imageConfig.category + ' ' + item.imageConfig.slug.toLowerCase());%>"></div>
+                        <% } %>
+                    </div>
+                    <p class="name"><span><%=@(item.nameSID)%></span></p>
+
+                    <% /*if(typeof item.completion !== 'undefined' && item.completion != null && item.locked){
+                    print(template.render("ui_progressbar", {
+                        border: false,
+                        percent: item.completion,
+                        size: "medium",
+                        type: "warning"
+                    }));
+                    }*/%>
+                </div>
+                <div class="col">
+                    <% if(item.hasServiceStars) { %>
+
+                        <%
+                        if (item.serviceStarsByTier){
+                            var numStars = 0;
+                            var tierStars = "";
+                            if (item.serviceStarsByTier.s == 10){
+                                numStars = item.serviceStarsByTier.g;
+                                tierStars = "gold";
+                            } else if (item.serviceStarsByTier.b == 10){
+                                numStars = item.serviceStarsByTier.s;
+                                tierStars = "silver";
+                            } else {
+                                numStars = item.serviceStarsByTier.b;
+                                tierStars = "bronze";
+                            } %>
+                                <div class="servicestar-container">
+                                    <div class="servicestar bfh-servicestar star_<%= tierStars %>_lg"></div>
+                                    <span class="service-star-lbl"><%= numStars %></span>
+                                </div>
+
+                        <% } else if (item.serviceStars) { %>
+
+                            <div class="servicestar"><%=item.serviceStars%></div>
+                            <%= template.render("ui_progressbar", {
+                                percent: item.serviceStarsProgress,
+                                type: "warning"
+                            })%>
+
+                        <% } %>
+                    <% } else { %>
+                        <p>-</p>
+                    <% } %>
+                </div>
+                 <% if(typeof showExtraStats !== 'undefined' && showExtraStats) { %>
+                    <div class="col">
+                        <% if(item.kpm) { %>
+                            <p><%=item.kpm%></p>
+                        <% } %>
+                    </div>
+                    <div class="col">
+                        <p><%=item.accuracy%></p>
+                    </div>
+                 <% } %>
+                <div class="col">
+                    <p><%=item.kills%></p>
+                    <p><%=item.friendlyDuration%></p>
+                </div>
+            </div>
+            <%
+            i++;
+            }
+            %>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="ItemsGridView" data-css="ItemsView">
+    <% var template = require("template"); %>
+    <div class="section completion">
+        <div class="sectiontable">
+            <div class="row">
+                <div class="col">
+                    <%=template.render("ui_progressbar", {
+                        percent: completion,
+                        size: "thickest",
+                        type: "warning"
+                    })%>
+                </div>
+                <div class="col">
+                    <p><%= current %> / <%= max %></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%
+    for(var name in items){
+        var category = items[name];
+    %>
+    <div class="section items-grid">
+        <div class="sectionhead">
+            <%=@(name)%>
+        </div>
+        <div class="sectiontable">
+            <%
+            if(typeof category.bucketUnlocks === 'undefined'){
+            var i = 0;
+            var len = category.length;
+            while(i < len){
+                var item = category[i];
+                if(i % 3 === 0) print('<div class="row">');
+                if(item.empty){
+                    print('<div class="col item empty"></div>');
+                } else {
+                    if (item.imageConfig) {
+            %>
+            <div class="col item <%(item.locked)? print('locked') : '';%>" data-type="<%=item.imageConfig.category%>" data-guid="<%=item.guid%>" data-category="<%=item.category%>">
+                <% if(item.isTrackedManually) { %>
+                <div class="item-tracked">
+                    <img src="images/ui/track-icon-bright.png" alt=""  />
+                </div>
+                <% } %>
+
+                <div class="item-image-wpr">
+                    <div class="item-image inverted <%print(item.imageConfig.category + ' ' + item.imageConfig.slug.toLowerCase());%>"></div>
+                </div>
+                <p class="name"><span><%=@(item.nameSID)%></span></p>
+                <%if(!item.licenseUnlocked){
+                print(template.render("ui_progressbar", {
+                    border: false,
+                    percent: item.completion,
+                    size: "medium",
+                    type: "warning"
+                }));
+                }%>
+            </div>
+            <%
+                    }
+                }
+                if (i % 3 === 2) print('</div>');
+                i++;
+            }
+            } else {
+            for(var categoryUnlock in category){
+                var categoryItems = category[categoryUnlock];
+                var u = 0;
+                var u_len = categoryItems.length;
+                var extraClass = categoryUnlock == 'licenseUnlocks' ? 'license-unlocked' : '';
+
+                while(u < u_len){
+                    var item = categoryItems[u];
+                    if(u % 3 === 0) print('<div class="row <%=extraClass%>">');
+                    if(item.empty){
+                        print('<div class="col item empty"></div>');
+                    } else {
+                        if (item.imageConfig) {
+            %>
+            <div class="col item <%(item.locked)? print('locked') : '';%>" data-type="<%=item.imageConfig.category%>" data-guid="<%=item.guid%>">
+                <% if(item.isTrackedManually) { %>
+                <div class="item-tracked">
+                    <img src="images/ui/track-icon-bright.png" alt=""  />
+                </div>
+                <% } %>
+                <div class="item-image-wpr">
+                    <div class="item-image inverted <%print(item.imageConfig.category + ' ' + item.imageConfig.slug.toLowerCase());%>"></div>
+                </div>
+                <% var dom = require("dom"); %>
+                <% if(item.unlockedBy.award) { %>
+                    <%= dom.get_expansion_icon_by_name(item.unlockedBy.award.license) %>
+                <% } %>
+                <p class="name"><span><%=@(item.nameSID)%></span></p>
+                <%if(item.unlockedBy.bucket){
+                    print(template.render("ui_progressbar", {
+                        border: false,
+                        percent: item.unlockedBy.completion,
+                        size: "medium",
+                        type: "warning"
+                    }));
+                }%>
+            </div>
+            <%
+                        }
+                    }
+                    if (u % 3 === 2) print('</div>');
+                    u++;
+                }
+            }
+            }
+            %>
+        </div>
+    </div>
+    <%}%>
+</script>
+
+<script type="text/html" data-template-name="DetailView" data-css="ItemsView">
+    <div class="section details-list">
+        <div class="sectionhead"><%= title %></div>
+        <div class="sectiontable">
+            <% items.forEach(function(item, i){ %>
+                <div class="row">
+                    <div class="col key"><%= item.key %></div>
+                    <div class="col value"><%= item.value %></div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</script>

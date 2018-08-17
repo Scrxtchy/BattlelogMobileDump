@@ -1,0 +1,19 @@
+<script type="text/html" data-template-name="UsageSharingView">
+    <div class="sectionmessage" style="min-height:130px; display:-webkit-block; -webkit-box-orient:vertical; -webkit-box-pack:center;">
+        <div class="usagesharing-message enabled hidden">
+            <%=@('ID_MOBILE_USAGESHARING_INFO_ENABLED')%>
+        </div>
+        <div class="usagesharing-message disabled hidden">
+            <%=@('ID_MOBILE_USAGESHARING_INFO_DISABLED')%>
+        </div>
+    </div>
+    <div class="settingrow usagesharing">
+        <div class="label"><%=@('ID_MOBILE_USAGESHARING_OPTION')%></div>
+        <div class="value">
+            <div class="segmentedcontrol">
+                <a data-value="yes"><%=@('ID_WEB_COMMON_YES')%></a>
+                <a data-value="no"><%=@('ID_WEB_COMMON_NO')%></a>
+            </div>
+        </div>
+    </div>
+</script>

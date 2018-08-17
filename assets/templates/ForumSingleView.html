@@ -1,0 +1,54 @@
+<script type="text/html" data-template-name="ForumSingleView" data-css="ForumSingleView"></script>
+
+<script type="text/html" data-template-name="ForumSingleView-scrollviewcontent" data-css="ForumSingleView">
+    <div class="section bordered">
+        <div class="threads-title sectionhead">
+            <%=@('ID_MOBILE_FORUM_THREADS')%>
+            <span class="latest-reply"><%=@('ID_WEB_FORUM_HEADER_LATEST_REPLY')%></span>
+        </div>
+        <div class="section threads">
+            <div class="sectionloading"></div>
+        </div>
+    </div>
+    <div class="section morethreadsbutton">
+        <a class="button morethreads" data-page="1"><%=@('ID_MOBILE_FORUM_LOAD_MORE_THREADS')%></a>
+    </div>
+    <div class="section newthreadbutton">
+        <a class="button newthread"><%=@('ID_MOBILE_FORUM_CREATE_NEW_THREAD')%></a>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="ForumSingleView-thread" data-css="ForumSingleView">
+    <% var dom = require("dom") %>
+    <% var util = require("util") %>
+    <div class="sectionbutton thread-row has-official-<%= thread.numberOfOfficialPosts > 0 %>">
+        <span class="thread-icons"><span class="locked-<%= thread.isLocked %>"></span><span class="sticky-<%= thread.isSticky%>"></span></span>
+        <div class="clearfix">
+            <div class="thread-info">
+                <div class="thread-title">
+                    <%- thread.title %>
+                </div>
+                <div class="thread-description">
+                    <%=@('ID_MOBILE_FORUM_BY') %> <%= thread.owner.username %> (<%= thread.numberOfPosts + 1 %>
+
+                    <% if(thread.numberOfPosts + 1 > 1) { %>
+                        posts)
+                    <% } else { %>
+                        post)
+                    <% }%>
+                </div>
+            </div>
+
+            <% if (thread.lastPoster){ %>
+                <div class="forum-latest-info">
+                    <%= dom.user_avatar( thread.lastPoster, 20 )[0].outerHTML %>
+                    <div class="info">
+                        <span class="lbl"><%=@('ID_WEB_FORUM_HEADER_LATEST_REPLY')%>:</span>
+                        <span><%= util.friendlyDate( parseInt(thread.lastPostDate) * 1000 ) %></span>
+                        <span><%=@('ID_MOBILE_FORUM_BY').toLowerCase() %> <%= thread.lastPoster.username %></span>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</script>

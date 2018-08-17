@@ -1,0 +1,72 @@
+<script type="text/html" data-template-name="ForumIndexView" data-css="ForumIndexView"></script>
+
+<script type="text/html" data-template-name="ForumIndexView-scrollviewcontent" data-css="ForumIndexView">
+
+</script>
+
+<script type="text/html" data-template-name="ForumIndexView-category" data-css="ForumIndexView">
+    <div class="section category bordered">
+        <div class="sectionhead category-title">
+            <%- category.title %>
+            <span class="latest-reply"><%=@('ID_WEB_FORUM_HEADER_LATEST_REPLY')%></span>
+        </div>
+        <div class="category-forums"></div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="ForumIndexView-forum" data-css="ForumIndexView">
+    <% var dom = require("dom") %>
+    <% var util = require("util") %>
+    <div class="sectionbutton forum-row">
+        <span class="forum-icons">
+            <span class="locked-<%= forum.locked %>"></span>
+            <span class="forum-icon-accesstype-<%= forum.accessType %>"></span>
+            <span class="linked-<% if(forum.linked) {print('true');} else {print('false');}%>"></span>
+        </span>
+        <div class="clearfix">
+            <div class="forum-overview">
+                <div class="forum-title"><%- forum.title %></div>
+                <div class="forum-description"><%- forum.description %></div>
+            </div>
+            <% if (forum.lastThread && forum.lastThread.lastPoster) { %>
+                <div class="forum-latest-info">
+                    <%= dom.user_avatar( forum.lastThread.lastPoster, 20 )[0].outerHTML %>
+                    <div class="info">
+                        <span class="lbl"><%=@('ID_WEB_FORUM_HEADER_LATEST_REPLY')%>:</span>
+                        <span><%= util.friendlyDate( parseInt(forum.lastThread.lastPostDate) * 1000 ) %></span>
+                        <span><%=@('ID_MOBILE_FORUM_BY').toLowerCase() %> <%= forum.lastThread.lastPoster.username %></span>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</script>
+
+
+
+<script type="text/html" data-template-name="ForumAcitivyView" data-css="ForumIndexView">
+    <div class="forum-activity">
+
+        <div class="section category bordered">
+            <div class="sectionhead category-title"><%- category.title %></div>
+            <div class="category-forums">
+
+            </div>
+        </div>
+        <div class="moreactivitybutton">
+            <a class="button moreactivity" data-page="3"><%=@('ID_MOBILE_FORUM_LOAD_MORE_ACTIVITY')%></a>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="ForumSingleActivity-thread" data-css="ForumIndexView">
+    <div class="sectionbutton thread-row has-official-<%= thread.numberOfOfficialPosts > 0 %>">
+        <span class="thread-icons"><span class="locked-<%= thread.isLocked %>"></span><span class="sticky-<%= thread.isSticky%>"></span></span>
+        <div class="thread-title">
+            <%- thread.title %> [<%= thread.numberOfPosts + 1 %>]
+        </div>
+        <div class="thread-description">
+            <%=@('ID_MOBILE_FORUM_LAST_BY') %> <%= thread.lastPoster.username %>
+        </div>
+    </div>
+</script>

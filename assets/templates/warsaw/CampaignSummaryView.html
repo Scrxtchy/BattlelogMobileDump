@@ -1,0 +1,32 @@
+<script type="text/html" data-template-name="CampaignSummaryView" data-css="CampaignSummaryView">
+
+    <ul id="summary-scores" class="hidden"></ul>
+
+    <div id="leaderboard-bn" class="sectionbutton summary hidden"><%=@('ID_WEB_COMMON_TOP_FRIENDS')%></div>
+
+    <div id="assignments" class="section hidden">
+        <div class="sectionhead"><%=@('ID_MOBILE_CAMPAIGN_ASSIGNMENTS')%></div>
+        <div class="sectiontable">
+        </div>
+    </div>
+</script>
+
+
+<script type="text/html" data-template-name="CampaignSummaryListItemView" data-css="CampaignSummaryView">
+    <li class="<% if (!unlocked) { %>disabled<% } %>" data-code="<%= code %>">
+        <span><%= unlocked ? @(label) : '-' %></span>
+        <strong>
+            <% if (unlocked) { %>
+                <%= score %>p
+            <% } else { %>
+                -
+            <% } %>
+        </strong>
+    </li>
+</script>
+
+<script type="text/html" data-template-name="CampaignSummaryAssignmentView" data-css="CampaignSummaryView">
+    <div class="col <% if (!taken) { %>not-taken<% } %>" data-index="<%= index %>" data-code="<%= code %>">
+        <div class="item-image award_mission <%= slug.toLowerCase() %>"></div>
+    </div>
+</script>

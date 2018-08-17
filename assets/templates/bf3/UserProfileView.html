@@ -1,0 +1,21 @@
+<script type="text/html" data-template-name="UserProfileView" data-css="UserProfileView">
+    <div class="section playerdata hidden">
+        <div class="profile-info">
+            <div class="name hidden">###</div>
+            <div class="icons hidden"><span class="expansions"></span><span class="special"></span></div>
+            <span class="age hidden"><%=@('ID_WEB_COMMON_AGE')%> <strong>##</strong> &nbsp; &bull; &nbsp; </span>
+            <span class="location hidden"><%=@('ID_WEB_PROFILE_FROM_COUNTRY')%> &nbsp;<span class="flag-icon"></span> &nbsp; &bull; &nbsp; </span>
+            <span class="enlisted hidden"><%=@('ID_WEB_PROFILE_ENLISTED_AT_DATE')%> <strong></strong></span>
+        </div>
+    </div>
+
+    <div class="section soldiers">
+        <div class="sectionhead"><%=@('ID_WEB_COMMON_SOLDIERS')%></div>
+        <div class="items"></div>
+    </div>
+
+    <div class="section presentation hidden">
+        <div class="sectionhead"><%=@('ID_WEB_PROFILE_PRESENTATION')%></div>
+        <div class="content"></div>
+    </div>
+</script>

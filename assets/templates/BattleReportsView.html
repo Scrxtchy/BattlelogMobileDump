@@ -1,0 +1,55 @@
+<script type="text/html" data-template-name="BattleReportsView" data-css="BattleReportsView"></script>
+<script type="text/html" data-template-name="BattleReportsView_scrollviewcontent" data-css="BattleReportsView">
+
+    <div class="sectionerror"></div>
+
+    <div id="battlereports-tabs" class="segmentedcontrol hidden">
+        <a  class="selected" data-id="latest"><%= @("ID_WEB_BATTLEREPORT_LIST_ALL") %></a>
+        <a data-id="favorites"><%= @("ID_WEB_BATTLEREPORT_LIST_FAVORITES") %></a>
+    </div>
+
+    <div class="section battlereports" data-id="latest">
+        <div class="items">
+        </div>
+    </div>
+    <div class="section battlereports" data-id="favorites">
+        <div class="items">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="BattleReportsListItemView" data-css="BattleReportsView">
+    <div class="sectionbutton">
+        <div class="map-image small <%= report.map.toLowerCase() %>"></div>
+        <div class="info">
+            <p><%= @(typeof level !== "undefined" ? level.label : "ID_WEB_COMMON_UNKNOWN") %></p>
+            <p>
+                <%= @(gameModeLocalised) %>
+            </p>
+            <p><%= report.friendlyDate %></p>
+        </div>
+        <div class="winner winstatus-<%= winStatus %>">
+
+            <% if (winStatus == 1) { %>
+                <%= @('ID_WEB_BATTLEREPORT_WON') %>
+            <% } else if (winStatus == -1) { %>
+                <%= @('ID_WEB_BATTLEREPORT_LOST') %>
+            <% } else { %>
+                <%= @('ID_WEB_BATTLEREPORT_DRAW') %>
+            <% }%>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="BattleReportsListNoGames" data-css="BattleReportsView">
+    <%= @("ID_WEB_BATTLEREPORT_NO_GAMES") %>
+</script>
+<script type="text/html" data-template-name="BattleReportsListNoFavorites" data-css="BattleReportsView">
+    <%= @("ID_WEB_BATTLEREPORT_NO_FAVORITES") %>
+</script>
+<script type="text/html" data-template-name="BattleReportsFavoritesNotPremium" data-css="BattleReportsView">
+    <%= @("ID_WEB_PREMIUM_MEMBERS_ONLY") %>
+</script>
+<script type="text/html" data-template-name="BattleReportsListNotPremium" data-css="BattleReportsView">
+    <div class="sectioninfo not-premium"><p><%= @("ID_WEB_PREMIUM_REPORTS_TIMELIMIT") %></p></div>
+</script>

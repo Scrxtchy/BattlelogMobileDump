@@ -1,0 +1,47 @@
+<script type="text/html" data-template-name="PlatoonMembersView" data-css="PlatoonMembersView">
+    <div class="sectionloading loader"></div>
+</script>
+
+<script type="text/html" data-template-name="PlatoonMembersViewContent" data-css="PlatoonMembersView">
+    <% var template = require('template'); %>
+    <% var dom = require('dom'); %>
+    <% var util = require('util'); %>
+    <div class="wrapper">
+
+        <% if (founders && founders.length){ %>
+            <div class="section platoon-members">
+                <div class="sectionhead"><%= @('ID_WEB_CLUBS_FOUNDERS') %></div>
+                <% _.each(founders, function(member){ %>
+                    <div class="sectionbutton member" data-type="founders" data-userid="<%= member.userId %>">
+                        <%= dom.user_avatar(member.user)[0].outerHTML %>
+                        <div class="username"><%= member.user.username %></div>
+                    </div>
+                <% }); %>
+            </div>
+        <% } %>
+
+        <% if (leaders && leaders.length){ %>
+            <div class="section platoon-members">
+                <div class="sectionhead"><%= @('ID_WEB_CLUBS_LEADERS') %></div>
+                <% _.each(leaders, function(member){ %>
+                    <div class="sectionbutton member" data-type="leaders" data-userid="<%= member.userId %>">
+                        <%= dom.user_avatar(member.user)[0].outerHTML %>
+                        <div class="username"><%= member.user.username %></div>
+                    </div>
+                <% }); %>
+            </div>
+        <% } %>
+
+        <% if (members && members.length){ %>
+            <div class="section platoon-members">
+                <div class="sectionhead"><%= @('ID_WEB_COMMON_MEMBERS') %></div>
+                <% _.each(members, function(member){ %>
+                    <div class="sectionbutton member" data-type="members" data-userid="<%= member.userId %>">
+                        <%= dom.user_avatar(member.user)[0].outerHTML %>
+                        <div class="username"><%= member.user.username %></div>
+                    </div>
+                <% }); %>
+            </div>
+        <% } %>
+    </div>
+</script>

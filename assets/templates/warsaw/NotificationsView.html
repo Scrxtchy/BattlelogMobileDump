@@ -1,0 +1,22 @@
+<script type="text/html" data-template-name="NotificationsView" data-css="NotificationsView"></script>
+
+<script type="text/html" data-template-name="NotificationsView-scrollviewcontent" data-css="NotificationsView">
+    <div class="section notifications"></div>
+</script>
+
+<script type="text/html" data-template-name="NotificationsView-notification" data-css="NotificationsView">
+    <% var util = require('util'); %>
+    <div class="notification">
+        <div class="action">
+            <span class="author"><%= notification.username %></span>
+            <% if (notificationTypes[notification.type]) { %>
+                <%= @(notificationTypes[notification.type].actionSID) %>
+            <% } else { %>
+                <%= notification.type %>
+            <% } %>
+        </div>
+        <div class="date">
+            <%= util.friendlyDate(notification.timestamp * 1000) %>
+        </div>
+    </div>
+</script>

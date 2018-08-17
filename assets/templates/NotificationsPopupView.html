@@ -1,0 +1,36 @@
+<script type="text/html" data-template-name="NotificationsPopupView" data-css="NotificationsPopupView">
+    <div class="loader small"></div>
+</script>
+
+<script type="text/html" data-template-name="NotificationsPopupView-no-results">
+    <div class="no-results notification"><%= @(message) %></div>
+</script>
+
+<script type="text/html" data-template-name="NotificationsPopupView-scrollviewcontent">
+    <div class="notifications"></div>
+</script>
+
+<script type="text/html" data-template-lang="dust" data-template-name="NotificationsPopupView-notifications-single">
+    <div class="notification" data-type="{type}" data-urlparam="{urlparam}">
+        <div class="action">{action}</div>
+        <div class="date">{date}</div>
+    </div>
+</script>
+
+<script type="text/html" data-template-lang="dust" data-template-name="NotificationsPopupView-challenges-single">
+    <div class="notification challenge">
+        <div class="action">{action}</div>
+        <div class="date">{date}</div>
+    </div>
+</script>
+
+<script type="text/html" data-template-lang="dust" data-template-name="NotificationsPopupView-battlereports-single">
+    <div class="notification battlereport" data-reportid="{reportid}">
+        <div class="action">
+            <div class="map-image small {map}"></div>
+            <p class="map">{@localize key=mapname/}</p>
+            <p class="gamemode">{@localize key=gamemode/}</p>
+            <p class="date">{date}</p>
+        </div>
+    </div>
+</script>

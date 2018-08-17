@@ -1,0 +1,14 @@
+<script type="text/html" data-template-name="HelpView">
+    <% var sections = ['BATTLELOG', 'LOGIN', 'NAVIGATION', 'COMCENTER', 'ACTIVESOLDIER', 'UGM', 'LOADOUT', 'MULTIPLAYER', 'HOME', 'STATS', 'REPORTS', 'CAMPAIGN', 'MISSIONS', 'LEADERBOARDS', 'FORUMS', 'NEWS', 'PROFILE', 'PUSH']; %>
+    <% var sectionParagraphCount = { 'BATTLELOG': 3, 'LOGIN': 3, 'COMCENTER': 2, 'ACTIVESOLDIER': 3, 'LEADERBOARDS': 2 }; %>
+    <% for (var i in sections) { %>
+        <div class="section">
+            <div class="sectionhead"><%=@('ID_MOBILE_HELP_HEAD_'+sections[i])%></div>
+            <div class="sectioninfo">
+                <% for (var j = 1; j <= (sectionParagraphCount[sections[i]] || 1); j++) { %>
+                    <p><%=@('ID_MOBILE_HELP_'+sections[i]+'_'+j)%></p>
+                <% } %>
+            </div>
+        </div>
+    <% } %>
+</script>

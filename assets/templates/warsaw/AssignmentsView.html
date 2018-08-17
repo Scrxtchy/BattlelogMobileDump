@@ -1,0 +1,75 @@
+<script type="text/html" data-template-name="AssignmentsView" data-css="AssignmentsView">
+    <%if (loading){%>
+    <div class="section">
+        <div class="sectionloading"></div>
+    </div>
+    <%} else {%>
+    <% var template = require("template"); %>
+    <div class="section completion">
+        <div class="sectiontable">
+            <div class="row">
+                <div class="col">
+                    <%=template.render("ui_progressbar", {
+                        percent: completion,
+                        size: "thickest",
+                        type: "warning"
+                    })%>
+                </div>
+                <div class="col">
+                    <p><%= current %> / <%= max %></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%
+    var i = 0;
+    var len = categoryOrder.length;
+    while(i < len){
+        var category = categories[categoryOrder[i]];
+    %>
+    <div class="section items-grid">
+        <div class="sectionhead">
+            <%=@(category.sid)%>
+        </div>
+        <div class="sectiontable">
+            <%
+            var j = 0;
+            var len_j = category.assignments.length;
+            while(j < len_j){
+                var item = category.assignments[j];
+
+                if(j % 3 === 0) print('<div class="row">');
+                if(item.empty){
+                    print('<div class="col item empty"></div>');
+                } else {
+            %>
+            <div class="col item <%(item.locked)? print('locked') : '';%><% if (item.completion < 100){ print(' has-progress') } %>" data-code="<%=item.award.code%>">
+                <%if (item.award.imageConfig) { %>
+                <div class="item-image <%print(item.award.imageConfig.category + ' ' + item.award.imageConfig.slug.toLowerCase());%>"></div>
+                <%}
+                if(item.completion < 100){
+                    print(template.render("ui_progressbar", {
+                        border: false,
+                        percent: item.completion,
+                        size: "medium",
+                        type: "warning"
+                    }));
+                }%>
+
+                <% var dom = require("dom"); %>
+                <%= dom.get_expansion_icon_by_name(item.award.license) %>
+            </div>
+            <%
+                }
+                if (j % 3 === 2) print('</div>');
+                j++;
+            }
+            %>
+        </div>
+    </div>
+    <%
+        i++;
+    }
+    }
+    %>
+</script>

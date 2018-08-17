@@ -1,0 +1,61 @@
+<script type="text/html" data-template-name="BattleFeed" data-css="BattleFeed">
+
+</script>
+
+<script type="text/html" data-template-name="share_battlereport_box">
+    <% var util = require('util'); %>
+    <div class="battlereport-feed-item">
+        <header>
+            <% if (battleReport.personalPrize && battleReport.personalPrize.type){ %>
+                <% personalPrize = battleReport.personalPrize %>
+                <% prizeLabelLocale = "ID_WEB_BATTLEREPORT_WEBPRIZE_" + personalPrize.type.toUpperCase() %>
+                <div class="player-best-row">
+                    <strong>
+                        <%=@(prizeLabelLocale)%>
+                    </strong>
+                    <span>
+                        <%= personalPrize.score %>
+                        <% if (personalPrize.type == "accuracy"){ %>
+                            %
+                        <% } %>
+                        <% scoreLabelLocale = prizeLabelLocale + "_SCORE" %>
+                        <%=@(scoreLabelLocale)%>
+                    </span>
+                </div>
+            <% } %>
+        </header>
+        <div class="sectiontable info-table">
+            <div class="row">
+                <div class="col">
+                    <strong class="team-position"># <%= battleReport.position %></strong>
+                </div>
+                <div class="col">
+                    <h5><%=@('ID_WEB_COMMON_SCORE')%></h5>
+                    <strong><%= util.formatStatValue(battleReport.score) %></strong>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <h5><%=@('ID_WEB_BATTLEREPORT_STATS_KILLS')%></h5>
+                    <strong><%= battleReport.kills %></strong>
+                </div>
+                <div class="col">
+                    <h5><%=@('ID_WEB_COMMON_STATS_ABBR_KILL_DEATH_RATIO')%></h5>
+                    <strong><%= battleReport.kdr %></strong>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <h5><%=@('ID_WEB_COMMON_STATS_SKILL')%></h5>
+                    <strong><%= battleReport.skill %></strong>
+                </div>
+                <div class="col">
+                    <h5><%=@('ID_WEB_COMMON_STATS_SCORE_PER_MINUTE_ABBR')%></h5>
+                    <strong><%= util.formatStatValue(battleReport.spm) %></strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

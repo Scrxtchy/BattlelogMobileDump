@@ -1,0 +1,19 @@
+<script type="text/html" data-template-name="SettingsView">
+    <% var enums = require('enums'); %>
+    <% var session = require('session'); %>
+    <div class="section">
+        <div class="sectionbutton selectgame"><%=@('ID_MOBILE_SELECT_GAME')%></div>
+        <% if (session.getActiveGame() == enums.Game.OMAHA){ %>
+            <div class="sectionbutton selectsoldier"><%=@('ID_MOBILE_SETTINGS_SELECT_AGENT')%></div>
+            <div class="sectionbutton selectportrait"><%= @('ID_MOBILE_SETTINGS_SELECT_AGENT_PORTRAIT') %></div>
+        <% } else { %>
+            <div class="sectionbutton selectsoldier"><%=@('ID_WEB_COMMON_SELECT_SOLDIER')%></div>
+            <div class="sectionbutton selectportrait"><%= @('ID_WEB_POPUP_PROFILESOLDIERIMAGE_TITLE') %></div>
+        <% } %>
+        <div class="sectionbutton selectemblem"><%=@('ID_MOBILE_SELECT_EMBLEM')%></div>
+        <div class="sectionbutton selecttag"><%= @('ID_MOBILE_SELECT_TAG') %></div>
+        <div class="sectionbutton selectpresentation"><%= @('ID_MOBILE_SELECT_PRESENTATION') %></div>
+        <div class="sectionbutton selectprivacy"><%= @('ID_WEB_PROFILE_EDIT_PRIVACY_SETTINGS') %></div>
+        <div class="sectionbutton selectpushnotifications"><%= @('ID_MOBILE_SELECT_PUSH_NOTIFICATIONS') %></div>
+    </div>
+</script>

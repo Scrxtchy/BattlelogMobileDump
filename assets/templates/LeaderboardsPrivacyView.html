@@ -1,0 +1,20 @@
+<script type="text/html" data-template-name="LeaderboardsPrivacyView" data-css="LeaderboardsPrivacyView"></script>
+
+<script type="text/html" data-template-name="LeaderboardsPrivacyView-scrollviewcontent" data-css="LeaderboardsPrivacyView">
+    <div id="selections-container">
+        <div class="selectrow visible selected" data-selection="visible">
+            <figure></figure>
+            <span><%=@('ID_MOBILE_LEADERBOARDS_PRIVACY_ALL_PLAYERS')%></span>
+        </div>
+        <div class="selectrow private" data-selection="private">
+            <figure></figure>
+            <span><%=@('ID_MOBILE_LEADERBOARDS_PRIVACY_NOT_VISIBLE')%></span>
+        </div>
+    </div>
+
+    <div id="privacy-bottomcontrols">
+        <h2 class="visible"><%=@('ID_MOBILE_LEADERBOARDS_PRIVACY_ALL_PLAYERS_DESC')%></h2>
+        <h2 class="private"><%=@('ID_MOBILE_LEADERBOARDS_PRIVACY_NOT_VISIBLE_DESC')%></h2>
+        <div class="button primary continue"><%=@('ID_MOBILE_LEADERBOARDS_MAP_CONTINUE')%></div>
+    </div>
+</script>

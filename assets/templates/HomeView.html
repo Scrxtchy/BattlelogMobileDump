@@ -1,0 +1,183 @@
+<script type="text/html" data-template-name="HomeView" data-css="HomeView">
+    <div class="alertbar hidden"></div>
+
+    <div class="section news">
+        <div class="topstories">
+            <div class="top bold"><%=@('ID_MOBILE_HOME_TOP_STORY')%></div>
+            <div class="items"></div>
+            <div class="indicators"></div>
+        </div>
+    </div>
+
+    <div class="section getbf4 hidden">
+        <h3 class="cta"><%=@('ID_MOBILE_HOME_GETBF4')%></h3>
+    </div>
+
+    <div class="section stats">
+        <div class="activesoldier">
+            <div class="loader small centered"></div>
+        </div>
+        <div class="suggestions-container">
+            <div class="sectionhead"><%=@('ID_MOBILE_HOME_SUGGESTIONS')%></div>
+            <div class="suggestions">
+                <div class="loader small centered"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section leaderboard">
+        <div class="sectionbutton nolocation">
+            <div>
+                <span class="left"><%=@('ID_MOBILE_HOME_COMPETE_WITH_FRIENDS')%></span>
+                <img class="right" src="images/warsaw/leaderboards/set-location-icon.png"/>
+                <span class="right"><%=@('ID_MOBILE_HOME_SET_LOCATION')%></span>
+                <br class="clear"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="section homemenu">
+        <div class="sectionbutton battlepacks"><%=@('ID_WEB_BATTLEPACKS_BATTLEPACKS')%></div>
+    </div>
+</script>
+<script type="text/html" data-template-name="Survey">
+    <div class="section survey">
+        <div class="sectionbutton">
+            <% if(typeof(title) != "undefined") { %>
+            <h3 class="title"><%= title %></h3>
+            <%  } %>
+            <% if(typeof(desc) != "undefined") { %>
+            <p class="desc"><%= desc %></p>
+            <%  } %>
+            <% if(typeof(url) != "undefined") { %>
+            <a class="opensurvey inline button primary"><%=@('ID_WEB_BATTLEPACKS_OPEN')%>  <%=@('ID_WEB_SURVEY')%></a>
+            <%  } %>
+            <% if(typeof(threadId) != "undefined") { %>
+            <a class="openthread inline button"><%=@('ID_WEB_NOTIFICATION_FORUM_THREAD')%></a>
+            <%  } %>
+            <a class="button inline close"><%=@('ID_WEB_POPUP_DECLINE')%></a>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="NpxView" data-css="NpxView">
+    <div class="NpxOverlay">
+        <div class="NpxView">
+            <header><h1><%=@('ID_MOBILE_NPX_INTRODUCING_BL')%></h1></header>
+
+            <table class="card" id="card-1">
+                <tr class="row">
+                    <td class="col image first-login-1"></td>
+                </tr>
+                <tr class="row">
+                    <td class="col text">
+                        <h2><%=@('ID_MOBILE_NPX_BF4MOBILE_FIRST_LOGIN_STEP1_TITLE')%></h2>
+                        <p><%=@('ID_MOBILE_NPX_BF4MOBILE_FIRST_LOGIN_STEP1_BODY')%></p>
+                        <a data-action="next" class="button"><%=@('ID_WEB_NPX_NEXT')%></a>
+                        <a data-action="close" class="button hidden"><%=@('ID_WEB_NPX_OK_GOT_IT')%></a>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="card" id="card-2">
+                <tr class="row">
+                    <td class="col image first-login-2"></td>
+                </tr>
+                <tr class="row">
+                    <td class="text">
+                        <h2><%=@('ID_MOBILE_NPX_BF4MOBILE_FIRST_LOGIN_STEP2_TITLE')%></h2>
+                        <p><%=@('ID_MOBILE_NPX_BF4MOBILE_FIRST_LOGIN_STEP2_BODY')%></p>
+                        <a data-action="next" class="button"><%=@('ID_WEB_NPX_NEXT')%></a>
+                        <a data-action="close" class="button hidden"><%=@('ID_WEB_NPX_OK_GOT_IT')%></a>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="card" id="card-3">
+                <tr class="row">
+                    <td class="col image first-login-3"></td>
+                </tr>
+                <tr class="row">
+                    <td class="text">
+                        <h2><%=@('ID_MOBILE_NPX_BF4MOBILE_FIRST_LOGIN_STEP3_TITLE')%></h2>
+                        <p><%=@('ID_MOBILE_NPX_BF4MOBILE_FIRST_LOGIN_STEP3_BODY')%></p>
+                        <a data-action="next" class="button"><%=@('ID_WEB_NPX_NEXT')%></a>
+                        <a data-action="close" class="button hidden"><%=@('ID_WEB_NPX_OK_GOT_IT')%></a>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="card" id="card-4">
+                <tr class="row">
+                    <td class="col image keyart xpack1"></td>
+                </tr>
+                <tr class="row">
+                    <td class="text">
+                        <h2><%=@('ID_WEB_COMMON_GAME_EXPANSION_BF4XP1CR')%></h2>
+                        <p><%=@('ID_WEB_TUNNEL_BF4_EXTENSION_PACK1_ATD_HEADER')%></p>
+                        <a data-action="next" class="button"><%=@('ID_WEB_NPX_NEXT')%></a>
+                        <a data-action="close" class="button hidden"><%=@('ID_WEB_NPX_OK_GOT_IT')%></a>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="card" id="card-5">
+                <tr class="row">
+                    <td class="col image keyart xpack0"></td>
+                </tr>
+                <tr class="row">
+                    <td class="text">
+                        <h2><%=@('ID_WEB_COMMON_GAME_EXPANSION_BF4XP0SA')%></h2>
+                        <p><%=@('ID_WEB_TUNNEL_BF4_EXTENSION_PACK0_ATD_HEADER')%></p>
+                        <a data-action="next" class="button"><%=@('ID_WEB_NPX_NEXT')%></a>
+                        <a data-action="close" class="button hidden"><%=@('ID_WEB_NPX_OK_GOT_IT')%></a>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="card" id="card-7">
+                <tr class="row">
+                    <td class="col image keyart xpack2"></td>
+                </tr>
+                <tr class="row">
+                    <td class="text">
+                        <h2><%=@('ID_WEB_COMMON_GAME_EXPANSION_BF4XP2NS')%></h2>
+                        <p><%=@('ID_WEB_TUNNEL_BF4_EXTENSION_PACK2_ATD_HEADER')%></p>
+                        <a data-action="next" class="button"><%=@('ID_WEB_NPX_NEXT')%></a>
+                        <a data-action="close" class="button hidden"><%=@('ID_WEB_NPX_OK_GOT_IT')%></a>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="card" id="card-8">
+                <tr class="row">
+                    <td class="col image keyart xpack3"></td>
+                </tr>
+                <tr class="row">
+                    <td class="text">
+                        <h2><%=@('ID_WEB_COMMON_GAME_EXPANSION_BF4XP3DT')%></h2>
+                        <p><%=@('ID_WEB_TUNNEL_BF4_EXTENSION_PACK3_ATD_HEADER')%></p>
+                        <a data-action="next" class="button"><%=@('ID_WEB_NPX_NEXT')%></a>
+                        <a data-action="close" class="button hidden"><%=@('ID_WEB_NPX_OK_GOT_IT')%></a>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="card" id="card-9">
+                <tr class="row">
+                    <td class="col image keyart xpack4"></td>
+                </tr>
+                <tr class="row">
+                    <td class="text">
+                        <h2><%=@('ID_WEB_COMMON_GAME_EXPANSION_BF4XP4FS')%></h2>
+                        <p><%=@('ID_WEB_TUNNEL_BF4_EXTENSION_PACK4_ATD_HEADER')%></p>
+                        <a data-action="next" class="button"><%=@('ID_WEB_NPX_NEXT')%></a>
+                        <a data-action="close" class="button hidden"><%=@('ID_WEB_NPX_OK_GOT_IT')%></a>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</script>
+

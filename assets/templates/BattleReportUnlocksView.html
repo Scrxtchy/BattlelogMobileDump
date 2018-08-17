@@ -1,0 +1,33 @@
+<script type="text/html" data-template-name="BattleReportUnlocksView" data-css="BattleReportUnlocksView">
+
+</script>
+
+<script type="text/html" data-template-name="BattleReportUnlocksView_cat" data-css="BattleReportUnlocksView">
+    <div class="sectionhead"><%= @(nameSID) %></div>
+    <% items.forEach(function(item) { %>
+        <% var img = item.unlockImageConfig || item.imageConfig; %>
+        <div class="sectioninfo" data-category="<% if(img && img.category!="award_star") { %><%= unlockCategory %><% } %>" data-guid="<%= item.guid %>"
+            <% if (unlockCategory == "awards"){ %>
+                data-code="<%= item.unlockId %>"
+            <% } else if (unlockCategory == "weaponaddons"){ %>
+                data-parentsid="<%= item.parentNameSID %>"
+            <% } else if (unlockCategory == "dogtags"){ %>
+                data-index="<%= item.index %>"
+                data-type="<%= item.isAdvanced ? "advanced" : "basic" %>"
+            <% } %>
+            >
+            <% if (img){ %>
+                <div class="item-image medium <%=img.category%> <%=img.slug.toLowerCase()%>"></div>
+            <% }%>
+            <p class="name"><%= @(item.nameSID) %></p>
+            <% if (item.descriptionSID){ %>
+                <p class="description"><%= @(item.descriptionSID) %></p>
+            <% } %>
+            <% if (item.parentNameSID){ %>
+                <p class="description"><%= @(item.parentNameSID) %></p>
+            <% } %>
+
+        </div>
+    <% }); %>
+
+</script>

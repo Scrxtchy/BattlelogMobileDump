@@ -1,0 +1,34 @@
+<script type="text/html" data-template-name="ForumCreateThreadView" data-css="ForumCreateThreadView"></script>
+
+<script type="text/html" data-template-name="ForumCreateThreadView-scrollviewcontent" data-css="ForumCreateThreadView">
+    <div class="section newthread">
+        <div class="sectionhead"><%=@('ID_MOBILE_FORUM_CREATE_NEW_THREAD')%></div>
+        <div class="sectioninfo writetitle">
+            <div class="textinput">
+                <input maxlength="50" type="text" placeholder="Topic" />
+            </div>
+        </div>
+        <div class="sectioninfo writepost">
+            <div class="textinput">
+                <textarea placeholder="Message"></textarea>
+            </div>
+            <div class="cooldown hidden">
+                <p><%=@('ID_MOBILE_FORUM_COOLDOWN_THREAD')%></p>
+            </div>
+            <div class="forum-bb-buttons">
+                <a class="button bb-bold" data-before="[b]" data-after="[/b]">&nbsp;</a>
+                <a class="button bb-italic" data-before="[i]" data-after="[/i]">&nbsp;</a>
+                <a class="button bb-underline" data-before="[u]" data-after="[/u]">&nbsp;</a>
+                <a class="button bb-strikethrough" data-before="[strike]" data-after="[/strike]">&nbsp;</a>
+                <a class="button bb-spoiler" data-before="[spoiler]" data-after="[/spoiler]">&nbsp;</a>
+                <a class="button bb-link"  data-before="[link]" data-after="[/link]">&nbsp;</a>
+                <a class="button bb-quote" data-before="[quote]" data-after="[/quote]">&nbsp;</a>
+                <a class="button bb-center" data-before="[center]" data-after="[/center]">&nbsp;</a>
+                <a class="button bb-headline" data-before="[h1]" data-after="[/h1]">&nbsp;</a>
+            </div>
+        </div>
+
+<!--        <a class="button preview"><%=@('ID_MOBILE_FORUM_PREVIEW')%></a> -->
+        <a class="button primary post"><%=@('ID_MOBILE_FORUM_POST')%></a>
+    </div>
+</script>

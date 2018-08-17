@@ -1,0 +1,18 @@
+<script type="text/html" data-template-name="ServerListView" data-css="ServerListView">
+    
+</script>
+
+<script type="text/html" data-template-name="ServerListView-server" data-css="ServerListView">
+    <div class="server">
+        <div class="image">
+            <span class="server-image" style="background-image:url(<%= serverImage %>);"></span>
+        </div>
+        <div class="info">
+            <div class="name-players">
+                <div class="name"><%= server.name %></div>
+                <div class="players"><%= server.numPlayers %>/<%= server.maxPlayers %></div>
+            </div>
+            <div class="status"><%= server.map %></div>
+        </div>
+    </div>
+</script>

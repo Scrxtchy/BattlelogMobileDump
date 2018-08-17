@@ -1,0 +1,29 @@
+<script type="text/html" data-template-name="BattlepacksView" data-css="BattlepacksView">
+    <div class="section">
+        <div class="sectionloading"></div>
+    </div>
+    <div class="section container"></div>
+</script>
+
+<script type="text/html" data-template-name="BattlepacksList">
+    <div class="battlepacklist <%=category%>-list">
+    </div>
+</script>
+
+<script type="text/html" data-template-name="battlepack_unopened">
+    <div class="unopened sectioninfo">
+        <div class="packimage">
+            <% var img = imageConfig; %>
+            <div class="battlepacks <%= img.category %> <%= img.slug.toLowerCase() %>"></div>
+        </div>
+        <div class="openbutton" data-packid="<%= packId %>"><a class="button primary">Open</a></div>
+        <div class="packtext"><%= locale.t(nameSID) %></div>
+    </div>
+</script>
+
+
+<script type="text/html" data-template-name="battlepack_nopacks">
+    <div class="sectioninfo nopacks">
+        <%= @("ID_WEB_BATTLEPACKS_YOU_HAVE_NO_UNOPENED_BATTLEPACKS") %>
+    </div>
+</script>

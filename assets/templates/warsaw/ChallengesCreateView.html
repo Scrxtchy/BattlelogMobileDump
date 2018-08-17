@@ -1,0 +1,68 @@
+<script type="text/html" data-template-name="ChallengesCreateView" data-css="ChallengesCreateView">
+    <div class="section challengetype hidden"></div>
+    <div class="section challengemap hidden"></div>
+    <div class="section challengerounds hidden"></div>
+    <div class="section challengefriends hidden">
+        <div class="friendslist"></div>
+        <div style="clear: both;"></div>
+        <div class="createchallengebutton button primary disabled">
+            <%=@('ID_MOBILE_CHALLENGES_CONTINUE')%>
+        </div>
+    </div>
+    <div class="section challengeconfirm hidden">
+
+        <div class="header">
+            <div class="badge-image"></div>
+            <div class="info">
+                <div class="type"></div>
+                <div class="description"></div>
+            </div>
+        </div>
+        <table class="overviewdata" border=0 cellspacing=1>
+            <tr><td><%=@('ID_MOBILE_CHALLENGES_MAP')%></td><td><span class="mapname"></span></td>
+            <tr><td><%=@('ID_MOBILE_CHALLENGES_ATTEMPTS')%></td><td><span class="roundcount"></span></td>
+            <tr><td><%=@('ID_MOBILE_CHALLENGES_TIME_LEFT')%></td><td>48:00</td>
+        </table>
+
+        <div class="createchallengebutton button primary">
+            <%=@('ID_MOBILE_CHALLENGES_CREATE_MISSION')%>
+        </div>
+        <div class="sectionhead"><%=@('ID_MOBILE_CHALLENGES_INVITED_FRIENDS')%></div>
+        <div class="friendslist">[x]</div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="challenge_type_row">
+    <div class="challengetyperow" data-challenge-id="<%= id %>">
+        <div class="info">
+            <div class="badge-image small <%= badge %>"></div>
+            <div class="name"><%= name %></div>
+            <div class="description"><%= description %></div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="challenge_map_row">
+    <div class="challengemaprow" data-challenge-map="<%= id %>">
+        <div class="map-image small <%= id.toLowerCase() %>"></div>
+        <div class="name"><%= label %></div>
+        <div class="hidden id"><%= id %></div>
+        <% if (typeof gameExpansion != "undefined"){ %>
+            <i class="icon xpack-icon xpack-<%= gameExpansion %>"></i>
+        <% } %>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="challenge_rounds_row">
+    <div class="challengeroundsrow" data-challenge-rounds="<%= num_rounds %>">
+        <%= description %>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="challenge_friends_row">
+    <div class="challengefriendsrow" data-challenge-username="<%= username %>"
+         data-challenge-personaid="<%= personaId %>" data-md5="<%= md5 %>">
+    <div class="avatar"><%= avatar %></div>
+        <span><%= username %></span>
+    </div>
+</script>

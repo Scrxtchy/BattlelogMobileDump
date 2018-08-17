@@ -1,0 +1,1 @@
+exports.mobile=require("localedata/ru_RU/mobile"),exports.battlelog=require("localedata/ru_RU/battlelog"),exports.bf3=require("localedata/ru_RU/bf3"),exports.omaha=require("localedata/ru_RU/omaha"),exports.warsaw=require("localedata/ru_RU/warsaw");

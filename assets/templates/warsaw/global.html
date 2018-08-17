@@ -1,0 +1,265 @@
+<script type="text/html" data-template-name="avatar">
+    <% util = require('util') %>
+    <% presence = util.userpresence_to_status(user) %>
+    <% user = user || {} %>
+    <% gravatar = util.gravatar(user.gravatarMd5) %>
+    <div class="avatar <%= size %> <%= presence %>"><img src="<%= gravatar %>" alt="" /></div>
+</script>
+
+<script type="text/html" data-template-name="topstory">
+    <div class="topstory" style="background-image: url(<%= image %>)">
+        <div class="top">Top Story</div>
+        <div class="headline">
+            <p><%= title %></p>
+            <% if(commentsCount > 0) { %>
+            <div class="topstory-comments">
+                <div class="icon"></div>
+                <%= commentsCount %>
+            </div>
+            <% } %>
+            <% if(votesCount > 0) { %>
+            <div class="topstory-votes">
+                <div class="icon"></div>
+                <%= votesCount %>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="newsitem_row">
+    <div class="sectioninfo item blogpost">
+        <div class="body">
+            <div class="byline">
+                <span class="title"><%= title %></span>
+            </div>
+            <div class="info">
+                <span class="date"><%= date %></span>
+            </div>
+            <% if (image) { %>
+            <div class="image"><img src="<%= image %>"></div>
+            <% } %>
+            <div class="text"><%= summary %></div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="server_row">
+    <div class="server-row" data-server-guid="<%= guid%>">
+        <div class="image">
+            <span class="map-image small <%= server.map.toLowerCase() %>"></span>
+        </div>
+        <div class="info">
+            <div class="name-players">
+                <div class="name"><%= server.name %></div>
+                <div class="players"><%= server.numPlayers %>/<%= server.maxPlayers %></div>
+            </div>
+            <div class="status"><%= @(mapSID) %></div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="server_tile">
+    <div class="server-tile" data-server-guid="<%= guid%>">
+        <div class="map-image fill <%= map.toLowerCase() %>"></div>
+        <div class="top">
+            <div class="name"><%= name %></div>
+            <div class="status"><%= status %></div>
+        </div>
+        <div class="bottom">
+            <div class="players"><%= players %> / <%= maxplayers %> players</div>
+            <div class="info"><%= info %></div>
+            <% if (friends) { %>
+                <div class="friends">
+                    <span class="avatar"><img src="http://www.gravatar.com/avatar/8b96710a12a78cedb46ad37c495875fb?s=60&d=http%3A%2F%2Fbattlelog.battlefield.com%2Fcdnprefix%2Flocal%2Fpublic%2Fbase%2Fshared%2Fdefault-avatar-30.png" alt="" /></span>
+                    <span class="avatar"><img src="http://www.gravatar.com/avatar/49a46227b4b4ed7c948fb3a86900e867?s=60&d=http%3A%2F%2Fbattlelog.battlefield.com%2Fcdnprefix%2Flocal%2Fpublic%2Fbase%2Fshared%2Fdefault-avatar-30.png" alt="" /></span>
+                    <span class="avatar"><img src="http://www.gravatar.com/avatar/2d6ef36330ccc38f730f19ff611e907b?s=60&d=http%3A%2F%2Fbattlelog.battlefield.com%2Fcdnprefix%2Flocal%2Fpublic%2Fbase%2Fshared%2Fdefault-avatar-30.png" alt="" /></span>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="soldier_row_large">
+    <% var template = require("template"); %>
+    <% var util = require('util'); %>
+    <div class="soldier-row-large overlay-box <% if(premium) { %>premium<% } %>">
+        <div class="info">
+            <div class="name">
+                <% if(tag != "") { %>
+                    <span class="tag">[<%= tag %>]</span>
+                <% } %>
+                <%= name %>
+            </div>
+            <div class="platform">
+                <span class="game-icon <%= game %>"></span><span class="platform-icon small <%= platform %>"></span>
+            </div>
+            <% if(premium) { %>
+                <div class="brief-premium-logo"></div>
+            <% } %>
+            <% if (typeof rank !== 'undefined'){ %>
+                <%=template.render('ui_progressbar', {
+                    border: false,
+                    percent: (rank.score/rank.maxScore) * 100,
+                    size: "thicker",
+                    type: "warning"
+                })%>
+                <div class="progress">
+                    <% if (typeof rank.name !== 'undefined' && rank.name){ %>
+                        <span><%= rank.name %></span>
+                    <% } %>
+                    <span><%= util.formatStatValue(rank.score) %> / <%= util.formatStatValue(rank.maxScore) %></span>
+                </div>
+            <% } %>
+        </div>
+        <div class="images">
+            <% if (typeof rank !== 'undefined'){ %>
+                <div class="rank-image"><span class="item-image rank small r<%= rank.rank %>"></span></div>
+            <% } else if (typeof stats.rank !== 'undefined') { %>
+                <div class="rank-image"><span class="item-image rank small r<%= stats.rank %>"></span></div>
+            <% } else { %>
+                <div class="rank-image"><span class="item-image rank small r0"></span></div>
+            <% } %>
+            <div class="soldier-image" <% if(picture) { %> style="background-image: url('<%= picture %>')" <% } %>></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="ui_progressbar">
+<%
+    if (typeof size === "undefined") { size = "" }
+    if (typeof border === "undefined") { border = true }
+
+    var _defaults = {
+        id: "",
+        percent: 0,
+        type: "info"
+    };
+
+    var defaults = function (bar) {
+        Object.keys(_defaults).forEach(function (d, k) { bar[k] = bar[k] || d; });
+        return bar;
+    };
+
+    var b;
+    if (typeof bars === "undefined") {
+        b = [{
+            "id": typeof id === "undefined" ? _defaults.id : id,
+            "percent": typeof percent === "undefined" ? _defaults.percent : percent,
+            "type": typeof type === "undefined" ? _defaults.type : type
+        }]
+    } else {
+        b = bars;
+    }
+%>
+    <div class="progress-bar <%= size %><% if (!border) { %> no-border<% } %>">
+    <% var i, p; %>
+    <% for (i = 0; i < b.length; i++)  {
+        p = Math.round(b[i].percent) + "%"; %>
+        <div <% if (b[i].id) { %> id="progress-bar-<%= b[i].id %>"<% } %> class="<%= b[i].type %> progress-bar-inner" style="width:<%= p %>"></div>
+    <% } %>
+    </div>
+</script>
+
+
+<script type="text/html" data-template-name="ui_dogtags">
+<%
+    if (typeof left === "undefined") { left = "basic1"; }
+    if (typeof right === "undefined") { right = "basic2"; }
+%>
+    <div class="dogtags">
+        <div class="item-image dogtags <%= left.toLowerCase() %>"></div>
+        <div class="item-image dogtags <%= right.toLowerCase() %>"></div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="suggestion">
+    <div class="suggestion" data-type="<%= suggestion.category %>" data-guid="<%= suggestion.guid %>" data-atindex="<%= atIndex %>" data-slug="<%= suggestion.slug %>" data-category="<%= suggestion.itemCategoryID %>">
+        <% if(suggestion.image) { %>
+            <div class="item-image <%= suggestion.image.category %> <%= suggestion.image.slug.toLowerCase() %>"></div>
+        <% } %>
+        <div class="item-title"><%= @(suggestion.name) %></div>
+        <% if (suggestion.isTrackedManually) { %>
+        <div class="item-tracked">
+            <img src="images/ui/track-icon-bright.png" alt=""  />
+        </div>
+        <% } %>
+        <div class="progress-bar medium no-border">
+            <div class="warning progress-bar-inner" style="width: <%= suggestion.completionPercentage %>%;"></div>
+        </div>
+        <% if (suggestion.complete == 1) { %>
+            <span class="icon green-check-small"></span>
+        <% } %>
+
+        <% if (suggestion.playerProgress){ %>
+            <% var dom = require("dom"); %>
+            <% _.each(suggestion.playerProgress, function(progress, index){ %>
+                <% if (progress.award){ %>
+                    <%= dom.get_expansion_icon_by_name(progress.award.license) %>
+                <% } %>
+            <% }) %>
+        <% } %>
+
+    </div>
+</script>
+
+<script type="text/html" data-template-name="share_battlereport_box">
+    <% var util = require('util'); %>
+    <div class="battlereport-feed-item">
+        <header>
+            <% if (battleReport.personalPrize && battleReport.personalPrize.type){ %>
+                <% personalPrize = battleReport.personalPrize %>
+                <% prizeLabelLocale = "ID_WEB_BATTLEREPORT_WEBPRIZE_" + personalPrize.type.toUpperCase() %>
+                <div class="player-best-row">
+                    <span class="player-prize-label">
+                        <%=@(prizeLabelLocale)%>
+                    </span>
+                    <span class="player-prize-score">
+                        <%= personalPrize.score %>
+                        <% if (personalPrize.type == "accuracy"){ %>
+                            %
+                        <% } %>
+                        <% scoreLabelLocale = prizeLabelLocale + "_SCORE" %>
+                        <%=@(scoreLabelLocale)%>
+                    </span>
+                </div>
+            <% } %>
+        </header>
+        <div class="sectiontable info-table">
+            <div class="row">
+                <div class="col">
+                    <strong class="team-position"># <%= battleReport.position %></strong>
+                </div>
+                <div class="col">
+                    <h5><%=@('ID_WEB_COMMON_SCORE')%></h5>
+                    <strong><%= util.formatStatValue(battleReport.score) %></strong>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <h5><%=@('ID_WEB_BATTLEREPORT_STATS_KILLS')%></h5>
+                    <strong><%= battleReport.kills %></strong>
+                </div>
+                <div class="col">
+                    <h5><%=@('ID_WEB_COMMON_STATS_ABBR_KILL_DEATH_RATIO')%></h5>
+                    <strong><%= util.formatStatValue(battleReport.kdr, 'float') %></strong>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <h5><%=@('ID_WEB_COMMON_STATS_SKILL')%></h5>
+                    <strong><% if(battleReport.skill > 0) print("+"); %><%= battleReport.skill %></strong>
+                </div>
+                <div class="col">
+                    <h5><%=@('ID_WEB_COMMON_STATS_SCORE_PER_MINUTE_ABBR')%></h5>
+                    <strong><%= util.formatStatValue(battleReport.spm) %></strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+

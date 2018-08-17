@@ -1,0 +1,41 @@
+<script type="text/html" data-template-name="WeaponsView" data-css="WeaponsView">
+    <div class="toolbar short">
+        <div class="segmentedcontrol kitfilter">
+            <a data-kit="0"><%=@('ID_WEB_COMMON_ALL')%></a>
+            <a data-kit="1"><span class="kit-icon assault"></span></a>
+            <a data-kit="2"><span class="kit-icon engineer"></span></a>
+            <a data-kit="32"><span class="kit-icon support"></span></a>
+            <a data-kit="8"><span class="kit-icon recon"></span></a>
+        </div>
+    </div>
+    <div class="sectiontablehead statitems">
+        <div class="col number">#</div>
+        <div class="col info"><%=@('ID_WEB_COMMON_WEAPON')%></div>
+        <div class="col stars"><%=@('ID_WEB_COMMON_STATS_STARS')%></div>
+        <div class="col kills"><%=@('ID_WEB_COMMON_KILLS')%></div>
+        <div class="col accuracy"><%=@('ID_WEB_COMMON_ACCURACY')%></div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="WeaponsView-row" data-css="WeaponsView">
+    <div class="row weapon">
+        <div class="col number">
+            <div class="number"><%=count%></div>
+        </div>
+        <div class="col info">
+            <div class="image"><span class="item-image item weapon _<%=imageName%>"></span></div>
+            <div class="name"><span class="kit-icon <%=kitName%>"></span> <%=@(itemInfo.name)%></div>
+        </div>
+        <div class="col stars">
+            <div class="stars"><%=(item.serviceStars || '')%></div>
+            <div class="progressbar"><div style="-webkit-transform:scaleX(<%=((item.serviceStarsProgress || 0) / 100)%>);"></div></div>
+        </div>
+        <div class="col kills">
+            <div class="kills"><%=formatStatValue(item.kills)%></div>
+            <div class="time"><%=formatStatValue(item.timeEquipped, 'time')%></div>
+        </div>
+        <div class="col accuracy">
+            <div class="accuracy"><%=formatStatValue(item.accuracy, 'percent')%></div>
+        </div>
+    </div>
+</script>

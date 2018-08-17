@@ -1,0 +1,110 @@
+<script type="text/html" data-template-name="AwardsView" data-css="AwardsView">
+    <%if (loading){%>
+    <div class="section">
+        <div class="sectionloading"></div>
+    </div>
+    <%} else {%>
+    <% var template = require("template"); %>
+    <div class="section completion">
+        <div class="sectionhead"><%=@('ID_WEB_COMMON_AWARDS')%></div>
+        <div class="sectiontable">
+            <div class="row">
+                <div class="col">
+                    <%=template.render("ui_progressbar", {
+                        percent: completion,
+                        size: "thickest",
+                        type: "warning"
+                    })%>
+                </div>
+                <div class="col">
+                    <p><%= current %> / <%= max %></p>
+                </div>
+            </div>
+        </div>
+        <div class="sectionhead"><%=@('ID_WEB_COMMON_RIBBONS')%></div>
+        <div class="sectiontable">
+            <div class="row">
+                <div class="col">
+                    <%=template.render("ui_progressbar", {
+                    percent: completionRibbons,
+                    size: "thickest",
+                    type: "warning"
+                    })%>
+                </div>
+                <div class="col">
+                    <p><%= currentRibbons %> / <%= maxRibbons %></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%
+    for(var name in categories){
+        var category = categories[name];
+    %>
+    <div class="section items-grid">
+        <div class="sectionhead">
+            <%=@(category.sid)%>
+        </div>
+        <div class="sectiontable">
+            <%
+            var i = 0;
+            var len = category.medals.length;
+            while(i < len){
+                var item = category.medals[i];
+
+                if(i % 3 === 0) print('<div class="row">');
+                if(item.empty){
+                    print('<div class="col item empty"></div>');
+                } else {
+                    if (item.ribbon != null) {
+            %>
+            <div class="col item" data-code="<%=item.code%>" data-dependency="<%=item.ribbon.award.code%>">
+                <div class="item-wrapper <%(item.locked)? print('locked') : '';%>">
+                    <div class="item-image <%print(item.imageConfig.category + ' ' + item.imageConfig.slug.toLowerCase());%>">
+                        <% if(item.timesTaken){ %>
+                        <div class="item-count medal">x<%=item.timesTaken%></div>
+                        <% }%>
+                    </div>
+                    <%if(item.timesTaken < 100){
+                        print(template.render("ui_progressbar", {
+                        border: false,
+                        percent: item.completion,
+                        size: "medium",
+                        type: "warning"
+                        }));
+                    } else {
+                        print(template.render("ui_progressbar", {
+                        border: false,
+                        percent: 100,
+                        size: "medium",
+                        type: "warning"
+                        }));
+                    }%>
+                    <% if (item.code){ %>
+                        <% var xp = item.code.substr(0, 3) %>
+                        <% if (["xp0", "xp1", "xp2", "xp3", "xp4"].indexOf(xp) >= 0){ %>
+                            <% var dom = require("dom"); %>
+                            <%= dom.get_expansion_icon_by_name(xp) %>
+                        <% }%>
+                    <% } %>
+                </div>
+                <div class="item-wrapper <%(!item.ribbon.timesTaken)? print('locked') : '';%>">
+                    <div class="item-image <%print(item.ribbon.imageConfig.category + ' ' + item.ribbon.imageConfig.slug.toLowerCase());%>">
+                        <% if(item.ribbon.timesTaken){ %>
+                        <div class="item-count">x<%=item.ribbon.timesTaken%></div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            <%
+                    }
+                }
+                if (i % 3 === 2) print('</div>');
+                i++;
+            }
+            %>
+        </div>
+    </div>
+    <%}
+    }%>
+</script>

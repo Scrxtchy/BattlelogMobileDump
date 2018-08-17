@@ -1,0 +1,28 @@
+<script type="text/html" data-template-name="ReportAbuseView" data-css="ReportAbuseView">
+    <div class="section editpost reportcontainer">
+        <div class="sectionhead">
+            <%=@('ID_WEB_COMMON_REPORT_ABUSE')%>
+        </div>
+
+        <div class="sectioninfo postbody">
+            <div class="textinput">
+                <textarea id="reason" placeholder="<%=@('ID_WEB_POPUP_ENTER_REPORTREASON')%>"></textarea>
+            </div>
+        </div>
+
+        <a class="reportbtn button primary post"><%=@('ID_WEB_COMMON_SEND')%></a>
+
+    </div>
+</script>
+
+<script type="text/html" data-template-name="ReportAbuseReceipt" data-css="ReportAbuseView">
+    <div class="section">
+        <div class="sectionhead">
+            <%=@('ID_WEB_SHOWRECEIPT_ABUSE_REPORT_SENT')%>
+        </div>
+        <div class="sectioninfo postbody">
+            <div class="desc"><p><%=@('ID_MOBILE_REPORT_CREATED_GUID')%></p></div>
+            <div class="guid"><input type="text" value="<%= guid %>"/></div>
+        </div>
+    </div>
+</script>

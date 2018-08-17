@@ -1,0 +1,79 @@
+<script type="text/html" data-template-name="DrawerComCenterView" data-css="DrawerComCenterView">
+</script>
+
+<script type="text/html"  data-template-name="DrawerComCenterSearchNoMatches" data-css="DrawerComCenterView">
+    <div class="no-results">
+        <h3><%=@('ID_MOBILE_COMCENTER_SEARCH_FIND')%></h3>
+        <p><%=@('ID_MOBILE_COMCENTER_SEARCH_FIND_DESC')%></p>
+    </div>
+</script>
+
+
+<script type="text/html" data-template-name="DrawerComCenterView-scrollviewcontent" data-css="DrawerComCenterView">
+
+    <header class="nv-warsaw hidden">
+        <div class="inner">
+            <a class="btn-icon friends pull-left active comcenter-button">
+                <span class="cc-amount count">-</span>
+            </a>
+            <span class="border-fix"></span>
+            <a class="btn-icon chats pull-right chat-button" >
+                <span class="chats-amount count">-</span>
+            </a>
+            <div class="clear"></div>
+        </div>
+    </header>
+
+    <section class="cc-container">
+        <div class="search-container hidden">
+            <div class="textinput search">
+                <input id="comcenter-search" type="text" placeholder="<%=@('ID_MOBILE_COMCENTER_SEARCH')%>" value="" />
+                <a class="clear-button button cancelTouchOnMove"><span class="icon"></span></a>
+            </div>
+        </div>
+
+        <div class="comcenter-search-results hidden">
+
+        </div>
+
+        <div class="comcenter-list">
+            <div class="section request hidden">
+                <div class="sectionhead"><%=@('ID_MOBILE_COMCENTER_REQUESTS')%> (<span class="count">0</span>)</div>
+                <div class="friends request"></div>
+            </div>
+
+            <div class="consolefriends platformsection">
+                <div class="sectiontitle hidden"><span class="platform"></span></div>
+                <div class="section playing hidden">
+                    <div class="friends playing"></div>
+                </div>
+                <div class="section online hidden">
+                    <div class="friends online"></div>
+                </div>
+                <div class="section offline hidden">
+                    <div class="friends offline"></div>
+                </div>
+            </div>
+
+            <div class="originfriends platformsection">
+                <div class="sectiontitle hidden"><%=@('ID_MOBILE_COMCENTER_ORIGIN_FRIENDS')%></div>
+                <div class="section playing hidden">
+                    <div class="friends playing"></div>
+                </div>
+                <div class="section online hidden">
+                    <div class="friends online"></div>
+                </div>
+                <div class="section offline hidden">
+                    <div class="friends offline"></div>
+                </div>
+            </div>
+            <div class="show-offline toggle-offline-visible"><%=@('ID_WEB_COMCENTER_SHOW_OFFLINE')%></div>
+            <div class="hide-offline toggle-offline-visible"><%=@('ID_WEB_COMCENTER_HIDE_OFFLINE')%></div>
+        </div>
+    </section>
+    <section id="cc-chats">
+        <!--Filled with React-->
+    </section>
+
+</script>
+

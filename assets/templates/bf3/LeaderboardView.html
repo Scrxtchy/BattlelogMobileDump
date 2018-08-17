@@ -1,0 +1,24 @@
+<script type="text/html" data-template-name="LeaderboardView" data-css="LeaderboardView">
+    <div class="toolbar short loggedout">
+        <div class="segmentedcontrol platform">
+            <a data-platform="1">PC</a>
+            <a data-platform="2">360</a>
+            <a data-platform="4">PS3</a>
+        </div>
+    </div>
+    <div class="toolbar short loggedin hidden">
+        <div class="segmentedcontrol platform">
+            <a data-platform="1">PC</a>
+            <a data-platform="2">360</a>
+            <a data-platform="4">PS3</a>
+        </div>
+        <div class="segmentedcontrol type">
+            <a data-type="1"><%=@('ID_MOBILE_LEADERBOARDS_FRIENDS')%></a>
+            <a data-type="0"><%=@('ID_MOBILE_LEADERBOARDS_ALL')%></a>
+        </div>
+    </div>
+    <div class="sectiontablehead">
+        <div class="col number">#</div>
+        <div class="col name"><%=@('ID_WEB_COMMON_NAME')%></div>
+    </div>
+</script>

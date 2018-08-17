@@ -1,0 +1,58 @@
+<script type="text/html" data-template-name="LeaderboardsLeaderboardView" data-css="LeaderboardsLeaderboardView"></script>
+
+<script type="text/html" data-template-name="LeaderboardsLeaderboardView-scrollviewcontent" data-css="LeaderboardsLeaderboardView">
+    <div id="zoom-level-container">
+        <div class="segmentedcontrol">
+            <!-- Populated in LeaderboardsLeaderboardViewController.initAreaNav -->
+        </div>
+    </div>
+
+    <div id="leaderboard-content">
+        <div class="sectionhead leaderboard">
+            <img class="icon" src=""/>
+            <div class="info">
+                <div id="lb-stat" class="name"></div>
+                <div id="lb-region" class="region"></div>
+            </div>
+            <img class="division" src="" />
+            <div class="clear"></div>
+        </div>
+
+        <div id="leaderboard-users">
+        </div>
+    </div>
+</script>
+
+<!-- Delete? -->
+<script type="text/html" data-template-name="OmahaLeaderboardsLeaderboardView-scrollviewcontent" data-css="LeaderboardsLeaderboardView">
+    <div id="zoom-level-container">
+        <div class="segmentedcontrol">
+            <!-- Populated in LeaderboardsLeaderboardViewController.initAreaNav -->
+        </div>
+    </div>
+
+    <div id="leaderboard-content" class="section bordered">
+        <div class="sectionhead leaderboard">
+            <img class="icon" src=""/>
+            <div class="info">
+                <div id="lb-stat" class="name"></div>
+                <div id="lb-region" class="region"></div>
+            </div>
+            <img class="division" src="" />
+            <div class="clear"></div>
+        </div>
+
+        <div id="leaderboard-users">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="leaderboard_user_row">
+    <div class="sectionbutton no-arrow leaderboard-row <%= extra_class %>" data-user-index="<%= user_index %>">
+        <div class="position"><%= position %></div>
+        <img class="avatar" src="<%= avatar_url %>"/>
+        <div class="name"><%= name %></div>
+        <div class="score"><%= formattedScore %></div>
+        <div class="clear"></div>
+    </div>
+</script>

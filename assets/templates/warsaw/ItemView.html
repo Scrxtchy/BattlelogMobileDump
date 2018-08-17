@@ -1,0 +1,712 @@
+<script type="text/html" data-template-name="ItemView" data-css="ItemView">
+    <div class="section">
+        <div class="sectionloading"></div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="AssignmentView" data-css="ItemView">
+    <div class="assignment">
+        <% var template = require("template"); %>
+        <div class="section">
+            <div class="tracked <% if(isTrackedManually) { %> vis <% } %>"><img src="images/ui/track-icon-bright.png" alt=""  /></div>
+            <div class="sectioninfo">
+                <div class="item-image <%print(award.imageConfig.category + ' ' + award.imageConfig.slug.toLowerCase());%>"></div>
+
+                <% if (award.license && ["xp0", "xp1", "xp2", "xp3", "xp4"].indexOf(award.license) >= 0){ %>
+                    <div class="xpack-info">
+                        <% var dom = require("dom"); %>
+                        <% var util = require("util"); %>
+                        <%= dom.get_expansion_icon_by_name(award.license) %>
+                        <% var xp_loc = util.getTranslatedExpansionByName(award.license) %>
+                        <span><%= (locale.t('ID_WEB_PROFILE_STATS_AVAILABLE_IN_XPACK')).replace("[XPACK]", "<strong>" + xp_loc + "</strong>") %></span>
+                    </div>
+                <% } %>
+
+
+                <% if(completion < 100){ %>
+                    <%= template.render("ui_progressbar", {
+                        border: false,
+                        percent: completion,
+                        size: "thicker",
+                        type: "warning"
+                    }) %>
+                    <% if(mysoldier && !award.unlocked && award.awardRealm != "sp") {%>
+                        <div class="section">
+                            <div class="b3 track button  <% if(isTrackedManually) print('tracked disabled');%>" data-track="<%= award.code %>"><%=@('ID_WEB_COMMON_TRACK')%></div>
+                        </div>
+                    <% } %>
+                <% } %>
+                <% if(atIndex) { %>
+                    <div class="section">
+                        <div class="b3 button refreshSuggestion">&#x21bb; <%=@('ID_MOBILE_COMMON_NEW_SUGGESTION')%></div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        <div>
+            <%
+            var i = 0;
+            var len = unlockDependencies.length;
+            if(len > 0){
+            %>
+            <div class="section">
+                <div class="sectiontable">
+                <% while(i < len){
+                    var dependency = unlockDependencies[i];
+                    var className = (!dependency.timesTaken)? 'not-taken' : '';
+                %>
+                    <div class="row <%=className%> dependency-row">
+                        <div class="col">
+                            <i class="icon dependency-icon" data-code="<%= dependency.award.code.toLowerCase() %>"></i>
+                            <span><%=@(dependency.award.stringID)%></span>
+                        </div>
+                        <% if (dependency.timesTaken) { %>
+                            <div class="col"><span class="icon green-check-small"></span></div>
+                        <% } %>
+                    </div>
+                <%
+                    i++;
+                }%>
+                </div>
+            </div>
+            <%}%>
+            <div class="section">
+                <div class="sectionhead"><%=@('ID_MOBILE_ASSIGNMENT_REQUIREMENTS')%></div>
+                <div class="sectiontable">
+                <%
+                if(criterias.length){
+                    for(var id in criterias){
+                        var criteria = criterias[id];
+                        var originalCriteria = criteria.originalCriteria;
+                        var actualValue = 0;
+                        if(typeof criteria === 'object'){
+                            actualValue = criteria.actualValue;
+                        }
+                %>
+                    <div class="row">
+                        <div class="col"><%=@(originalCriteria.descriptionID)%></div>
+                            <div class="col">
+                                <% if(award.awardRealm == "mp") { %>
+                                    <% if(completion < 100) { %>
+                                        <% print(actualValue + ' / ' + originalCriteria.completionValue);%>
+                                    <% } else { %>
+                                        <% print(originalCriteria.completionValue + ' / ' + originalCriteria.completionValue);%>
+                                    <% } %>
+                                <% } else if(award.unlocks[0].completion) { %>
+                                    <span class="icon green-check-small"></span>
+                                <% } %>
+                            </div>
+                    </div>
+                <%
+                    }
+                } else { %>
+                    <div class="row">
+                        <div class="col">?</div>
+                    </div>
+                <% } %>
+                </div>
+            </div>
+            <%
+            var j = 0;
+            var len_j = upcomingUnlocks.length;
+            if(len_j){
+            %>
+            <div class="section">
+                <div class="sectionhead"><%=@('ID_MOBILE_ASSIGNMENTS_REWARDS')%></div>
+                <div class="sectiontable">
+                    <%
+                    while(j < len_j){
+                        var unlock = upcomingUnlocks[j];
+                    %>
+                    <div class="row">
+                        <div class="col reward">
+                            <%if (unlock.weaponUnlock){%>
+                                <div class="item-image weapon <%=unlock.weaponUnlock.imageConfig.slug.toLowerCase()%>"></div>
+                                <p><%=@(unlock.weaponUnlock.nameSID)%></p>
+                            <% } else if (unlock.weaponAddonUnlock){ %>
+                                <div class="item-image weaponaccessory <%=unlock.weaponAddonUnlock.imageConfig.slug.toLowerCase()%>"></div>
+                                <p><%=@(unlock.weaponAddonUnlock.nameSID)%></p>
+                            <% } else if (unlock.kitItemUnlock){ %>
+                                <div class="item-image kititem <%=unlock.kitItemUnlock.imageConfig.slug.toLowerCase()%>"></div>
+                                <p><%=@(unlock.kitItemUnlock.nameSID)%></p>
+                            <% } else if(unlock.dogTagUnlock){%>
+                                <div class="item-image dogtags medium <%=unlock.dogTagUnlock.imageConfig.slug.toLowerCase()%>"></div>
+                                <div><%=@(unlock.dogTagUnlock.nameSID)%></div>
+                            <% } else if(unlock.vehicleAddonUnlock){%>
+                                <div class="item-image vehicleunlock medium <%=unlock.vehicleAddonUnlock.imageConfig.slug.toLowerCase()%>"></div>
+                                <div><%=@(unlock.vehicleAddonUnlock.nameSID)%></div>
+                            <% } else if(unlock.appearanceUnlock){%>
+                                <div class="item-image <%=unlock.appearanceUnlock.imageConfig.category%> medium <%=unlock.appearanceUnlock.imageConfig.slug.toLowerCase()%>"></div>
+                                <div><%=@(unlock.appearanceUnlock.nameSID)%></div>
+                            <% }%>
+                        </div>
+                    </div>
+                    <%
+                        j++;
+                    }%>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="AwardView" data-css="ItemView">
+    <div class="award">
+        <% var template = require("template"); %>
+        <% var locale = require('locale'); %>
+        <div class="section">
+            <div class="tracked <% if(medal.isTrackedManually) { %> vis <% } %>"><img src="images/ui/track-icon-bright.png" alt=""  /></div>
+            <div class="sectioninfo">
+                <div class="item-image <%print(medal.award.imageConfig.category + ' ' + medal.award.imageConfig.slug.toLowerCase());%>"></div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="sectionhead">
+                <h3>
+                    <%=@(medal.award.stringID)%>
+                    <% if(medal.timesTaken > 0) { %>
+                        <span class="pull-right" style="text-transform: none">x<%=medal.timesTaken%></span>
+                    <% } %>
+                </h3>
+                <% if (medal.award.code){ %>
+                    <% var xp = medal.award.code.substr(0, 3) %>
+                    <% if (["xp0", "xp1", "xp2", "xp3", "xp4"].indexOf(xp) >= 0){ %>
+                        <% var dom = require("dom"); %>
+                        <% var util = require("util"); %>
+                        <% var xp_loc = util.getTranslatedExpansionByName(xp) %>
+                        <div class="xpack-info">
+                            <%= dom.get_expansion_icon_by_name(xp) %>
+                            <span><%= (locale.t('ID_WEB_PROFILE_STATS_AVAILABLE_IN_XPACK')).replace("[XPACK]", "<strong>" + xp_loc + "</strong>") %></span>
+                        </div>
+                    <% }%>
+                <% } %>
+                <% if(medal.timesTaken < 100) { %>
+                    <%=template.render("ui_progressbar", {
+                        border: false,
+                        percent: (medal.actualValue/medal.valueNeeded) * 100,
+                        size: "thicker",
+                        type: "warning"
+                    })%>
+                <% } %>
+            </div>
+            <div class="sectiontable">
+                <div class="row">
+                    <div class="col"><%=@(medal.award.descriptionID)%></div>
+                    <div class="col">
+                        <% if(medal.timesTaken < 100) { %>
+                            <% print(medal.actualValue + ' / ' + medal.valueNeeded);%>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% if(medal.mysoldier) {%>
+            <div class="section">
+                <div class="b3 track  button  <% if(medal.isTrackedManually) print('tracked disabled'); %>" data-track="<%= medal.guid %>"><%=@('ID_WEB_COMMON_TRACK')%></div>
+            </div>
+        <%}%>
+        <% if(medal.atIndex) { %>
+            <div class="section">
+                <div class="b3 button refreshSuggestion">&#x21bb; <%=@('ID_MOBILE_COMMON_NEW_SUGGESTION')%></div>
+            </div>
+        <% } %>
+        <div class="section ribbon">
+            <div class="sectioninfo">
+                <div class="item-image <%print(ribbon.award.imageConfig.category + ' ' + ribbon.award.imageConfig.slug.toLowerCase());%>"></div>
+                <div class="sectiontable">
+                    <div class="row">
+                        <h3 class="col"><%=@(ribbon.award.stringID)%></h3>
+                        <h3 class="col counter">x<%=ribbon.timesTaken%></h3>
+                    </div>
+                    <div class="row">
+                        <div class="col details"><%=@(ribbon.award.descriptionID)%></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="WeaponView" data-css="ItemView">
+    <div class="weapon">
+        <% var template = require("template"); %>
+        <div class="section transparent">
+            <div class="tracked <% if(isTrackedManually) { %> vis <% } %>"><img src="images/ui/track-icon-bright.png" alt=""  /></div>
+            <div class="sectioninfo centered">
+                <div class="item-image <%print(unlockImageConfig.category + ' ' + unlockImageConfig.slug.toLowerCase());%>"></div>
+            </div>
+        </div>
+        <%
+        var license = (locked_data.award && locked_data.award.license) ? locked_data.award.license : locked_data.license || false;
+        if (license){ %>
+            <div class="xpack-info padding">
+                <% var dom = require("dom"); %>
+                <% var util = require("util"); %>
+                <%= dom.get_expansion_icon_by_name(license) %>
+                <% var xp_loc = util.getTranslatedExpansionByName(license); %>
+                <span><%= (locale.t('ID_WEB_PROFILE_STATS_AVAILABLE_IN_XPACK')).replace("[XPACK]", "<strong>" + xp_loc + "</strong>") %></span>
+            </div>
+        <% } %>
+
+        <% if (locked){ %>
+            <% if(playerProgress) { %>
+                <div class="section transparent">
+                    <% if(progressBar) { %>
+                        <%= template.render("ui_progressbar", {
+                            percent: locked_data.completion,
+                            type: "warning",
+                            size: "thicker",
+                            border: false
+                        })%>
+                    <% } %>
+                    <div class="sectiontable requirements">
+                        <div class="row">
+                            <div class="col col1"><%= criterias[1] %></div>
+                            <div class="col col2"><%= criterias[0] %></div>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+            <% if(mysoldier) {%>
+                <div class="section">
+                    <div class="b3 track button  <% if(isTrackedManually) print('manually-tracked disabled');%>" data-track="<%= guid %>"><%if(isTrackedManually) { %><%=@('ID_WEB_SUGGESTIONS_TRACKED')%><% } else { %><%=@('ID_WEB_COMMON_TRACK')%><% } %></div>
+                </div>
+            <% } %>
+        <% } %>
+        <% if(atIndex) { %>
+            <div class="section">
+                <div class="b3 button refreshSuggestion">&#x21bb; <%=@('ID_MOBILE_COMMON_NEW_SUGGESTION')%></div>
+            </div>
+        <% } %>
+        <div class="section">
+            <% if (typeof weaponData !== 'undefined' && weaponData.statDamage > 0){ %>
+            <div class="sectiontable">
+                <div class="row stat-keys">
+                    <div class="col name"><%=@('ID_WEB_COMMON_STATS_DAMAGE')%></div>
+                    <div class="col bar">
+                        <%=template.render('ui_progressbar', {bars:[
+                            {'percent':weaponData.Damage,type:'info'}
+                        ]})%>
+                    </div>
+                    <div class="col stat"><%=weaponData.Damage%></div>
+                </div>
+                <div class="row stat-keys">
+                    <div class="col name"><%=@('ID_WEB_COMMON_ACCURACY')%></div>
+                    <div class="col bar">
+                        <%=template.render('ui_progressbar', {bars:[
+                            {'percent':weaponData.Accuracy,type:'info'}
+                        ]})%>
+                    </div>
+                    <div class="col stat"><%=weaponData.Accuracy%></div>
+                </div>
+                <div class="row stat-keys">
+                    <div class="col name"><%=@('ID_WEB_COMMON_STATS_MOBILITY')%></div>
+                    <div class="col bar">
+                        <%=template.render('ui_progressbar', {bars:[
+                            {'percent':weaponData.Mobility,type:'info'}
+                        ]})%>
+                    </div>
+                    <div class="col stat"><%=weaponData.Mobility%></div>
+                </div>
+                <div class="row stat-keys">
+                    <div class="col name"><%=@('ID_WEB_COMMON_STATS_RANGE')%></div>
+                    <div class="col bar">
+                        <%=template.render('ui_progressbar', {bars:[
+                            {'percent':weaponData.Range,type:'info'}
+                        ]})%>
+                    </div>
+                    <div class="col stat"><%=weaponData.Range%></div>
+                </div>
+                <% if(typeof weaponData.rateOfFire !== 'undefined' && !isNaN(parseInt(weaponData.rateOfFire,10))){%>
+                <div class="row stat-keys">
+                    <div class="col name"><%=@('ID_WEB_PROFILE_STATS_RATEOFFIRE')%></div>
+                    <div class="col bar">
+                        <%=template.render('ui_progressbar', {bars:[
+                            {'percent':weaponData.rateOfFire/10,type:'info'}
+                        ]})%>
+                    </div>
+                    <div class="col stat"><%=weaponData.rateOfFire%></div>
+                </div>
+                <% } %>
+            </div>
+            <% } %>
+        </div>
+        <% if (typeof stats !== 'undefined' && stats){ %>
+        <div class="section statistics">
+            <div class="sectionhead"><%=@('ID_WEB_PROFILE_STATS_STATISTICS')%></div>
+            <div class="sectiontable">
+                <div class="row">
+                    <div class="col"><%=@('ID_WEB_COMMON_KILLS')%></div>
+                    <div class="col"><% print((stats.kills)? stats.kills : '-'); %></div>
+                </div>
+                <div class="row">
+                    <div class="col"><%=@('ID_WEB_COMMON_HEADSHOTS')%></div>
+                    <div class="col"><% print((stats.headshots)? stats.headshots : '-'); %></div>
+                </div>
+                <div class="row">
+                    <div class="col"><%=@('ID_WEB_COMMON_SHOTS_FIRED')%></div>
+                    <div class="col"><% print((stats.shotsFired)? stats.shotsFired : '-'); %></div>
+                </div>
+                <div class="row">
+                    <div class="col"><%=@('ID_WEB_COMMON_ACCURACY')%></div>
+                    <div class="col"><% print((stats.accuracy)? (stats.accuracy * 100).toFixed(2) : '-'); %></div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+        <% if (accessories){ %>
+        <% if (accessories.bucket.length){ %>
+        <div class="section weapon-accessories">
+            <div class="sectionhead"><%=@('ID_WEB_PROFILE_LOADOUT_ACCESSORIES')%></div>
+            <div class="sectiontable">
+            <% accessories.bucket.forEach(function(item,a,items){ %>
+                <% if(a % 4 == 0){ %>
+                    <div class="row">
+                <% } %>
+                        <% if(item.empty){ %>
+                            <div class="col empty"></div>
+                        <% } else { %>
+                        <div class="col accessory-item <%=(item.unlockedBy.completed? '' : 'locked')%>" data-guid="<%=item.guid%>">
+                            <div class="item-image-wrapper">
+                                <div class="item-image <%print(item.imageConfig.category + ' ' + item.imageConfig.slug.toLowerCase());%>"></div>
+                            </div>
+                            <%= template.render("ui_progressbar", {
+                                percent: item.unlockedBy.bucketRelativeCompletion,
+                                type: "warning",
+                                border: false
+                            })%>
+                        </div>
+                        <% } %>
+                <% if(a % 4 == 3 || a == items.length-1){ %>
+                    </div>
+                <% } %>
+            <% }); %>
+        <% } %>
+        </div>
+        <% if (accessories.license.length){ %>
+        <div class="section weapon-accessories">
+            <div class="sectionhead"><%=@('ID_WEB_PROFILE_LOADOUT_ACCESSORIES_IN_BATTLEPACKS')%></div>
+            <div class="sectiontable">
+            <% accessories.license.forEach(function(item,a,items){ %>
+                <% if(a % 4 == 0){ %>
+                    <div class="row">
+                <% } %>
+                        <% if(item.empty){ %>
+                            <div class="col empty"></div>
+                        <% } else { %>
+                        <div class="col accessory-item <%=(item.unlockedBy.completed? '' : 'locked')%>" data-guid="<%=item.guid%>">
+                            <div class="item-image-wrapper">
+                                <div class="item-image <%print(item.imageConfig.category + ' ' + item.imageConfig.slug.toLowerCase());%>"></div>
+                            </div>
+                        </div>
+                        <% } %>
+                <% if(a % 4 == 3 || a == items.length-1){ %>
+                    </div>
+                <% } %>
+            <% }); %>
+        </div>
+        <% } %>
+        <% } %>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="VehicleView" data-css="ItemView">
+    <div class="vehicle">
+        <% var template = require("template"); %>
+        <div class="section transparent">
+            <div class="sectioninfo centered">
+                <div class="item-image <%print(unlockImageConfig.category + ' ' + unlockImageConfig.slug.toLowerCase());%>"></div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="sectioninfo">
+                <p><%=@(descriptionSID)%></p>
+            </div>
+            <% if (typeof stats !== 'undefined' && stats){ %>
+            <div class="section statistics">
+                <div class="sectionhead"><%=@('ID_WEB_PROFILE_STATS_STATISTICS')%></div>
+                <div class="sectiontable">
+                    <div class="row">
+                        <div class="col"><%=@('ID_WEB_COMMON_KILLS')%></div>
+                        <div class="col"><% print((stats.kills)? stats.kills : '0'); %></div>
+                    </div>
+                    <div class="row">
+                        <div class="col"><%=@('ID_WEB_COMMON_STATS_TIME_IN')%></div>
+                        <div class="col"><% print((typeof time !== 'undefined')? time : '-'); %></div>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+
+    </div>
+</script>
+
+<script type="text/html" data-template-name="VehicleUnlockView" data-css="ItemView">
+   <div class="vehicle-unlock">
+        <% var template = require("template"); %>
+        <div class="section transparent">
+            <div class="tracked <% if(isTrackedManually) { %> vis <% } %>"><img src="images/ui/track-icon-bright.png" alt=""  /></div>
+            <div class="sectioninfo centered">
+                <div class="item-image <%print(unlockImageConfig.category + ' ' + unlockImageConfig.slug.toLowerCase());%>"></div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="sectioninfo">
+                <p><%=@(descriptionSID)%></p>
+            </div>
+        </div>
+        <% if(criterias) { %>
+        <div class="section transparent">
+            <div class="progress-bar thicker no-border">
+                <div class="warning progress-bar-inner" style="width: <% if (playerProgress) { %><%= ((playerProgress.actualValue / playerProgress.valueNeeded) * 100) %><% } else { %>0<% } %>%;"></div>
+            </div>
+            <div class="sectiontable requirements">
+                <div class="row">
+                    <div class="col col1"><%= criterias[1] %></div>
+                    <div class="col col2"><%= criterias[0] %></div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+        <% if(mysoldier && !playerProgress.completed) {%>
+            <div class="section">
+                <div class="b3 track button <% if(isTrackedManually) print('tracked disabled');%>" data-track="<%= guid %>"><%=@('ID_WEB_COMMON_TRACK')%></div>
+            </div>
+        <% } %>
+
+        <% if(atIndex) { %>
+            <div class="section">
+                <div class="b3 button refreshSuggestion">&#x21bb; <%=@('ID_MOBILE_COMMON_NEW_SUGGESTION')%></div>
+            </div>
+        <% } %>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="GeneralItemView" data-css="ItemView">
+    <div class="generalitem">
+        <% var template = require("template"); %>
+        <div class="section transparent">
+            <div class="tracked <% if(isTrackedManually) { %> vis <% } %>"><img src="images/ui/track-icon-bright.png" alt=""  /></div>
+            <div class="sectioninfo centered">
+                <div class="item-image <%print(imageConfig.category + ' ' + imageConfig.slug.toLowerCase());%>"></div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="sectioninfo">
+                <p><%=@(descriptionSID)%></p>
+            </div>
+        </div>
+        <% if (typeof playerProgress != "undefined" && playerProgress) { %>
+        <div class="section transparent">
+            <div class="progress-bar thicker no-border">
+                <div class="warning progress-bar-inner" style="width: <% if (playerProgress) { %><%= ((playerProgress.actualValue / playerProgress.valueNeeded) * 100) %><% } else { %>0<% } %>%;"></div>
+            </div>
+            <div class="sectiontable requirements">
+                <div class="row">
+                    <div class="col col1"><%= criterias[1] %></div>
+                    <div class="col col2"><%= criterias[0] %></div>
+                </div>
+            </div>
+        </div>
+        <% if(mysoldier) {%>
+            <div class="section">
+                <div class="b3 track button <% if(isTrackedManually) print('tracked disabled');%>" data-track="<%= guid %>"><%=@('ID_WEB_COMMON_TRACK')%></div>
+            </div>
+        <% } %>
+        <% if(atIndex) { %>
+            <div class="section">
+                <div class="b3 button refreshSuggestion">&#x21bb; <%=@('ID_MOBILE_COMMON_NEW_SUGGESTION')%></div>
+            </div>
+        <% } %>
+        <% } else if (stats && stats.length){ %>
+            <div class="section statistics">
+                <div class="sectionhead"><%=@('ID_WEB_PROFILE_STATS_STATISTICS')%></div>
+                <div class="sectiontable">
+                    <% stats.forEach(function(stat){ %>
+                    <div class="row">
+                        <div class="col"><%= stat.name.capitalize() %></div>
+                        <div class="col"><%= stat.stat %></div>
+                    </div>
+                    <% }); %>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="WeaponAccessoryItemView" data-css="ItemView">
+    <div class="generalitem">
+        <% var template = require("template"); %>
+        <div class="section transparent">
+            <div class="tracked <% if(isTrackedManually) { %> vis <% } %>"><img src="images/ui/track-icon-bright.png" alt=""  /></div>
+            <div class="sectioninfo centered">
+                <div class="item-image <%print(unlockImageConfig.category + ' ' + unlockImageConfig.slug.toLowerCase());%>"></div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="sectioninfo">
+                <p><%=@(descriptionSID)%></p>
+            </div>
+        </div>
+        <% if (unlockedBy && !unlockedBy.completed) { %>
+            <div class="section transparent">
+            <% if(unlockedBy.unlockType !== 'license'){ %>
+                <%= template.render("ui_progressbar", {
+                    percent: unlockedBy.completion,
+                    type: "warning",
+                    size: "thicker",
+                    border: false
+                })%>
+                <div class="sectiontable requirements">
+                    <div class="row">
+                        <div class="col col1"><%= criterias[1] %></div>
+                        <div class="col col2"><%= criterias[0] %></div>
+                    </div>
+                </div>
+            <% } else { %>
+                <div class="sectioninfo centered">
+                    <p><%= criterias[1] %></p>
+                </div>
+            <% } %>
+            </div>
+        <% } %>
+        <% if(atIndex) { %>
+            <div class="section">
+                <div class="b3 button refreshSuggestion">&#x21bb; <%=@('ID_MOBILE_COMMON_NEW_SUGGESTION')%></div>
+            </div>
+        <% } %>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="ServiceStarItemView" data-css="ItemView">
+    <div class="generalitem">
+        <% var template = require("template"); %>
+        <div class="section transparent">
+            <div class="tracked <% if(isTrackedManually) { %> vis <% } %>"><img src="images/ui/track-icon-bright.png" alt=""  /></div>
+            <div class="sectioninfo centered">
+                <div class="item-image <%print(imageConfig.category + ' ' + imageConfig.slug.toLowerCase());%>"></div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="sectioninfo">
+                <p><%=@(descriptionId)%></p>
+            </div>
+        </div>
+        <% if(criterias){ %>
+        <div class="section transparent">
+            <div class="progress-bar thicker no-border">
+                <div class="warning progress-bar-inner" style="width: <% if (playerProgress) { %><%= ((playerProgress.actualValue / playerProgress.valueNeeded) * 100) %><% } else { %>0<% } %>%;"></div>
+            </div>
+            <div class="sectiontable requirements">
+                <div class="row">
+                    <div class="col col1"><%= criterias[1] %></div>
+                    <div class="col col2"><%= criterias[0] %></div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+        <% if(mysoldier) {%>
+            <div class="section">
+                <div class="b3 track button <% if(isTrackedManually) print('tracked disabled');%>" data-track="<%= guid %>"><%=@('ID_WEB_COMMON_TRACK')%></div>
+            </div>
+        <% } %>
+        <% if(atIndex) { %>
+            <div class="section">
+                <div class="b3 button refreshSuggestion">&#x21bb; <%=@('ID_MOBILE_COMMON_NEW_SUGGESTION')%></div>
+            </div>
+        <% } %>
+    </div>
+</script>
+
+
+<script type="text/html" data-template-name="BattlepackItemView" data-css="ItemView">
+    <div class="generalitem">
+        <% var template = require("template"); %>
+        <div class="section transparent">
+            <div class="tracked <% if(isTrackedManually) { %> vis <% } %>"><img src="images/ui/track-icon-bright.png" alt=""  /></div>
+            <div class="sectioninfo centered">
+                <div class="item-image <%print(image.category + ' ' + image.slug.toLowerCase());%>"></div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="sectioninfo"><p><%=@(description)%></p></div>
+        </div>
+        <% if(criterias) { %>
+        <div class="section transparent battlepack-progress">
+            <div class="progress-bar thicker no-border">
+                <div class="warning progress-bar-inner" style="width: <% if (playerProgress && playerProgress.length) { %><%= ((playerProgress[0].actualValue / playerProgress[0].valueNeeded) * 100) %><% } else { %>0<% } %>%;"></div>
+            </div>
+            <div class="sectiontable requirements">
+                <div class="row">
+                    <div class="col col1"><%= criterias[1] %></div>
+                    <div class="col col2"><%= criterias[0] %></div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+        <% if(mysoldier) { %>
+            <div class="section battlepack-section">
+                <div class="b3 track button <% if(isTrackedManually) print('tracked disabled');%>" data-track="<%= guid %>"><%=@('ID_WEB_COMMON_TRACK')%></div>
+            </div>
+        <% } %>
+        <% if(atIndex) { %>
+            <div class="section">
+                <div class="b3 button refreshSuggestion">&#x21bb; <%=@('ID_MOBILE_COMMON_NEW_SUGGESTION')%></div>
+            </div>
+        <% } %>
+    </div>
+</script>
+
+
+
+<script type="text/html" data-template-name="DogtagView" data-css="ItemView">
+    <div class="dogtag">
+        <% var template = require("template"); %>
+        <div class="section transparent">
+            <div class="sectioninfo centered">
+                <div class="item-image <%print(imageConfig.category + ' ' + imageConfig.slug.toLowerCase());%>"></div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="b5 equip button primary <% if(equipped || locked) print('disabled');%>" data-index="<%=index%>" data-type="<%=type%>">
+                <% if(equipped){%>
+                <%=@('ID_MOBILE_ALREADY_EQUIPPED')%>
+                <% } else { %>
+                <%=@('ID_WEB_PROFILE_DOGTAGS_EQUIP_DOG_TAG')%>
+                <% } %>
+            </div>
+        </div>
+        <div class="section">
+            <div class="sectioninfo">
+                <p class="title"><%= @(nameSID) %></p>
+            </div>
+            <div class="sectioninfo">
+                <p><%=@(descriptionSID)%></p>
+            </div>
+            <% if(typeof seen_data !== 'undefined'){ %>
+            <div class="sectionhead">
+                <%=@('ID_WEB_PROFILE_DOGTAGS_TAKEN_FROM_ENEMIES')%> <span class="pull-right">x<%=seen_data.counter%></span>
+            </div>
+            <div class="sectioninfo">
+                <p><%=seen_data.name%> <span class="pull-right"><%=seen_data.friendly%></span></p>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</script>
+
+
+
+<script type="text/html" data-template-name="SuggestionAtIndexView" data-css="ItemView">
+    <div class="suggestionatindex">
+        <div class="cancel">
+        </div>
+        <div class="suggestions-container">
+            <div class="selectitemtoreplace"><%=@('ID_MOBILE_COMMON_REPLACE_SUGGESTION')%></div>
+            <div class="suggestionlist"></div>
+            <div class="b3 button primary disabled confirm"><%=@('ID_WEB_COMMON_BUTTON_CONFIRM_SHORT')%></div>
+        </div>
+    </div>
+</script>

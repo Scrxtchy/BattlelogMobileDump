@@ -1,0 +1,38 @@
+<script type="text/html" data-template-name="CampaignView" data-css="CampaignView">
+    <div id="summary-bn" class="sectionbutton summary hidden"></div>
+
+    <nav class="campaign-menu hidden"></nav>
+</script>
+
+<script type="text/html" data-template-name="CampaignSummaryButton" data-css="CampaignView">
+    <h3><%=@('ID_MOBILE_CAMPAIGN_SUMMARY')%></h3>
+    <p>
+        <% if (completed.HARD){ %>
+            <%= @('ID_MOBILE_CAMPAIGN_COMPLETED_HARD') %>
+        <% } else if (completed.NORMAL){ %>
+            <%= @('ID_MOBILE_CAMPAIGN_COMPLETED_NORMAL') %>
+        <% } else if (completed.EASY){ %>
+            <%= @('ID_MOBILE_CAMPAIGN_COMPLETED_EASY') %>
+        <% } else { %>
+            <%= @('ID_MOBILE_CAMPAIGN_NOT_COMPLETED') %>
+        <% } %>
+    </p>
+    <span><%= score %>p</span>
+</script>
+
+<script type="text/html" data-template-name="CampaignMenuItemView" data-css="CampaignView">
+    <div class="menu-item <%= elemclasses %>">
+        <header>
+            <span>
+            <% if (unlocked){ %>
+                <%= nr %>. <%= @(name) %>
+            <% } else { %>
+                -
+            <% } %>
+            </span>
+        </header>
+        <div class="box">
+            <div class="campaign-level-image <%= img %>"></div>
+        </div>
+    </div>
+</script>

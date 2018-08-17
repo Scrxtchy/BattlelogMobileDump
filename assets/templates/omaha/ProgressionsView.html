@@ -1,0 +1,49 @@
+<script type="text/html" data-template-name="ProgressionsView" data-css="ProgressionView">
+    <% if (loading){ %>
+    <div class="section">
+        <div class="sectionloading"></div>
+    </div>
+    <% } else { %>
+
+        <% var dom = require("dom"); %>
+        <% var enums = require("enums"); %>
+        <% var template = require("template"); %>
+
+        <% _.each(sectionOrder, function(sectionName){
+            var section = sections[sectionName]; %>
+            <div class="section items-grid">
+                <div class="sectionhead">
+                    <%=@(section.sid)%>
+                </div>
+                <div class="sectiontable">
+                    <% _.each(section.items, function(item, j){
+                        if (j % 3 === 0) print('<div class="row">');
+                        if (item.empty){ %>
+                            <div class="col item empty"></div>
+                        <% } else { %>
+                            <div class="col item <%(item.locked)? print('locked') : '';%><% if (item.completion < 100){ print(' has-progress') } %>" data-section="<%= sectionName %>" data-index="<%= j %>">
+
+                                <%= dom.statItem_image(enums.Game.OMAHA, item)[0].outerHTML %>
+
+                                <p class="progression-label"><%= @(item.nameSID) %></p>
+                                <%
+                                print(template.render("ui_progressbar", {
+                                    border: false,
+                                    percent: item.valueNeeded ? (item.actualValue / item.valueNeeded) * 100 : 100,
+                                    size: "medium",
+                                    type: "warning"
+                                }));
+                                %>
+                            </div>
+                        <% }
+                        if (j % 3 === 2) print('</div>');
+                    });
+                    for (var i=((section.items.length - 1) % 3); i<2; i++){ %>
+                        <div class="col item empty"></div>
+                    <% } %>
+                </div>
+            </div>
+        <% }) %>
+
+    <% } %>
+</script>

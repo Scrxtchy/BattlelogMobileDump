@@ -1,0 +1,441 @@
+<script type="text/html" data-template-name="LoadoutView" data-css="LoadoutView">
+    <div class="section">
+        <div class="sectionloading"></div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="LoadoutViewOverview" data-css="LoadoutView">
+    <% if(buttons && mySoldier){ %>
+        <div class="save-loadout button primary"><%=@('ID_WEB_COMMON_BUTTON_SAVE')%></div>
+    <% } %>
+    <% if(kits.length == 0){ %>
+        <div class="section">
+            <div class="sectionloading"></div>
+        </div>
+    <% } else { %>
+        <%
+        var util = require('util');
+        var locale = require('locale');
+        if(mySoldier){
+        %>
+        <div class="section">
+            <div class="sectionbutton presets"><%=@('ID_WEB_COMMON_BUTTON_PRESETS')%></div>
+        </div>
+        <% } %>
+        <div class="section">
+            <div class="sectionhead"><%=@('ID_MOBILE_STATS_KITS')%></div>
+            <%
+            var k = 0;
+            var kLen = kits.length;
+            while (k < kLen) {
+            %>
+                <div class="sectionbutton" data-id="<%=k%>" data-type="kits">
+                    <div class="kit-icon <%=util.kitEnum_to_kitName(kits[k].iconClass)%>"></div>
+                    <%
+                    var sid = locale.t(kits[k].sid);
+                    if(presets.kits && presets.kits[k]){
+                        var active = presets.kits[k].active || false;
+                        if(active){
+                            sid = presets.kits[k].presets[active].loadoutName;
+                        }
+                    }
+                    %>
+                    <span><%-sid%></span>
+                </div>
+            <%
+                k++;
+            }
+            %>
+        </div>
+        <div class="section">
+            <div class="sectionhead"><%=@('ID_MOBILE_STATS_VEHICLES')%></div>
+            <%
+            var v = 0;
+            var vLen = vehicles.length;
+            while (v < vLen) {
+                if(vehicles[v].imageConfig){
+            %>
+                <div class="sectionbutton" data-id="<%=v%>" data-type="vehicles">
+                    <div class="kit-icon vehicle-icon vehicle-<%=v%>"></div>
+                    <%
+                    var sid = locale.t(vehicles[v].sid);
+                    if(presets.vehicles && presets.vehicles[v]){
+                        var active = presets.vehicles[v].active || false;
+                        if(active){
+                            sid = presets.vehicles[v].presets[active].loadoutName;
+                        }
+                    }
+                    %>
+                    <span><%-sid%></span>
+                </div>
+            <%
+                }
+                v++;
+            }
+            %>
+        </div>
+    <% } %>
+</script>
+
+
+<script type="text/html" data-template-name="LoadoutViewSlots" data-css="LoadoutView">
+    <% if(buttons && mySoldier){ %>
+        <div class="save-loadout button primary"><%=@('ID_WEB_COMMON_BUTTON_SAVE')%></div>
+    <% } %>
+    <div class="section">
+        <%
+        var i = 0;
+        var len = slots.length;
+        while (i < len) {
+            var currSlot = slots[i];
+            var configurable = (currSlot.configurable)? 'split' : '';
+            var config = currSlot.imageConfig;
+            var image = (config)?config.category + ' ' + config.slug.toLowerCase() : '';
+            var name = currSlot.name || currSlot.slotSid;
+            %>
+            <% if(type == 'weapons'){ %>
+                <div class="sectionbutton <%=configurable%>" data-id="<%=id%>" data-weapon-id="<%=currSlot.parentGuid%>" data-slot="<%=slot%>" data-type="<%=type%>" data-accessory="<%=i%>" data-load-items="true">
+            <% } else { %>
+                <% if(currSlot.configurable){ %>
+                    <div class="sectionbutton <%=configurable%>">
+                <% } else { %>
+                    <div class="sectionbutton <%=configurable%>" data-id="<%=id%>" data-slot="<%=i%>" data-type="<%=type%>" data-load-items="true">
+                <% } %>
+            <% } %>
+                <% if(currSlot.configurable){ %>
+                    <div class="left split<%if(i==0){%> primary<%}%>" data-id="<%=id%>" data-slot="<%=i%>" data-type="<%=type%>" data-load-items="true">
+                        <div class="loadout-item-image item-image small <%=image%>"></div>
+                        <div class="loadout-item-name"><%=@(name)%></div>
+                    </div>
+                    <div class="right split" data-id="<%=id%>" data-weapon-id="<%=currSlot.parentGuid%>" data-slot="<%=currSlot.guid%>" data-type="weapons">
+                        <i class="icon cog"></i>
+                    </div>
+                <% } else { %>
+                    <div class="loadout-item-image small item-image <%=image%>"></div>
+                    <div class="loadout-item-name"><%=@(name)%></div>
+                <% } %>
+            </div>
+            <% if(currSlot.configurable && i == 0){ %>
+                <div class="sectionbutton" data-id="<%=id%>" data-slot="<%=i%>" data-type="<%=type%>" data-load-items="true">
+                    <div class="loadout-item-image item-image big <%=image%>"></div>
+                </div>
+                <div class="sectiontable">
+                    <div class="row">
+                    <%
+                    var w = 0;
+                    while(w < 3){
+                        var accessory = currSlot.slots[w];
+                    %>
+                        <div class="col" data-id="<%=id%>" data-slot="<%=currSlot.guid%>" data-weapon-id="<%=currSlot.parentGuid%>" data-type="weapons" data-accessory="<%=w%>" data-load-items="true">
+                            <div class="item-image <%print(accessory.imageConfig.category + ' ' + accessory.imageConfig.slug.toLowerCase());%>"></div>
+                        </div>
+                    <%
+                        w++;
+                    }
+                    %>
+                    </div>
+                </div>
+            <% } %>
+        <%
+            i++;
+        }
+        %>
+    </div>
+    <% if (type == 'kits' && mySoldier){ %>
+    <div class="section">
+        <% if(id == activeKit){ %>
+        <div class="disabled button primary"><%=@('ID_WEB_LOADOUT_ACTIVE_KIT')%></div>
+        <% } else { %>
+        <div class="set-active-kit button primary"><%=@('ID_WEB_LOADOUT_SET_ACTIVE_KIT')%></div>
+        <% } %>
+    </div>
+    <% } %>
+</script>
+
+
+<script type="text/html" data-template-name="LoadoutViewItems" data-css="LoadoutView">
+    <%
+    var template = require('template');
+    var extraClass = 'expanded';
+    var keys = Object.keys(categories);
+    var keysLen = keys.length;
+    for (var sid in categories) {
+        var items = categories[sid];
+        var catExtraClass = '';
+        if(keys.indexOf(sid) == 0){
+            catExtraClass += ' first';
+        }
+        if(keys.indexOf(sid) == keysLen-1){
+            catExtraClass += ' last';
+        }
+    %>
+        <div class="section <%=extraClass%>">
+            <div class="sectionhead items-category <%=catExtraClass%>"><%=@(sid)%></div>
+            <div class="loadout-items-container">
+        <%
+        extraClass = '';
+        var i = 0;
+        var len = items.length;
+        while (i < len) {
+            var item = items[i];
+            var hasWeaponData = typeof item.weaponData !== 'undefined';
+            if(hasWeaponData){
+                var weaponData = {};
+                if (type == 'weapons'){
+                    weaponData = item.parentStats;
+                } else {
+                    weaponData = item.weaponDataRelative;
+                }
+            }
+            var classes = '';
+            classes += item.active ? ' active' : '';
+            classes += item.duplicate ? ' duplicated' : '';
+            classes += item.battlepack ? ' battlepack' : '';
+            classes += item.award ? ' award' : '';
+            classes += item.configurable ? ' configurable' : '';
+            classes += item.compatibilityLocked ? ' incompatible' : '';
+            if(item.locked){
+                var util = require('util');
+                var criterias = item.unlockCriterias;
+                var progressUnlock = criterias.unlockType != 'license' && criterias.unlockType != 'award';
+                classes += ' locked';
+            }
+            var config = item.imageConfig;
+        %>
+            <div class="loadout-item-container">
+                <div class="loadout-item-info">
+                    <div class="sectionmessage <% if(item.itemType !== 'appearance'){%>split<%}%> loadout-item <%=classes%>" data-guid="<%=item.guid%>">
+                        <% if(item.expansion && type != 'weapons'){
+                            var dom = require('dom');
+                        %>
+                        <div class="loadout-item-xpack"><i class="icon xpack-icon xpack-<%= item.expansion %>"></i></div>
+                        <% } %>
+                        <div class="loadout-item-image item-image <%=config.category%> <%=config.slug.toLowerCase()%>"></div>
+                        <div class="loadout-item-name"><%=@(items[i].name)%></div>
+                        <%if(item.locked && progressUnlock){ %>
+                        <div class="item-unlock-progress">
+                            <%=template.render('ui_progressbar',{
+                                percent:criterias.percentage,
+                                border:false,
+                                type:'warning',
+                                size:'thin'
+                            })%>
+                        </div>
+                        <%}%>
+                    </div>
+                    <% if(item.itemType !== 'appearance'){%>
+                    <div class="sectionmessage loadout-item-expand<%if(item.locked){%> locked <%}%>"></div>
+                    <% } %>
+                </div>
+                <% if(item.itemType !== 'appearance'){%>
+                <div class="sectionmessage item-info<%if(item.locked){%> locked <%}%>">
+                    <% if(item.locked){ %>
+                    <p class="unlock-requisites">
+                        <%if(item.expansion && type != 'weapons'){%>
+                            <i class="icon xpack-icon xpack-<%= item.expansion %>"></i>
+                            <% var xpLoc = util.getTranslatedExpansionById(item.expansion) %>
+                            <%= (locale.t('ID_WEB_PROFILE_STATS_AVAILABLE_IN_XPACK')).replace("[XPACK]",xpLoc)%>
+                        <% } else if(criterias.unlockType == 'license'){ %>
+                            <%=@('ID_WEB_LOADOUT_UNLOCKED_BATTLEPACK')%>
+                        <%} else if(criterias.unlockType == 'award'){%>
+                            <%=@('ID_WEB_LOADOUT_UNLOCKED_ASSIGNMENT')%>
+                        <%} else {
+                            print(util.unlockedByTextCriteria(criterias));
+                        }
+                        %>
+                    </p>
+                    <% } else if (item.compatibilityLocked) { %>
+                    <p class="item-incompatible items-text">
+                        <% if(item.compatibilityName){ %>
+                        <%=@('ID_WEB_LOADOUT_INCOMPATIBLE_WITH')%> <%=@(item.compatibilityName)%>
+                        <% } else { %>
+                        <%=@('ID_WEB_LOADOUT_INCOMPATIBLE')%>
+                        <% } %>
+                    </p>
+                    <% } else if (item.duplicate){%>
+                    <p class="duplicate-message"><%=@(item.duplicateMessage || 'ID_WEB_LOADOUT_ALREADY_EQUIPPED')%></p>
+                    <% } %>
+                    <% if (item.desc){ %>
+                    <p><%=@(item.desc)%></p>
+                    <% } %>
+                    <% if(hasWeaponData){
+                        var bars = item.bars;
+                    %>
+                    <table class="item-stats">
+                        <tbody>
+                            <tr>
+                                <td><%=@('ID_WEB_COMMON_STATS_DAMAGE')%></td>
+                                <td>
+                                    <%=template.render('ui_progressbar', {bars:[
+                                        {'percent':bars.Damage,type:'info'},
+                                        {'percent':bars.DamageDifference,type:bars.DamageType}
+                                    ]})%>
+                                </td>
+                                <td><%=(Math.floor(weaponData.statDamage * 100))%></td>
+                            </tr>
+                            <tr>
+                                <td><%=@('ID_WEB_COMMON_ACCURACY')%></td>
+                                <td>
+                                    <%=template.render('ui_progressbar', {bars:[
+                                        {'percent':bars.Accuracy,type:'info'},
+                                        {'percent':bars.AccuracyDifference,type:bars.AccuracyType}
+                                    ]})%>
+                                </td>
+                                <td><%=(Math.floor(weaponData.statAccuracy * 100))%></td>
+                            </tr>
+                            <tr>
+                                <td><%=@('ID_WEB_COMMON_STATS_MOBILITY')%></td>
+                                <td>
+                                    <%=template.render('ui_progressbar', {bars:[
+                                        {'percent':bars.Mobility,type:'info'},
+                                        {'percent':bars.MobilityDifference,type:bars.MobilityType}
+                                    ]})%>
+                                </td>
+                                <td><%=(Math.floor(weaponData.statMobility * 100))%></td>
+                            </tr>
+                            <tr>
+                                <td><%=@('ID_WEB_COMMON_STATS_RANGE')%></td>
+                                <td>
+                                    <%=template.render('ui_progressbar', {bars:[
+                                        {'percent':bars.Range,type:'info'},
+                                        {'percent':bars.RangeDifference,type:bars.RangeType}
+                                    ]})%>
+                                </td>
+                                <td><%=(Math.floor(weaponData.statRange * 100))%></td>
+                            </tr>
+                            <tr>
+                                <td><%=@('ID_WEB_COMMON_STATS_HANDLING')%></td>
+                                <td>
+                                    <%=template.render('ui_progressbar', {bars:[
+                                        {'percent':bars.Handling,type:'info'},
+                                        {'percent':bars.HandlingDifference,type:bars.HandlingType}
+                                    ]})%>
+                                </td>
+                                <td><%=(Math.floor(weaponData.statHandling * 100))%></td>
+                            </tr>
+                            <% if (typeof bars.rateOfFire !== 'undefined'){ %>
+                            <tr>
+                                <td><%=@('ID_WEB_PROFILE_STATS_RATEOFFIRE')%></td>
+                                <td>
+                                    <%=weaponData.rateOfFire%>
+                                    <% if (bars.rateOfFireDifference != 0){ %>
+                                    (<span class="<%=bars.rateOfFireType%>"><%=bars.rateOfFireDifference * 10%></span>)
+                                    <% } %>
+                                </td>
+                                <td><%=(weaponData.rateOfFire)%></td>
+                            </tr>
+                            <% } else if(typeof weaponData.fireModeString === 'string') { %>
+                            <tr>
+                                <td><%=@('ID_WEB_PROFILE_STATS_RATEOFFIRE')%></td>
+                                <td><%=@(weaponData.fireModeString)%></td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                    <% } %>
+                </div>
+                <% } %>
+            </div>
+        <%
+            i++;
+        }
+        %>
+        </div>
+    </div>
+    <%
+    }
+    %>
+</script>
+
+<script type="text/html" data-template-name="LoadoutViewPresetCategories" data-css="LoadoutView">
+    <% if(buttons && mySoldier){ %>
+        <div class="save-loadout button primary"><%=@('ID_WEB_COMMON_BUTTON_SAVE')%></div>
+    <% } %>
+    <% if(!Object.keys(data.presets).length){ %>
+    <div class="section">
+        <div class="sectionhead"><%=@('ID_WEB_LOADOUT_NO_PRESETS')%></div>
+        <div class="sectionmessage"><%=@('ID_MOBILE_LOADOUT_CREATE_PRESETS_BATTLELOG')%></div>
+    </div>
+    <% } else { %>
+        <%
+            var presets = data.presets;
+            var locale = require('locale');
+            var presetKeys = Object.keys(presets);
+            var presetKeysLen = presetKeys.length;
+            var k = 0;
+            while(k < presetKeysLen){
+                var type = presetKeys[k];
+
+                var sid = 'ID_WEB_COMMON_KITS';
+                if(type == 'vehicles'){
+                    sid = 'ID_WEB_COMMON_VEHICLES';
+                }
+
+                print('<div class="section">');
+                print('<div class="sectionhead">' + locale.t(sid) + '</div>');
+                var typeIds = presets[type];
+                var typeIdsKeys = Object.keys(typeIds);
+                var typeIdsKeysLen = typeIdsKeys.length;
+                var t = 0;
+                while(t < typeIdsKeysLen){
+                    var id = typeIdsKeys[t];
+                    var item = typeIds[id];
+                    print('<div class="sectionbutton preset-type" data-type="' + type + '" data-id="' + id + '">' + locale.t(item.sid) + '</div>');
+                    t++;
+                }
+                print('</div>');
+                k++;
+            }
+        %>
+    <% } %>
+</script>
+
+<script type="text/html" data-template-name="LoadoutViewPresetList" data-css="LoadoutView">
+    <% if(buttons && mySoldier){ %>
+        <div class="save-loadout button primary"><%=@('ID_WEB_COMMON_BUTTON_SAVE')%></div>
+    <% } %>
+    <div class="section">
+        <%
+        var presets = list.presets;
+        var keys = Object.keys(presets);
+        var len = keys.length;
+        var i = 0;
+        while(i < len){
+            var key = keys[i];
+            var preset = presets[key];
+        %>
+            <div class="sectionbutton preset-preview" data-key="<%=key%>" data-type="<%=preset.loadoutType%>" data-id="<%=preset.loadoutId%>"><%-preset.loadoutName%></div>
+        <%
+            i++;
+        }
+        %>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="LoadoutViewPresetPreview" data-css="LoadoutView">
+    <div class="apply-preset button primary"><%=@('ID_WEB_LOADOUT_APPLY_AND_SAVE')%></div>
+    <% if(buttons){ %>
+        <div class="save-loadout button primary"><%=@('ID_WEB_COMMON_BUTTON_SAVE')%></div>
+    <% } %>
+    <div class="section">
+        <div class="sectionhead"><%=@('ID_WEB_COMMON_BUTTON_PREVIEW')%></div>
+        <%
+        var slots = preset.slots;
+        var i = 0;
+        var len = slots.length;
+        while (i < len) {
+            var currSlot = slots[i];
+            var config = currSlot.item.imageConfig;
+            var image = (config)?config.category + ' ' + config.slug.toLowerCase() : '';
+            var name = currSlot.item.name;
+            %>
+            <div class="sectionbutton">
+                <div class="loadout-item-image small item-image <%=image%>"></div>
+                <div class="loadout-item-name"><%=@(name)%></div>
+            </div>
+        <%
+            i++;
+        }
+        %>
+    </div>
+</script>

@@ -1,0 +1,28 @@
+<script type="text/html" data-template-name="FeedItemView" data-css="FeedItemView">
+    
+</script>
+
+<script type="text/html" data-template-name="FeedItemView-comment" data-css="FeedItemView">
+    <div class="comment sectioninfo <%= myComment ? "myfeed" : "" %>">
+        <div class="col-avatar"><%= avatar %></div>
+        <div class="col-body">
+            <div class="text">
+                <a class="author"><%= owner.username %></a> <span class="body"><%= body %></span>
+            </div>
+            <div class="info">
+                <span class="date"><%= date %></span>
+            </div>
+        </div>
+        <div data-commentid="<%= id %>" class="col-report"></div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="FeedItemView-comment-toolbar" data-css="FeedItemView">
+    <div class="toolbar short">
+        <form>
+        <div class="textinput">
+            <input type="text" placeholder="<%= @('ID_MOBILE_BATTLEFEED_WRITE_COMMENT') %>" />
+        </div>
+        </form>
+    </div>
+</script>

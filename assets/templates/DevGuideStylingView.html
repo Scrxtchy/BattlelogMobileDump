@@ -1,0 +1,71 @@
+<script type="text/html" data-template-name="DevGuideStylingView">
+    <div class="section">
+        <div class="sectionhead">Before we begin</div>
+        <div class="sectioninfo">
+            <p>Before reading this, you should have a general understanding for <a href="https://developer.mozilla.org/en-US/docs/CSS/Specificity">specificity</a> and the <a href="http://sass-lang.com/">SCSS syntax</a>.</p>
+            <p><a href="http://compass-style.org/">Compass</a> is integrated and its CSS3 mixins should be used when implemeting styles with limited mobile browser support.</p>
+            <p>Whenever you want to use a fancy CSS3 feature, check <a href="http://caniuse.com/">caniuse.com</a> for browser support. iOS Safari 4.2 and Android Browser 2.3 are the minimums to support, preferably with a graceful fallback for older browsers.</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="sectionhead">Design guidelines</div>
+        <div class="sectioninfo">
+            <p>The mobile app has an 8px vertical and horizontal grid. Shift-G and Shift-H will toggle overlays of the grids. Keep in mind that the app width will vary across devices, so all horizontal padding should be the same on both sides of your elements.</p>
+        </div>
+        <div class="sectioninfo">
+            <p>The full mobile design guidelines can be found in <a href="http://dice-confluence.dice.ad.ea.com/display/BL/Battlelog+Mobile+2.0">Confluence</a>.</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="sectionhead">Coding style</div>
+        <div class="sectioninfo">
+            <p>Use soft-tabs with a four space indent.</p>
+        </div>
+        <div class="sectioninfo">
+            <p>Put spaces after <code>:</code> in property declarations.</p>
+        </div>
+        <div class="sectioninfo">
+            <p>Put spaces around combinators and before <code>{</code>.</p>
+        </div>
+        <div class="sectioninfo">
+            <p>Use hex codes for colors, e.g. <code>#000</code>. In Sass, hex also works as a first argument for <code>rgba()</code>.</p>
+        </div>
+        <div class="sectioninfo">
+            <p>Multiple selectors with the same styles should each be on their own line.</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="sectionhead">
+            <p>Specificity (Classes vs. IDs)</p>
+        </div>
+        <div class="sectioninfo">
+            <p>All elements should be styled with class names. IDs should not be used for styling because any view can have multiple copies of itself (and its elements) on the DOM at once.</p>
+        </div>
+        <div class="sectioninfo">
+            <p>All styles specific to a view should be nested underneath the view class name. This ensures that each view can use any class name without worrying about interfering with others.</p>
+        </div>
+        <div class="sectioninfo">
+            <p>However, when using a generic-sounding class name, make sure to use the child selector <code>&gt;</code> so they do not interfere with subviews.</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="sectionhead">Reusing styles</div>
+        <div class="sectioninfo">
+            <p>Styles used in 2-3 different views should be split out into their own scss file that each view template can access. (for an example, see the BattleFeedView and ActivityStreamView templates which use a single BattleFeed scss file)</p>
+        </div>
+        <div class="sectioninfo">
+            <p>Styles used in 4 or more different views should be moved into global.scss.</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="sectionhead">Section mixins</div>
+        <div class="sectioninfo">
+            <p>To create a new section row element with all of the necessary margins, padding, and background, you can use the <code>section-row</code> mixin.</p>
+        </div>
+    </div>
+</script>

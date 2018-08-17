@@ -1,0 +1,74 @@
+<script type="text/html" data-template-name="ChallengesItemView" data-css="ChallengesItemView">
+</script>
+
+<script type="text/html" data-template-name="ChallengesItemView-scrollviewcontent" data-css="ChallengesItemView">
+    <div class="challengeitem"></div>
+</script>
+
+<script type="text/html" data-template-name="challenge_item" data-css="ChallengesItemView">
+    <div class="header">
+        <div class="aborted hidden">X</div>
+        <div class="badge-image <%= challenge_type.badge %>"></div>
+        <div class="info">
+            <div class="name"><%= challenge_type.name %></div>
+            <div class="description"><%= challenge_type.description %></div>
+        </div>
+    </div>
+        <table class="overviewdata" border=0 cellspacing=1>
+            <tr><td><%=@('ID_MOBILE_CHALLENGES_MAP')%></td><td><span class="map"></span></td>
+            <tr><td><%=@('ID_MOBILE_CHALLENGES_ATTEMPTS')%></td><td><span class="rounds"></span></td>
+            <tr><td><%=@('ID_MOBILE_CHALLENGES_TIME_LEFT')%></td><td><span class="temporal"><%=@('ID_MOBILE_CHALLENGES_ENDS_IN')%></span> <span class="ttl"><%= challenge.ttl %></span></td>
+        </table>
+
+    <div class="invite-buttons">
+        <div class="button primary respond-invite" data-answer="accept"><%=@('ID_MOBILE_CHALLENGES_ACCEPT')%></div>
+        <div class="button respond-invite" data-answer="decline"><%=@('ID_MOBILE_CHALLENGES_DECLINE')%></div>
+    </div>
+
+    <div class="members-container">
+
+    </div>
+    <div style="clear: both;"></div>
+    <div class="section comments">
+        <div class="sectionhead"><%=@('ID_MOBILE_CHALLENGES_COMMENTS')%></div>
+        <div class="comments-content"></div>
+        <div class="textinput"><input type="text" placeholder="Comment" /></div>
+        <div class="button secondary submit-comment"><%=@('ID_MOBILE_CHALLENGES_POST')%></div>
+    </div>
+</script>
+
+<script type="text/html" data-template-name="challenge_member" data-css="ChallengesItemView">
+    <div class="member clearfix">
+        <div class="rank <%= extraClass %>"><%= rank %></div>
+        <div class="avatartd"></div>
+        <div class="username"><%= username %></div>
+        <div class="score"><%= score %></div>
+        <div class="of">
+            <% if(isAccepted) { %>
+                <% if(maxRounds > 0) { %>
+                    <% for(var i = 0; i < maxRounds; i++) { %>
+                        <li <% if(i < roundsPlayed) { %>class="active"<% } %>></li>
+                    <% } %>
+                <% } %>
+            <% } else if(isDeclined) { %>
+                DECLINED
+            <% } else { %>
+                NOT ACCEPTED
+            <% } %>
+        </div>
+     </div>
+</script>
+
+<script type="text/html" data-template-name="challenge_comment" data-css="ChallengesItemView">
+<div class="comment">
+    <div class="gravatar"><img src="<%= avatar %>"></div>
+    <div class="rightbox">
+        <div class="username"><%= owner.username %></div>
+        <div class="message"><%= message %></div>
+        <div class="clear"></div>
+        <div class="ago"><%= timestamp %></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+</script>
