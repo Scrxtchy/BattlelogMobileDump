@@ -1,1 +1,2 @@
-var data=require("text!../../../gamedata/warsaw/items.json");module.exports=JSON.parse(data);
+var data = require("text!../../../gamedata/warsaw/items.json");
+module.exports = JSON.parse(data);

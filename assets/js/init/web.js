@@ -1,13 +1,13 @@
 require.config({
-    'baseUrl': 'js/',
-    'paths': {
-        'text': 'lib/cajon-text'
-    },
-    'waitSeconds': 20,
-    'enableCache': true,
-    'enableUpdates': false
+	'baseUrl': 'js/',
+	'paths': {
+		'text': 'lib/cajon-text'
+	},
+	'waitSeconds': 20,
+	'enableCache': true,
+	'enableUpdates': false
 });
 
 require(['lib/cajon-loader'], function() {
-    require(['main_web']);
+	require(['main_web']);
 });

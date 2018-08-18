@@ -1,1 +1,1 @@
-exports.mobile=require("localedata/ja_JP/mobile"),exports.battlelog=require("localedata/ja_JP/battlelog"),exports.bf3=require("localedata/ja_JP/bf3"),exports.omaha=require("localedata/ja_JP/omaha"),exports.warsaw=require("localedata/ja_JP/warsaw");
+exports.mobile = require("localedata/ja_JP/mobile"), exports.battlelog = require("localedata/ja_JP/battlelog"), exports.bf3 = require("localedata/ja_JP/bf3"), exports.omaha = require("localedata/ja_JP/omaha"), exports.warsaw = require("localedata/ja_JP/warsaw");
